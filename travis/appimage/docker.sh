@@ -1,7 +1,13 @@
 #!/bin/bash -ex
 
+QT_BASE_DIR=/opt/qt514
+export QTDIR=$QT_BASE_DIR
+export PATH=$QT_BASE_DIR/bin:$PATH
+export LD_LIBRARY_PATH=$QT_BASE_DIR/lib/x86_64-linux-gnu:$QT_BASE_DIR/lib:$LD_LIBRARY_PATH
+export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
+
 apt-get update -y
-DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y ca-certificates qtbase5-dev qtbase5-private-dev git cmake make gcc g++ pkg-config libavcodec-dev libavformat-dev libavutil-dev libswscale-dev liblzma-dev libxi-dev libxrandr-dev libudev-dev libevdev-dev libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libasound2-dev libpulse-dev libpugixml-dev libbz2-dev libzstd-dev liblzo2-dev libpng-dev libusb-1.0-0-dev gettext
+DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y qtbase5-dev qtbase5-private-dev cmake libudev-dev libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libasound2-dev libpulse-dev libpugixml-dev libbz2-dev  liblzo2-dev libpng-dev libusb-1.0-0-dev gettext
 #curl -sLO "http://launchpadlibrarian.net/325446110/libusb-1.0-0-dev_1.0.21-2_amd64.deb"
 #curl -sLO "http://mirrors.kernel.org/ubuntu/pool/main/libu/libusb-1.0/libusb-1.0-0-dev_1.0.20-1_amd64.deb"
 #dpkg -i *.deb
