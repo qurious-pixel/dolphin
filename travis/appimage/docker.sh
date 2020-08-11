@@ -17,13 +17,16 @@ cd /dolphin
 
 mkdir build
 cd build
-cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
+cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
 ninja
 ln -s ../../Data/Sys Binaries/
 
 cat /dolphin/build/CMakeFiles/CMakeError.log | curl -F 'f:1=<-' ix.io
 
 cd /tmp
-curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/zap/travis/appimage/appimage.sh"
-chmod a+x appimage.sh
-./appimage.sh
+#curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/zap/travis/appimage/appimage.sh"
+#chmod a+x appimage.sh
+#./appimage.sh
+ls -al /dolphin
+ls -al /dolphin/build
+ls -al /dolphin/build/bin
