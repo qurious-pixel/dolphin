@@ -30,4 +30,4 @@ cd /tmp
 #./appimage.sh
 ls -al /dolphin
 ls -al /dolphin/build
-ls -al /dolphin/build/bin
+ls -al /dolphin/build/Binaries
