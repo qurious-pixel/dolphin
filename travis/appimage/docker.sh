@@ -17,8 +17,8 @@ cd /dolphin
 
 mkdir build
 cd build
-#cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
-cmake .. -G Ninja
+cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
+#cmake .. -G Ninja
 ninja
 #ln -s ../../Data/Sys Binaries/
 
