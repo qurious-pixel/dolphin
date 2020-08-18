@@ -1,0 +1,5 @@
+[requires]
+zstd/1.4.5
+
+ [generators]
+ cmake
