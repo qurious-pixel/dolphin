@@ -1,0 +1,40 @@
+sudo: false
+language: cpp
+services: docker
+cache: ccache
+compiler:
+  - gcc
+addons:
+  apt:
+    sources:
+    #- ubuntu-toolchain-r-test
+    packages:
+    #- g++-8
+    #- cmake
+    - p7zip-full
+install:
+#- "[ $CXX = g++ ] && export CXX=g++-8 || true"
+#- "[ $CXX = clang++ ] && export CXX=clang++-3.8 || true"
+- mkdir -p "$HOME/.ccache"
+- docker pull quriouspixel/yuzu:20.04
+script:
+- docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/yuzu:20.04 /bin/bash /dolphin/travis/appimage/docker.sh
+      after_success:
+      - ls -al artifacts/
+      - cd artifacts/
+      - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+      - chmod a+x upload.sh
+      - bash upload.sh yuzu-x86_64.AppImage* 
+      branches:
+  except:
+    - /^(?i:continuous.*)$/
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+#  secure: 
+  file_glob: true
+  file: "artifacts/*"
+  skip_cleanup: true
+  on:
+    tags: true
+  
