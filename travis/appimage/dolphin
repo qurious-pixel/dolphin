@@ -6,7 +6,7 @@ GITVER=`wget -qO- https://www.github.com/qurious-pixel/dolphin/releases/tag/cont
 APPVER=`cat $APPDIR/version.txt`
 
 if [ "$GITVER" = "$APPVER" ]; then
-	$APPDIR/AppRun-patched
+	QT_QPA_PLATFORM=xcb $APPDIR/usr/bin/dolphin-emu
 else
 	$APPDIR/update.sh
 fi
