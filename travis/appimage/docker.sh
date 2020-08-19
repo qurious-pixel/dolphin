@@ -19,7 +19,7 @@ cd /dolphin
 
 mkdir build
 cd build
-conan install .. -o zstd:shared=True --build missing
+#conan install .. -o zstd:shared=True --build missing
 cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
 #cmake .. -G Ninja
 ninja
