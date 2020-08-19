@@ -13,7 +13,7 @@ ln -s /home/yuzu/.conan /root
 apt-get update -y
 #DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y libudev-dev libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libpulse-dev libpugixml-dev libbz2-dev liblzo2-dev libpng-dev libusb-1.0-0-dev gettext \
 #qtbase5-private-dev libzstd-dev
-DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y ca-certificates qtbase5-dev qtbase5-private-dev git cmake make gcc g++ pkg-config libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libxi-dev libxrandr-dev libudev-dev libevdev-dev libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libasound2-dev libpulse-dev libpugixml-dev libbz2-dev libzstd-dev liblzo2-dev libpng-dev libusb-1.0-0-dev gettext zenity
+DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libsfml-dev libminiupnpc-dev libmbedtls-dev curl libhidapi-dev libsystemd-dev libbluetooth-dev libpugixml-dev libbz2-dev liblzo2-dev libpng-dev libusb-1.0-0-dev gettext zenity
 
 cd /dolphin
 
@@ -23,7 +23,7 @@ cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc 
 ninja
 #ln -s ../../Data/Sys Binaries/
 
-cat /dolphin/build/CMakeFiles/CMakeError.log | curl -F 'f:1=<-' ix.io
+#cat /dolphin/build/CMakeFiles/CMakeError.log | curl -F 'f:1=<-' ix.io
 
 cd /tmp
 curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/appimage.sh"
