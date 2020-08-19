@@ -17,7 +17,7 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 cd /tmp
 	curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-	curl -sLO "https://github.com/qurious-pixel/dolphin/raw/$branch/.travis/appimage/update.tar.gz"
+	curl -sLO "https://github.com/qurious-pixel/dolphin/raw/$branch/travis/appimage/update.tar.gz"
 	tar -xzf update.tar.gz
 	chmod a+x linuxdeployqt*.AppImage
 ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
@@ -33,8 +33,8 @@ mkdir -p squashfs-root/usr/share/icons && cp ./squashfs-root/dolphin-emu.svg ./s
 mkdir -p squashfs-root/usr/share/icons/hicolor/scalable/apps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/icons/hicolor/scalable/apps
 mkdir -p squashfs-root/usr/share/pixmaps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/pixmaps
 mkdir -p squashfs-root/usr/optional/ ; mkdir -p squashfs-root/usr/optional/libstdc++/
-curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/.travis/appimage/update.sh" -o $HOME/squashfs-root/update.sh
-curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/.travis/appimage/AppRun" -o $HOME/squashfs-root/AppRun
+curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/update.sh" -o $HOME/squashfs-root/update.sh
+curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/AppRun" -o $HOME/squashfs-root/AppRun
 curl -sL "https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/AppRun-patched-x86_64" -o $HOME/squashfs-root/AppRun-patched
 curl -sL "https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/exec-x86_64.so" -o $HOME/squashfs-root/usr/optional/exec.so
 chmod a+x ./squashfs-root/AppRun-patched
