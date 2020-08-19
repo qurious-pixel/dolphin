@@ -1,8 +1,11 @@
 #!/bin/bash -ex
 
+branch=1804
+
 BUILDBIN=/dolphin/build/Binaries
 BINFILE=dolphin-emu-x86_64.AppImage
 LOG_FILE=$HOME/curl.log
+CXX=g++-10
 
 # QT 5.14.2
 # source /opt/qt514/bin/qt514-env.sh
@@ -14,7 +17,7 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 cd /tmp
 	curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-	curl -sLO "https://github.com/qurious-pixel/yuzu/raw/master/.travis/appimage/update.tar.gz"
+	curl -sLO "https://github.com/qurious-pixel/yuzu/raw/$branch/.travis/appimage/update.tar.gz"
 	tar -xzf update.tar.gz
 	#tar -xzf crypto-libs.tar.gz
 	chmod a+x linuxdeployqt*.AppImage
@@ -23,8 +26,8 @@ cd $HOME
 mkdir -p squashfs-root/usr/bin
 cp -P "$BUILDBIN"/dolphin-emu $HOME/squashfs-root/usr/bin/
 
-curl -sL https://raw.githubusercontent.com/qurious-pixel/dolphin/master/Data/dolphin-emu.svg -o ./squashfs-root/dolphin-emu.svg
-curl -sL https://raw.githubusercontent.com/qurious-pixel/dolphin/master/Data/dolphin-emu.desktop -o ./squashfs-root/dolphin-emu.desktop
+curl -sL https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/Data/dolphin-emu.svg -o ./squashfs-root/dolphin-emu.svg
+curl -sL https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/Data/dolphin-emu.desktop -o ./squashfs-root/dolphin-emu.desktop
 curl -sL https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/AppRun-patched-x86_64 -o ./squashfs-root/AppRun-patched
 curl -sL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
 mkdir -p squashfs-root/usr/share/applications && cp ./squashfs-root/dolphin-emu.desktop ./squashfs-root/usr/share/applications
