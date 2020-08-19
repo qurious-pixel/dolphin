@@ -1,6 +1,9 @@
 #!/bin/bash -ex
 
 branch=1804
+echo "TRAVIS_BRANCH is $TRAVIS_BRANCH"
+ls /usr/bin/ | grep zenity
+ls /usr/share/zenity
 
 BUILDBIN=/dolphin/build/Binaries
 BINFILE=dolphin-emu-x86_64.AppImage
@@ -41,7 +44,7 @@ chmod a+x ./squashfs-root/AppRun-patched
 chmod a+x ./squashfs-root/runtime
 chmod a+x ./squashfs-root/AppRun
 chmod a+x ./squashfs-root/update.sh
-cp /tmp/libssl.so.47 /tmp/libcrypto.so.45 /usr/lib/x86_64-linux-gnu/
+#cp /tmp/libssl.so.47 /tmp/libcrypto.so.45 /usr/lib/x86_64-linux-gnu/
 cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6 squashfs-root/usr/optional/libstdc++/
 printf "#include <bits/stdc++.h>\nint main(){std::make_exception_ptr(0);std::pmr::get_default_resource();}" | $CXX -x c++ -std=c++2a -o $HOME/squashfs-root/usr/optional/checker -
 
