@@ -1,5 +1,7 @@
 #!/bin/bash -ex
 
+branch= 1804
+
 QT_BASE_DIR=/opt/qt514
 export QTDIR=$QT_BASE_DIR
 export PATH=$QT_BASE_DIR/bin:$PATH
@@ -24,7 +26,7 @@ ninja
 cat /dolphin/build/CMakeFiles/CMakeError.log | curl -F 'f:1=<-' ix.io
 
 cd /tmp
-curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/master/travis/appimage/appimage.sh"
+curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/appimage.sh"
 chmod a+x appimage.sh
 ./appimage.sh
 #ls -al /dolphin
