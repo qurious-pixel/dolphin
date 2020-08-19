@@ -12,8 +12,9 @@ addons:
 install: 
   - mkdir -p "$HOME/.ccache"
   - docker pull quriouspixel/yuzu:20.04 
-script: 
   - docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/yuzu:20.04 /bin/bash /dolphin/travis/appimage/docker.sh
+script: 
+  - ls -al
 after_success: 
   - ls -al artifacts/
   - cd artifacts/
