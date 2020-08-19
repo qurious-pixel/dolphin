@@ -1,9 +1,9 @@
 #!/bin/bash -ex
 
-branch=1804
-echo "TRAVIS_BRANCH is $TRAVIS_BRANCH"
-ls /usr/bin/ | grep zenity
-ls /usr/share/zenity
+branch=$TRAVIS_BRANCH
+
+ls -al /usr/bin/ 
+ls -al /usr/share/zenity
 
 BUILDBIN=/dolphin/build/Binaries
 BINFILE=dolphin-emu-x86_64.AppImage
