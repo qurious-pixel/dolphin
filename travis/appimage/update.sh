@@ -6,8 +6,8 @@ answer=$?
 if [ "$answer" -eq 0 ]; then 
 	$APPDIR/usr/bin/AppImageUpdate $PWD/Dolphin_Emulator-x86_64.AppImage && $PWD/Dolphin_Emulator-x86_64.AppImage
 elif [ "$answer" -eq 1 ]; then
-	$APPDIR/AppRun-patched
+	QT_QPA_PLATFORM=xcb $APPDIR/usr/bin/dolphin-emu
 elif [ "$answer" -eq 5 ]; then
-	$APPDIR/AppRun-patched
+	QT_QPA_PLATFORM=xcb $APPDIR/usr/bin/dolphin-emu
 fi
 exit 0
