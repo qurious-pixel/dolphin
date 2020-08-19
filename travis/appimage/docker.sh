@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-branch= 1804
+branch=1804
 
 QT_BASE_DIR=/opt/qt514
 export QTDIR=$QT_BASE_DIR
