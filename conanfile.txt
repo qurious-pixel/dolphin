@@ -1,0 +1,7 @@
+[requires]
+zstd/1.4.5
+fmt/7.0.3
+minizip/1.2.11
+
+ [generators]
+ cmake
