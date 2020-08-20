@@ -66,6 +66,9 @@ RUN \
     git \
     gettext \
     ccache \
+		make \
+		cmake \
+		git \
     ninja-build 
      
 RUN \
