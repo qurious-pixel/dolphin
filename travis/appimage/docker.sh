@@ -14,18 +14,18 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 ln -s $HOME/.conan /root
 
-apt-get update -y
-apt-get install -y curl software-properties-common apt-transport-https
-add-apt-repository -y ppa:ubuntu-toolchain-r/test 
-add-apt-repository -y ppa:beineri/opt-qt-${QTVER}-bionic
-DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y libudev-dev libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libpulse-dev libpugixml-dev libbz2-dev liblzo2-dev libpng-dev libusb-1.0-0-dev gettext \
-qtbase5-private-dev libzstd-dev $GCC_BINARY $GXX_BINARY fuse zenity ccache cmake make git wget ninja-build x11-utils qt514-meta-full p7zip-full
+#apt-get update -y
+#apt-get install -y curl software-properties-common apt-transport-https
+#add-apt-repository -y ppa:ubuntu-toolchain-r/test 
+#add-apt-repository -y ppa:beineri/opt-qt-${QTVER}-bionic
+#DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y libudev-dev libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libpulse-dev libpugixml-dev libbz2-dev liblzo2-dev libpng-dev libusb-1.0-0-dev gettext \
+#qtbase5-private-dev libzstd-dev $GCC_BINARY $GXX_BINARY fuse zenity ccache cmake make git wget ninja-build x11-utils qt514-meta-full p7zip-full
 #DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y $GCC_BINARY $GXX_BINARY libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libpugixml-dev libbz2-dev liblzo2-dev libpng-dev gettext
 
-	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCCVER} 20 
-	update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCCVER} 20 
-  gcc --version 
-	g++ --version 
+#	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCCVER} 20 
+#	update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCCVER} 20 
+# gcc --version 
+#	g++ --version 
 	
 cd /dolphin
 
