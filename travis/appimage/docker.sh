@@ -5,17 +5,17 @@ branch=$TRAVIS_BRANCH
 GCCVER=9
 GCC_BINARY=gcc-${GCCVER}
 GXX_BINARY=g++-${GCCVER}
-QTVER=5.14.2
-QT_BASE_DIR=/opt/qt514
-export QTDIR=$QT_BASE_DIR
-export PATH=$QT_BASE_DIR/bin:$PATH
-export LD_LIBRARY_PATH=$QT_BASE_DIR/lib/x86_64-linux-gnu:$QT_BASE_DIR/lib:$LD_LIBRARY_PATH
-export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
+#QTVER=5.14.2
+#QT_BASE_DIR=/opt/qt514
+#export QTDIR=$QT_BASE_DIR
+#export PATH=$QT_BASE_DIR/bin:$PATH
+#export LD_LIBRARY_PATH=$QT_BASE_DIR/lib/x86_64-linux-gnu:$QT_BASE_DIR/lib:$LD_LIBRARY_PATH
+#export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 ln -s $HOME/.conan /root
 
-#apt-get update -y
-#apt-get install -y cmake apt-utils
+apt-get update -y
+apt-get install -y qtbase5-dev qtbase5-private-dev libgl1-mesa-dev
 #add-apt-repository -y ppa:ubuntu-toolchain-r/test 
 #add-apt-repository -y ppa:beineri/opt-qt-${QTVER}-bionic
 #DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y libudev-dev libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libpulse-dev libpugixml-dev libbz2-dev liblzo2-dev libpng-dev libusb-1.0-0-dev gettext \
