@@ -11,8 +11,8 @@ addons:
       - p7zip-full
 install: 
   - mkdir -p "$HOME/.ccache"
-  - docker pull quriouspixel/yuzu:latest
-  - docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/yuzu:latest /bin/bash /dolphin/travis/appimage/docker.sh
+  - docker pull ubuntu:18.04
+  - docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache ubuntu:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
 script: 
   - ls -al
 after_success: 
