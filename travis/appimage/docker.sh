@@ -15,7 +15,7 @@ GXX_BINARY=g++-${GCCVER}
 ln -s $HOME/.conan /root
 
 apt-get update -y
-apt-get install -y qtbase5-dev qtbase5-private-dev libc++-dev libstdc++-7-dev
+apt-get install -y qtbase5-dev qtbase5-private-dev libc++-dev libsdl2-dev
 #add-apt-repository -y ppa:ubuntu-toolchain-r/test 
 #add-apt-repository -y ppa:beineri/opt-qt-${QTVER}-bionic
 #DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y libudev-dev libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libpulse-dev libpugixml-dev libbz2-dev liblzo2-dev libpng-dev libusb-1.0-0-dev gettext \
