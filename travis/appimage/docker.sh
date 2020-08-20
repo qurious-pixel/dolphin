@@ -25,7 +25,14 @@ git clone --recursive https://github.com/kinetiknz/cubeb.git
 mkdir cubeb-build
 cd cubeb-build
 cmake ../cubeb
-cmake --build 
+cmake --build .
+git clone https://github.com/fmtlib/fmt.git
+cd fmt
+mkdir build
+cd build
+cmake ..
+make
+make install
 #	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCCVER} 20 
 #	update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCCVER} 20 
 # gcc --version 
