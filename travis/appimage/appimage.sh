@@ -37,7 +37,7 @@ mkdir -p squashfs-root/usr/share/zenity
 cp /usr/share/zenity/zenity.ui ./squashfs-root/usr/share/zenity
 cp /usr/bin/zenity ./squashfs-root/usr/bin/
 curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/update.sh" -o $HOME/squashfs-root/update.sh
-curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/AppRun" -o $HOME/squashfs-root/usr/bin/AppRun
+curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/AppRun" -o $HOME/squashfs-root/AppRun
 curl -sL "https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/AppRun-patched-x86_64" -o $HOME/squashfs-root/AppRun-patched
 curl -sL "https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/exec-x86_64.so" -o $HOME/squashfs-root/usr/optional/exec.so
 chmod a+x ./squashfs-root/AppRun
