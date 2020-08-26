@@ -8,11 +8,10 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 ln -s /home/yuzu/.conan /root
 
-apt-get update -y
-#DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y libudev-dev libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libpulse-dev libpugixml-dev libbz2-dev liblzo2-dev libpng-dev libusb-1.0-0-dev gettext \
-#qtbase5-private-dev libzstd-dev
-DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y ca-certificates qtbase5-dev qtbase5-private-dev git cmake make gcc g++ pkg-config libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libxi-dev libxrandr-dev libudev-dev libevdev-dev libsfml-dev libminiupnpc-dev libmbedtls-dev libcurl4-openssl-dev libhidapi-dev libsystemd-dev libbluetooth-dev libasound2-dev libpulse-dev libpugixml-dev libbz2-dev libzstd-dev liblzo2-dev libpng-dev libusb-1.0-0-dev gettext
+cd /dolphin
 
+git clone https://github.com/dolphin-emu/dolphin.git
+git submodule update --init --recursive
 cd /dolphin
 
 mkdir build
