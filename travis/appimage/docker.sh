@@ -11,7 +11,7 @@ apt-get install -y libglvnd-dev
 
 ln -s /home/yuzu/.conan /root
 
-cd /dolphin
+cd dolphin/
 
 git clone https://github.com/dolphin-emu/dolphin.git
 git submodule update --init --recursive
