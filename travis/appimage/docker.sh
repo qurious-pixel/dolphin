@@ -6,14 +6,6 @@ export PATH=$QT_BASE_DIR/bin:$PATH
 export LD_LIBRARY_PATH=$QT_BASE_DIR/lib/x86_64-linux-gnu:$QT_BASE_DIR/lib:$LD_LIBRARY_PATH
 export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
-CMAKEVER=3.18.1
-
-	cd /tmp && \
-	curl -sLO https://cmake.org/files/v${CMAKEVER%.*}/cmake-${CMAKEVER}-Linux-x86_64.sh 
-	sh cmake-${CMAKEVER}-Linux-x86_64.sh --prefix=/usr --skip-license 
-	rm ./cmake*.sh 
-	cmake --version
-
 ln -s /home/yuzu/.conan /root
 
 cd /dolphin
