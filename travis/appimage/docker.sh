@@ -10,6 +10,9 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 ln -s /home/yuzu/.conan /root
 
+apt-get update
+apt-get install -y libzstd1 libzstd-dev
+
 CMAKEVER=3.18.1
 
 	cd /tmp 
