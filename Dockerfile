@@ -89,5 +89,14 @@ RUN \
 	sh cmake-${CMAKEVER}-Linux-x86_64.sh --prefix=/usr --skip-license && \
 	rm ./cmake*.sh && \
 	cmake --version
+	
+RUN \
+	cd /tmp && \
+	git clone https://github.com/facebook/zstd.git && \
+	cd zstd/build/cmake && \
+	mkdir build && cd build && \
+	cmake .. -GNinja && \
+	ninja && ninja install && \
+	cd /tmp
     
 RUN 	apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/apt /var/lib/cache /var/lib/log
