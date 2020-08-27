@@ -2,7 +2,7 @@
 
 branch=$TRAVIS_BRANCH
 
-BUILDBIN=/dolphin/build/Binaries
+BUILDBIN=/dolphin/dolphin/build/Binaries
 BINFILE=dolphin-emu-x86_64.AppImage
 LOG_FILE=$HOME/curl.log
 CXX=g++-9
