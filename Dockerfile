@@ -81,5 +81,13 @@ RUN \
 	rm -rf /opt/qt514/examples /opt/qt514/doc && \
 	gcc --version && \
 	g++ --version 
+	
+ENV CMAKEVER=3.18.1
+RUN \
+	cd /tmp && \
+	curl -sLO https://cmake.org/files/v${CMAKEVER%.*}/cmake-${CMAKEVER}-Linux-x86_64.sh && \
+	sh cmake-${CMAKEVER}-Linux-x86_64.sh --prefix=/usr --skip-license && \
+	rm ./cmake*.sh && \
+	cmake --version
     
 RUN 	apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/apt /var/lib/cache /var/lib/log
