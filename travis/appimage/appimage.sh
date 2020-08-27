@@ -62,6 +62,8 @@ export PATH=$(readlink -f /tmp/squashfs-root/usr/bin/):$PATH
 #cp /usr/lib/x86_64-linux-gnu/libselinux.so* $HOME/squashfs-root/usr/lib/
 mv /tmp/update/AppImageUpdate $HOME/squashfs-root/usr/bin/
 mv /tmp/update/* $HOME/squashfs-root/usr/lib/
+mkdir -p $HOME/squashfs-root/usr/lib/updater
+mv $HOME/squashfs-root/usr/lib/libcurl.so.4 $HOME/squashfs-root/usr/lib/updater
 rm $HOME/squashfs-root/usr/lib/libOpenGL.so.0
 /tmp/squashfs-root/usr/bin/appimagetool $HOME/squashfs-root -u "gh-releases-zsync|qurious-pixel|dolphin|continuous|Dolphin_Emulator-x86_64.AppImage.zsync"
 
