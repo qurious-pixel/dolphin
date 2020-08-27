@@ -49,6 +49,7 @@ unset QTDIR
 export PATH=$(readlink -f /tmp/squashfs-root/usr/bin/):$PATH
 #mv /tmp/update/AppImageUpdate $HOME/squashfs-root/usr/bin/
 #mv /tmp/update/* $HOME/squashfs-root/usr/lib/
+rm $HOME/squashfs-root/usr/lib/libOpenGL.so.0
 /tmp/squashfs-root/usr/bin/appimagetool $HOME/squashfs-root -u "gh-releases-zsync|qurious-pixel|dolphin|continuous|dolphin-emu-x86_64.AppImage.zsync"
 
 mkdir $HOME/artifacts/
