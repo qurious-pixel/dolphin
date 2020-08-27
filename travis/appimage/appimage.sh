@@ -58,8 +58,8 @@ unset QTDIR
 # /tmp/squashfs-root/AppRun $HOME/squashfs-root/usr/bin/dolphin-emu -appimage -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
 /tmp/squashfs-root/AppRun $HOME/squashfs-root/usr/bin/dolphin-emu -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
 export PATH=$(readlink -f /tmp/squashfs-root/usr/bin/):$PATH
-cp /usr/lib/x86_64-linux-gnu/libp11-kit.so.0 $HOME/squashfs-root/usr/lib/
-cp /usr/lib/x86_64-linux-gnu/libselinux.so* $HOME/squashfs-root/usr/lib/
+#cp /usr/lib/x86_64-linux-gnu/libp11-kit.so.0 $HOME/squashfs-root/usr/lib/
+#cp /usr/lib/x86_64-linux-gnu/libselinux.so* $HOME/squashfs-root/usr/lib/
 mv /tmp/update/AppImageUpdate $HOME/squashfs-root/usr/bin/
 mv /tmp/update/* $HOME/squashfs-root/usr/lib/
 rm $HOME/squashfs-root/usr/lib/libOpenGL.so.0
