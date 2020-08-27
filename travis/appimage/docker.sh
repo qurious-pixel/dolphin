@@ -10,8 +10,12 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 ln -s /home/yuzu/.conan /root
 
-apt-get update
-apt-get install -y libzstd1 libzstd-dev
+cd /tmp
+git clone https://github.com/facebook/zstd.git
+cd zstd/build/cmake
+mkdir build && cd build
+cmake .. -GNinja
+ninja && ninja install
 
 CMAKEVER=3.18.1
 
