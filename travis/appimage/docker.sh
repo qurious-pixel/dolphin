@@ -10,6 +10,9 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 ln -s /home/yuzu/.conan /root
 
+apt-get update
+apt-get install -y liblzma5 liblzma-dev xz-utils
+
 cd /dolphin
 
 git clone https://github.com/dolphin-emu/dolphin.git
