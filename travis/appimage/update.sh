@@ -8,8 +8,8 @@ if [ "$answer" -eq 0 ]; then
 	export LD_PRELOAD="$APPDIR/usr/lib/updater/libcurl.so.4"
 	$APPDIR/usr/bin/AppImageUpdate $PWD/Dolphin_Emulator-x86_64.AppImage && $PWD/Dolphin_Emulator-x86_64.AppImage
 elif [ "$answer" -eq 1 ]; then
-	QT_QPA_PLATFORM=xcb $APPDIR/usr/bin/dolphin-emu
+	$APPDIR/AppRun-patched
 elif [ "$answer" -eq 5 ]; then
-	QT_QPA_PLATFORM=xcb $APPDIR/usr/bin/dolphin-emu
+	$APPDIR/AppRun-patched
 fi
 exit 0
