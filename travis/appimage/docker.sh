@@ -22,7 +22,7 @@ cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc 
 ninja
 #ln -s ../../Data/Sys Binaries/
 
-cat /dolphin/build/CMakeFiles/CMakeError.log | curl -F 'f:1=<-' ix.io
+#cat /dolphin/build/CMakeFiles/CMakeError.log | curl -F 'f:1=<-' ix.io
 
 cd /tmp
 curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/appimage.sh"
