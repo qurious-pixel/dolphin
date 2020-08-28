@@ -36,6 +36,8 @@ mkdir -p squashfs-root/usr/optional/ ; mkdir -p squashfs-root/usr/optional/libst
 mkdir -p squashfs-root/usr/share/zenity 
 cp /usr/share/zenity/zenity.ui ./squashfs-root/usr/share/zenity
 cp /usr/bin/zenity ./squashfs-root/usr/bin/
+mkdir -p squashfs-root/usr/share/dolphin-emu
+cp -R /dolphin/dolphin/Data/Sys/Themes ./squashfs-root/usr/share/dolphin-emu
 curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/update.sh" -o $HOME/squashfs-root/update.sh
 curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/AppRun" -o $HOME/squashfs-root/AppRun
 curl -sL "https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/AppRun-patched-x86_64" -o $HOME/squashfs-root/AppRun-patched
