@@ -50,8 +50,7 @@ chmod a+x ./squashfs-root/update.sh
 cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6 squashfs-root/usr/optional/libstdc++/
 printf "#include <bits/stdc++.h>\nint main(){std::make_exception_ptr(0);std::pmr::get_default_resource();}" | $CXX -x c++ -std=c++2a -o $HOME/squashfs-root/usr/optional/checker -
 
-
-echo $TRAVIS_COMMIT > $HOME/squashfs-root/version.txt
+echo $TRAVIS_BUILD_ID > $HOME/squashfs-root/version.txt
 
 unset QT_PLUGIN_PATH
 unset LD_LIBRARY_PATH
