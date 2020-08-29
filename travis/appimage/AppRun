@@ -3,7 +3,7 @@
 mkdir -p $HOME/.local/share/icons/hicolor/scalable/apps && cp $APPDIR/dolphin-emu.svg $HOME/.local/share/icons/hicolor/scalable/apps
 mkdir -p $HOME/.local/share/dolphin-emu && cp -R $APPDIR/usr/share/dolphin-emu $HOME/.local/share/
 
-GITVER=`wget -qO- https://www.github.com/qurious-pixel/dolphin/releases/tag/continuous | grep qurious-pixel/dolphin/commit/ | cut -d '"' -f 2 | cut -d '/' -f 5 | awk '!x[$0]++'` 
+GITVER=`wget -qO- https://www.github.com/qurious-pixel/dolphin/releases/tag/continuous | grep -o -P 'builds/.{0,9}' | cut -d '/' -f 2 | awk '!x[$0]++'` 
 APPVER=`cat $APPDIR/version.txt`
 
 if [[ -z "$GITVER" ]]; then
