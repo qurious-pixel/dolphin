@@ -12,9 +12,9 @@ ln -s /home/yuzu/.conan /root
 
 cd /dolphin
 
-git clone https://github.com/dolphin-emu/dolphin.git
-git submodule update --init --recursive
-cd dolphin/
+#git clone https://github.com/dolphin-emu/dolphin.git
+#git submodule update --init --recursive
+#cd dolphin/
 
 mkdir build
 cd build
@@ -25,9 +25,9 @@ ninja
 #cat /dolphin/build/CMakeFiles/CMakeError.log | curl -F 'f:1=<-' ix.io
 
 cd /tmp
-curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/appimage.sh"
-chmod a+x appimage.sh
-./appimage.sh
-#ls -al /dolphin
-#ls -al /dolphin/build
-#ls -al /dolphin/build/Binaries
+#curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/appimage.sh"
+#chmod a+x appimage.sh
+#./appimage.sh
+ls -al /dolphin
+ls -al /dolphin/build
+ls -al /dolphin/build/Binaries
