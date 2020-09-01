@@ -4,6 +4,8 @@ language: cpp
 cache: ccache
 compiler: 
   - gcc
+git:
+  depth: 3
 addons: 
   apt: 
     sources:
