@@ -20,6 +20,7 @@ RUN \
     DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y full-upgrade && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     build-essential \
+		dialog \
     dpkg \
     fuse \
     $GCC_BINARY $GXX_BINARY \
