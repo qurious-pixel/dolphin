@@ -17,8 +17,8 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 cd /tmp
 	curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-	curl -sLO "https://github.com/qurious-pixel/dolphin/raw/$branch/travis/appimage/update.tar.gz"
-	tar -xzf update.tar.gz
+	curl -sLO "https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage"
+	chmod a+x AppImageUpdate-x86_64.AppImage
 	chmod a+x linuxdeployqt*.AppImage
 ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
 cd $HOME
@@ -33,9 +33,7 @@ mkdir -p squashfs-root/usr/share/icons && cp ./squashfs-root/dolphin-emu.svg ./s
 mkdir -p squashfs-root/usr/share/icons/hicolor/scalable/apps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/icons/hicolor/scalable/apps
 mkdir -p squashfs-root/usr/share/pixmaps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/pixmaps
 mkdir -p squashfs-root/usr/optional/ ; mkdir -p squashfs-root/usr/optional/libstdc++/
-mkdir -p squashfs-root/usr/share/zenity 
-cp /usr/share/zenity/zenity.ui ./squashfs-root/usr/share/zenity
-cp /usr/bin/zenity ./squashfs-root/usr/bin/
+
 mkdir -p squashfs-root/usr/share/dolphin-emu
 cp -R /dolphin/dolphin/Data/Sys/Themes ./squashfs-root/usr/share/dolphin-emu
 curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/update.sh" -o $HOME/squashfs-root/update.sh
@@ -59,13 +57,14 @@ unset QTDIR
 # /tmp/squashfs-root/AppRun $HOME/squashfs-root/usr/bin/dolphin-emu -appimage -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
 /tmp/squashfs-root/AppRun $HOME/squashfs-root/usr/bin/dolphin-emu -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
 export PATH=$(readlink -f /tmp/squashfs-root/usr/bin/):$PATH
-#cp /usr/lib/x86_64-linux-gnu/libp11-kit.so.0 $HOME/squashfs-root/usr/lib/
-#cp /usr/lib/x86_64-linux-gnu/libselinux.so* $HOME/squashfs-root/usr/lib/
-mv /tmp/update/AppImageUpdate $HOME/squashfs-root/usr/bin/
-mv /tmp/update/* $HOME/squashfs-root/usr/lib/
-mkdir -p $HOME/squashfs-root/usr/lib/updater
-mv $HOME/squashfs-root/usr/lib/libcurl.so.4 $HOME/squashfs-root/usr/lib/updater
-rm $HOME/squashfs-root/usr/lib/libOpenGL.so.0
+
+# Add AppImageUpdate as the internal updater
+mv /tmp/AppImageUpdate-x86_64.AppImage $HOME/squashfs-root/usr/bin/AppImageUpdate
+
+# Add dialog as the fallback
+cp /usr/bin/dialog ./squashfs-root/usr/bin/
+cp /lib/x86_64-linux-gnu/libncursesw.so.5 $HOME/squashfs-root/usr/lib/
+cp /lib/x86_64-linux-gnu/libtinfo.so.5 $HOME/squashfs-root/usr/lib/
 /tmp/squashfs-root/usr/bin/appimagetool $HOME/squashfs-root -u "gh-releases-zsync|qurious-pixel|dolphin|continuous|Dolphin_Emulator-x86_64.AppImage.zsync"
 
 mkdir $HOME/artifacts/
@@ -75,9 +74,4 @@ cp -R $HOME/artifacts/ /dolphin/
 chmod -R 777 /dolphin/artifacts
 cd /dolphin/artifacts
 ls -al /dolphin/artifacts/
-curl --upload-file Dolphin_Emulator-x86_64.AppImage https://transfersh.com/Dolphin_Emulator-x86_64.AppImage
-
-# touch $HOME/curl.log
-# curl --progress-bar --upload-file $BINFILE https://transfer.sh/$BINFILE | tee -a "$LOG_FILE" ; test ${PIPESTATUS[0]} -eq 0
-# echo "" >> $LOG_FILE
-# cat $LOG_FILE
+#curl --upload-file Dolphin_Emulator-x86_64.AppImage https://transfersh.com/Dolphin_Emulator-x86_64.AppImage
