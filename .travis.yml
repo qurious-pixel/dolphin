@@ -16,6 +16,7 @@ install:
 script: 
   - ls -al
 after_success: 
+  - export UPLOADTOOL_ISPRERELEASE=true
   - ls -al artifacts/
   - cd artifacts/
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
