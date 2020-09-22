@@ -30,5 +30,5 @@ deploy:
   file_glob: true
   provider: releases
   skip_cleanup: true
-  true: 
-    tags: true
+#  true: 
+#    tags: true
