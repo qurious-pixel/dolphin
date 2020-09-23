@@ -17,11 +17,9 @@ script:
   - ls -al
 after_success: 
   - ls -al artifacts/
-  - cd artifacts/
-  #- wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-  - wget -c https://raw.githubusercontent.com/qurious-pixel/dolphin/git/travis/appimage/upload.sh
-  - chmod a+x upload.sh
-  - bash upload.sh Dolphin_Emulator-x86_64.AppImage*
+  - wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
+  - tar xfv ghr_v0.13.0_linux_amd64.tar.gz
+  - ghr_v0.13.0_linux_amd64/ghr -recreate -n 'Continous build' -b "Travis CI build log ${TRAVIS_BUILD_WEB_URL}" continuous artifacts/
 branches: 
   except: 
     - /^(?i:continuous.*)$/
