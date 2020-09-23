@@ -24,7 +24,7 @@ after_success:
   #- bash upload.sh Dolphin_Emulator-x86_64.AppImage*
   - wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
   - tar xfv ghr_v0.13.0_linux_amd64.tar.gz
-  - ghr_v0.13.0_linux_amd64/ghr -delete go artifacts/
+  - ghr_v0.13.0_linux_amd64/ghr -recreate -n "Continous build2" continuous artifacts/
 branches: 
   except: 
     - /^(?i:continuous.*)$/
