@@ -18,7 +18,8 @@ script:
 after_success: 
   - ls -al artifacts/
   - cd artifacts/
-  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+  #- wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+  - wget -c https://raw.githubusercontent.com/qurious-pixel/dolphin/git/travis/appimage/upload.sh
   - chmod a+x upload.sh
   - bash upload.sh Dolphin_Emulator-x86_64.AppImage*
 branches: 
