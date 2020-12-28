@@ -33,6 +33,13 @@ jobs:
               docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/dolphin:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
       - name: Run Dolphin-AppImage
         run:  ls -al
+      - name: Upload Dolphin
+        run: |
+            ls -al artifacts/
+            wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
+            tar xfv ghr_v0.13.0_linux_amd64.tar.gz
+            ghr_v0.13.0_linux_amd64/ghr -recreate -n 'Continous build' -b "GitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" continuous-test artifacts/
+    
         env:
           DEFAULT_BRANCH: git-actions
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
