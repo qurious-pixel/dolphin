@@ -29,10 +29,7 @@ jobs:
       - name: install Dolphin
         run: |
           echo ${GITHUB_REF##*/}
-          cd /tmp
-          curl -sLO "https://raw.githubusercontent.com/${{github.repository}}/`echo ${GITHUB_REF##*/}`/travis/appimage/appimage.sh"
-          chmod a+x appimage.sh
-          sh ./appimage.sh
+          echo ${GITHUB_RUN_ID}
       - name: Run Dolphin-AppImage
         run:  ls -al
         env:
