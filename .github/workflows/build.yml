@@ -28,8 +28,9 @@ jobs:
             build-ccache-
       - name: install Dolphin
         run: |
+          echo ${{github.repository}}
           cd /tmp
-          curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/appimage.sh"
+          curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/${{github.repository}}/travis/appimage/appimage.sh"
           chmod a+x appimage.sh
           sh ./appimage.sh
       - name: Run Dolphin-AppImage
