@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-branch=$TRAVIS_BRANCH
+branch=`echo ${GITHUB_REF##*/}`
 
 BUILDBIN=/dolphin/dolphin/build/Binaries
 BINFILE=dolphin-emu-x86_64.AppImage
