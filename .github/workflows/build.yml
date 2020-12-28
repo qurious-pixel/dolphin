@@ -17,9 +17,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Runs the Super-Linter action
+      # Runs the Dolphin action
+      - name: cache
+        uses: actions/cache@v2
+      - name: install Dolphin
+        run:  mkdir -p "$HOME/.ccache"
+        run:  docker pull quriouspixel/dolphin:18.04
+        run:  docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/dolphin:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
       - name: Run Dolphin-AppImage
-        #uses: github/super-linter@v3
+        run:  ls -al
         env:
           DEFAULT_BRANCH: git-actions
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
