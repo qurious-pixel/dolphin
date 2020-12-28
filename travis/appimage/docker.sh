@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-branch=$TRAVIS_BRANCH
+branch=`echo ${GITHUB_REF##*/}`
 
 QT_BASE_DIR=/opt/qt514
 export QTDIR=$QT_BASE_DIR
