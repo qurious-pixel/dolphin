@@ -22,8 +22,8 @@ jobs:
         uses: actions/cache@v2
       - name: install Dolphin
         run:  mkdir -p "$HOME/.ccache"
-        run:  docker pull quriouspixel/dolphin:18.04
-        run:  docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/dolphin:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
+              docker pull quriouspixel/dolphin:18.04
+              docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/dolphin:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
       - name: Run Dolphin-AppImage
         run:  ls -al
         env:
