@@ -22,7 +22,7 @@ jobs:
       - name: cache
         uses: actions/cache@v2
         with:
-          path: .ccache
+          path: ~/.ccache
           key: build-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
           restore-keys: |
             build-ccache-
@@ -31,9 +31,9 @@ jobs:
           cd /tmp
           curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/appimage.sh"
           chmod a+x appimage.sh
-          ./appimage.sh
+          sh ./appimage.sh
       - name: Run Dolphin-AppImage
         run:  ls -al
         env:
-          DEFAULT_BRANCH: git-actions
+          DEFAULT_BRANCH: git-actions2
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
