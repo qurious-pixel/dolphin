@@ -1,6 +1,9 @@
 name: Dolphin-AppImage
 
-on: push
+on: 
+  push:
+  schedule:
+    - cron: "15 0 * * 3" 
 
 jobs:
   dolphin-appimage:
