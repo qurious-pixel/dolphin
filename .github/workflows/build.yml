@@ -14,7 +14,7 @@ jobs:
       - name: get package
         run:  |
               mkdir artifacts/
-              curl -sL https://github.com/qurious-pixel/dolphin/releases/download/continuous/dolphin-emu -o dolphin-emu2
+              curl -sL https://github.com/qurious-pixel/dolphin/releases/download/continuous/dolphin-emu -o artifacts/dolphin-emu2
       - name: package artifact
         run: |
               ls -al artifacts/
