@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Run Dolphin-AppImage
         run:  | 
-              $PWD
+              echo $PWD
               ls -al .
       - name: get package
         run:  |
