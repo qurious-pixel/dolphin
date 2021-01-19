@@ -8,30 +8,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks out a copy of your repository on the ubuntu-latest machine
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Runs the Dolphin action
-      - name: Prepare ccache timestamp
-        id: ccache_cache_timestamp
-        shell: cmake -P {0}
-        run: |
-          string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
-          message("::set-output name=timestamp::${current_date}")
-      - name: cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.ccache
-          key: build-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
-          restore-keys: |
-            build-ccache-
-      - name: install Dolphin
-        run: |
-          echo ${GITHUB_REF##*/}
-          echo ${GITHUB_RUN_ID}
       - name: Run Dolphin-AppImage
         run:  ls -al
+      
         env:
           DEFAULT_BRANCH: git-actions2
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
