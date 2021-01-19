@@ -9,8 +9,19 @@ jobs:
 
     steps:
       - name: Run Dolphin-AppImage
-        run:  ls -al
-      
-        env:
+        run:  | 
+              $PWD
+              ls -al
+      - name: get package
+        run:  |
+              mkdir artifacts/
+              curl -sL https://github.com/qurious-pixel/dolphin/releases/download/continuous/dolphin-emu -o dolphin-emu2
+       - name: package artifact
+         run: |
+              ls -al artifacts/
+              wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
+              tar xfv ghr_v0.13.0_linux_amd64.tar.gz
+              ghr_v0.13.0_linux_amd64/ghr -replace -n 'Continous build' continuous artifacts/   
+      env:
           DEFAULT_BRANCH: git-actions2
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
