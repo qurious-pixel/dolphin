@@ -10,7 +10,7 @@ jobs:
       - name: Run Dolphin-AppImage
         run:  | 
               $PWD
-              ls -al
+              ls -al .
       - name: get package
         run:  |
               mkdir artifacts/
