@@ -66,8 +66,8 @@ cp /usr/bin/dialog ./squashfs-root/usr/bin/
 cp /lib/x86_64-linux-gnu/libncursesw.so.5 $HOME/squashfs-root/usr/lib/
 cp /lib/x86_64-linux-gnu/libtinfo.so.5 $HOME/squashfs-root/usr/lib/
 
-# Rename libOpenGL
-mv $HOME/squashfs-root/usr/lib/libOpenGL.so.0 $HOME/squashfs-root/usr/lib/libOpenGL.so.0.cus
+# Copy libOpenGL deps
+cp /lib/x86_64-linux-gnu/libGLdispatch.so.0 $HOME/squashfs-root/usr/lib/
 
 # Package AppImage
 /tmp/squashfs-root/usr/bin/appimagetool $HOME/squashfs-root -u "gh-releases-zsync|qurious-pixel|dolphin|continuous|Dolphin_Emulator-x86_64.AppImage.zsync"
