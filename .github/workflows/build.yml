@@ -2,6 +2,7 @@ name: Dolphin-AppImage
 
 on: 
   push:
+  workflow_dispatch:
   schedule:
     - cron: "15 0 * * 3" 
 
