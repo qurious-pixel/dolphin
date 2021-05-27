@@ -64,7 +64,7 @@ jobs:
           cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
           cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
           cp Data/dolphin-emu.svg ./squashfs-root/dolphin-emu.svg
-          cp Data/dolphin-emu.desktop -o ./squashfs-root/dolphin-emu.desktop
+          cp Data/dolphin-emu.desktop ./squashfs-root/dolphin-emu.desktop
           curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
           curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-x86_64 -o ./squashfs-root/AppRun
           mkdir -p squashfs-root/usr/share/applications && cp ./squashfs-root/dolphin-emu.desktop ./squashfs-root/usr/share/applications
