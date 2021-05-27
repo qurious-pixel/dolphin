@@ -53,6 +53,10 @@ jobs:
           cmake .. -GNinja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
           ninja
       - name: Package Dolphin-AppImage
+        env:
+          QT_BASE_DIR: /opt/qt515
+          QTDIR: $QT_BASE_DIR
+          PATH: $QT_BASE_DIR/bin:$PATH
         run: |
           cd /tmp 
           which qmake
