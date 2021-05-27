@@ -57,7 +57,7 @@ jobs:
           QT_BASE_DIR: /opt/qt515
           QTDIR: $QT_BASE_DIR
         run: |
-          export PATH=$QTDIR/bin:$PATH
+          export PATH=$QT_BASE_DIR/bin:$PATH
           echo "PATH $PATH"
           qmake -v
           cd /tmp 
