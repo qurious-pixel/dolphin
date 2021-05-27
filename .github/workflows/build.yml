@@ -53,11 +53,9 @@ jobs:
           cmake .. -GNinja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
           ninja
       - name: Package Dolphin-AppImage
-        run:  |
-          ls -al
-          cd /tmp
-	  curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-          chmod a+x linuxdeployqt*.AppImage
+        run: |
+          cd /tmp 
+          curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
           ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
           cd $HOME
           mkdir -p squashfs-root/usr/bin
