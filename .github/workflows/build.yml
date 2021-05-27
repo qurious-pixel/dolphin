@@ -56,9 +56,10 @@ jobs:
         env:
           QT_BASE_DIR: /opt/qt515
           QTDIR: $QT_BASE_DIR
-          PATH: $QT_BASE_DIR/bin:$PATH
         run: |
           echo "PATH $PATH"
+          echo "QT1 $QT_BASE_DIR"
+          export PATH=$QTDIR/bin:$PATH
           cd /tmp 
           curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
           chmod a+x linuxdeployqt*.AppImage
