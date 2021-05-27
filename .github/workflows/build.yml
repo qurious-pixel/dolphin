@@ -54,17 +54,17 @@ jobs:
           ninja
       - name: Package Dolphin-AppImage
         run: |
-          echo $PWD
           cd /tmp 
           curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
           chmod a+x linuxdeployqt*.AppImage
           ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
-          echo $GITHUB_WORKSPACE
           cd $GITHUB_WORKSPACE
+          ls build
+          ls build/Binaries
           mkdir -p squashfs-root/usr/bin
-          cp -P dolphin/build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
+          cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
           mkdir -p $GITHUB_WORKSPACE/artifacts
-          cp -P dolphin/build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
+          cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
