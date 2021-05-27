@@ -2,9 +2,6 @@ name: Dolphin-AppImage
 
 on: 
   push:
-  workflow_dispatch:
-  schedule:
-    - cron: "15 0 * * 3" 
 
 jobs:
   dolphin-appimage:
@@ -30,20 +27,29 @@ jobs:
           key: build-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
           restore-keys: |
             build-ccache-
+      - name: Install Packages
+        continue-on-error: true
+        id: packages
+        run: |
+          sudo apt-get install -y build-essential dialog dpkg fuse libbluetooth-dev liblz4-dev liblzma-dev libssl-dev libopus-dev libpng-dev libsystemd-dev \
+          libzip-dev libzstd-dev zlib1g-dev libasound2-dev libpulse-dev pulseaudio p7zip p7zip-full libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev \
+          libbz2-dev liblzo2-dev qt515-meta-full libxi-dev libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libc6-dev libhidapi-dev libavformat-dev libavdevice-dev \
+          libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget curl git gettext ccache make cmake ninja-build \
+      - name: Install Packages if failed
+        id: packages2
+        if: steps.packages.outcome=='failure'
+        run: |
+          sudo apt-get install -y build-essential dialog dpkg fuse libbluetooth-dev liblz4-dev liblzma-dev libssl-dev libopus-dev libpng-dev libsystemd-dev \
+          libzip-dev libzstd-dev zlib1g-dev libasound2-dev libpulse-dev pulseaudio p7zip p7zip-full libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev \
+          libbz2-dev liblzo2-dev qt514-meta-full libxi-dev libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libc6-dev libhidapi-dev libavformat-dev libavdevice-dev \
+          libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget curl git gettext ccache make cmake ninja-build \
       - name: install Dolphin
         run: |
               mkdir -p "$HOME/.ccache"
-              docker pull quriouspixel/dolphin:18.04
-              docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/dolphin:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
       - name: Run Dolphin-AppImage
         run:  ls -al
-      - name: Upload Dolphin
-        run: |
-            ls -al artifacts/
-            wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
-            tar xfv ghr_v0.13.0_linux_amd64.tar.gz
-            ghr_v0.13.0_linux_amd64/ghr -recreate -n 'Continuous build' -b "GitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" continuous artifacts/
-    
-        env:
-          DEFAULT_BRANCH: git-actions
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Dolphin_Emulator-x86_64.AppImage
+          path: artifacts/
