@@ -82,6 +82,7 @@ jobs:
           chmod a+x ./squashfs-root/AppRun
           chmod a+x ./squashfs-root/runtime
           /tmp/squashfs-root/AppRun $GITHUB_WORKSPACE/squashfs-root/usr/bin/dolphin-emu -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
+          ls .
           mv Dolphin_Emulator-x86_64.AppImage $GITHUB_WORKSPACE/artifacts
           ls -al $GITHUB_WORKSPACE/artifacts
       - name: Upload artifacts
