@@ -59,12 +59,25 @@ jobs:
           chmod a+x linuxdeployqt*.AppImage
           ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
           cd $GITHUB_WORKSPACE
-          ls build
-          ls build/Binaries
           mkdir -p squashfs-root/usr/bin
-          cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
           mkdir -p $GITHUB_WORKSPACE/artifacts
+          cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
           cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
+          cp Data/dolphin-emu.svg -o ./squashfs-root/dolphin-emu.svg
+          cp Data/dolphin-emu.desktop -o ./squashfs-root/dolphin-emu.desktop
+          curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
+          curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-x86_64 -o ./squashfs-root/AppRun
+          mkdir -p squashfs-root/usr/share/applications && cp ./squashfs-root/dolphin-emu.desktop ./squashfs-root/usr/share/applications
+          mkdir -p squashfs-root/usr/share/icons && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/icons
+          mkdir -p squashfs-root/usr/share/icons/hicolor/scalable/apps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/icons/hicolor/scalable/apps
+          mkdir -p squashfs-root/usr/share/pixmaps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/pixmaps
+          mkdir -p squashfs-root/usr/share/dolphin-emu
+          cp -R /dolphin/dolphin/Data/Sys/Themes ./squashfs-root/usr/share/dolphin-emu
+          chmod a+x ./squashfs-root/AppRun
+          chmod a+x ./squashfs-root/runtime
+          /tmp/squashfs-root/AppRun $GITHUB_WORKSPACE/squashfs-root/usr/bin/dolphin-emu -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
+          mv Dolphin_Emulator-x86_64.AppImage $GITHUB_WORKSPACE/artifacts
+          ls -al $GITHUB_WORKSPACE/artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
