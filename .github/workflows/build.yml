@@ -52,7 +52,7 @@ jobs:
           cd build
           cmake .. -GNinja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
           ninja
-      - name: Package Dolphin-AppImage
+      - name: Package Dolphin-Binary
         run: |
           mkdir -p $GITHUB_WORKSPACE/artifacts
           cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
@@ -64,7 +64,7 @@ jobs:
           export PATH=$QT_BASE_DIR/bin:$PATH
           echo "PATH $PATH"
           qmake -v
-          cd /tmp 
+          cd /tmpx # fail or purpose test 
           curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
           chmod a+x linuxdeployqt*.AppImage
           ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
