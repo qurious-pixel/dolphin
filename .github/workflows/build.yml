@@ -53,6 +53,10 @@ jobs:
           cmake .. -GNinja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
           ninja
       - name: Package Dolphin-AppImage
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/artifacts
+          cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
+      - name: Package Dolphin-AppImage
         env:
           QT_BASE_DIR: /opt/qt515
           QTDIR: $QT_BASE_DIR
@@ -66,9 +70,7 @@ jobs:
           ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
           cd $GITHUB_WORKSPACE
           mkdir -p squashfs-root/usr/bin
-          mkdir -p $GITHUB_WORKSPACE/artifacts
           cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
-          cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
           cp Data/dolphin-emu.svg ./squashfs-root/dolphin-emu.svg
           cp Data/dolphin-emu.desktop ./squashfs-root/dolphin-emu.desktop
           curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
@@ -85,6 +87,7 @@ jobs:
           ls . | grep *.AppImage
           mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
           ls -al $GITHUB_WORKSPACE/artifacts
+        continue-on-error: true  
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
