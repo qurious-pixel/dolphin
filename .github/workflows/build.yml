@@ -64,7 +64,7 @@ jobs:
           export PATH=$QT_BASE_DIR/bin:$PATH
           echo "PATH $PATH"
           qmake -v
-          cd /tmpx # fail or purpose test 
+          cd /tmp
           curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
           chmod a+x linuxdeployqt*.AppImage
           ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
@@ -91,5 +91,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Dolphin_Emulator-x86_64.AppImage
+          name: Dolphin_Emulator-x86_64-Linux
           path: artifacts/
