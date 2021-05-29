@@ -37,17 +37,17 @@ jobs:
           sudo add-apt-repository -y ppa:beineri/opt-qt-5.15.2-focal
           sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev extra-cmake-modules liblzo2-dev libxi-dev libavcodec-dev libudev-dev \
           libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
-          qt515base qt5-qmake qt515wayland qtwayland5 wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev libqt5waylandclient5-dev \
+          qt515base qt5-qmake qt515wayland qtwayland5 wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev libqt5waylandclient5-dev qtbase5-private-dev \
           libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev \
       - name: Install Packages if failed
         id: packages2
         if: steps.packages.outcome=='failure'
         run: |
           sudo add-apt-repository -y ppa:beineri/opt-qt-5.15.2-focal
-          sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev extra-cmake-modules liblzo2-dev libxi-dev \
-          libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev \
-          qt515base qt5-qmake qt515wayland qtwayland5 wayland-protocols xwayland libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libhidapi-dev  \
-          libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev \
+          sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev extra-cmake-modules liblzo2-dev libxi-dev libavcodec-dev libudev-dev \
+          libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
+          qt515base qt5-qmake qt515wayland qtwayland5 wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev libqt5waylandclient5-dev qtbase5-private-dev \
+          libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev \
       - name: Build Dolphin
         run: |
           mkdir -p "$HOME/.ccache"
