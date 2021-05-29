@@ -12,6 +12,9 @@ jobs:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          repository: stenzek/dolphin
+          ref: wayland
 
       # Runs the Dolphin action
       - name: Prepare ccache timestamp
@@ -91,5 +94,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Dolphin_Emulator-x86_64-Linux
+          name: Dolphin_Emulator-x86_64-Linux-wayland
           path: artifacts/
