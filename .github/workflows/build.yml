@@ -38,7 +38,7 @@ jobs:
           sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev extra-cmake-modules liblzo2-dev libxi-dev libavcodec-dev libudev-dev \
           libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
           qt515base qt5-qmake qt515wayland qtwayland5 wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev libqt5waylandclient5-dev qtbase5-private-dev \
-          libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev \
+          libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev adwaita-qt \
       - name: Install Packages if failed
         id: packages2
         if: steps.packages.outcome=='failure'
@@ -47,7 +47,7 @@ jobs:
           sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev extra-cmake-modules liblzo2-dev libxi-dev libavcodec-dev libudev-dev \
           libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
           qt515base qt5-qmake qt515wayland qtwayland5 wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev libqt5waylandclient5-dev qtbase5-private-dev \
-          libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev \
+          libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev adwaita-qt \
       - name: Build Dolphin
         run: |
           mkdir -p "$HOME/.ccache"
@@ -86,7 +86,7 @@ jobs:
           cp -R Data/Sys ./squashfs-root/usr/bin
           chmod a+x ./squashfs-root/AppRun
           chmod a+x ./squashfs-root/runtime
-          /tmp/squashfs-root/AppRun $GITHUB_WORKSPACE/squashfs-root/usr/bin/dolphin-emu -appimage -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
+          /tmp/squashfs-root/AppRun $GITHUB_WORKSPACE/squashfs-root/usr/bin/dolphin-emu -appimage -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs -extra-plugins=platformthemes,styles
           ls . | grep *.AppImage
           mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
           ls -al $GITHUB_WORKSPACE/artifacts
