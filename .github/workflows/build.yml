@@ -45,7 +45,7 @@ jobs:
             curl -sL "https://github.com/qurious-pixel/dolphin/releases/download/headless/dolphin-emu-nogui" -o bin/dolphin-emu-nogui
             chmod +x bin/dolphin-emu-nogui
             sudo apt update
-            sudo apt install libopengl-dev xserver-xorg-video-fbdev alsa-utils libpulse-dev libevdev-dev libsfml-dev libbluetooth-dev libhidapi-dev libavformat-dev libavcodec-dev libswscale-dev libavutil-dev libmbedtls-dev libmbedx509-0 libmbedcrypto1 libpugixml-dev
+            sudo apt install libopengl0 xserver-xorg-video-fbdev alsa-utils libpulse-dev libevdev-dev libsfml-dev libbluetooth-dev libhidapi-dev libavformat-dev libavcodec-dev libswscale-dev libavutil-dev libmbedtls-dev libmbedx509-0 libmbedcrypto1 libpugixml-dev
             ldd bin/dolphin-emu-nogui  # | grep "not found"
             glxinfo | grep OpenGL
             mkdir ISO
