@@ -46,7 +46,7 @@ jobs:
             chmod +x bin/dolphin-emu-nogui
             sudo apt update
             sudo apt install libpulse-dev libevdev-dev libsfml-dev libbluetooth-dev libhidapi-dev libavformat-dev libavcodec-dev libswscale-dev libavutil-dev libmbedtls-dev libmbedx509-0 libmbedcrypto1 libpugixml-dev
-            ldd bin/dolphin-emu-nogui | grep "not found"
+            ldd bin/dolphin-emu-nogui  # | grep "not found"
             mkdir ISO
             curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz" 
             tar -xvf swiss_r1086.tar.xz
