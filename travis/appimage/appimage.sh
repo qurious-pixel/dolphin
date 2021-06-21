@@ -76,7 +76,7 @@ mkdir $HOME/artifacts/
 mkdir -p /dolphin/artifacts/
 mv Dolphin_Emulator-x86_64.AppImage* $HOME/artifacts
 cp -R $HOME/artifacts/ /dolphin/
-cp $BUILDBIN/dolphin-emu* /dolphin/artifacts
+cp $BUILDBIN/{dolphin-emu,dolphin-emu-nogui} /dolphin/artifacts
 chmod -R 777 /dolphin/artifacts
 cd /dolphin/artifacts
 ls -al /dolphin/artifacts/
