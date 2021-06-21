@@ -39,6 +39,7 @@ jobs:
         run:  ls -al
       - name: Test Dolphin Headless
         run: |
+            sudo apt install libpulse-dev
             mkdir ISO
             curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz"
             tar -xvf swiss_r1086.tar.xz
