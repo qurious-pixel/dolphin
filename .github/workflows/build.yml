@@ -3,8 +3,8 @@ name: Dolphin-AppImage
 on: 
   push:
   workflow_dispatch:
-  schedule:
-    - cron: "15 0 * * 3" 
+  #schedule:
+  #  - cron: "15 0 * * 3" 
 
 jobs:
   dolphin-appimage:
@@ -30,29 +30,34 @@ jobs:
           key: build-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
           restore-keys: |
             build-ccache-
-      - name: install Dolphin
-        run: |
-              mkdir -p "$HOME/.ccache"
-              docker pull quriouspixel/dolphin:18.04
-              docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/dolphin:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
-      - name: Run Dolphin-AppImage
+      #- name: install Dolphin
+      #  run: |
+      #        mkdir -p "$HOME/.ccache"
+      #        docker pull quriouspixel/dolphin:18.04
+      #        docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/dolphin:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
+      #- name: Run Dolphin-AppImage
+      #  run:  ls -al
+      - name: Download dolphin-emu-nogui
         run:  ls -al
       - name: Test Dolphin Headless
         run: |
-            sudo apt install libpulse-dev
+            mkdir bin 
+            curl -sLO "https://github.com/qurious-pixel/dolphin/releases/download/headless/dolphin-emu-nogui" -o bin/dolphin-emu-nogui
+            ldd bin/dolphin-emu-nogui
+            sudo apt install libpulse-dev libevdev-dev
             mkdir ISO
-            curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz"
+            curl -sL "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz" 
             tar -xvf swiss_r1086.tar.xz
-            mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' .
+            mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' ISO
             ls -al ISO
             timeout 10s artifacts/dolphin-emu-nogui --platform=headless -e 'ISO/swiss_r1086(ntsc-u).iso' 
-      - name: Upload Dolphin
-        run: |
-            ls -al artifacts/
-            wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
-            tar xfv ghr_v0.13.0_linux_amd64.tar.gz
-            ghr_v0.13.0_linux_amd64/ghr -recreate -n 'Headless build' -b "GitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" headless artifacts/
+      #- name: Upload Dolphin
+      #  run: |
+      #      ls -al artifacts/
+      #      wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
+      #      tar xfv ghr_v0.13.0_linux_amd64.tar.gz
+      #      ghr_v0.13.0_linux_amd64/ghr -recreate -n 'Headless build' -b "GitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" headless artifacts/
     
-        env:
-          DEFAULT_BRANCH: git-actions
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  env:
+      #    DEFAULT_BRANCH: git-actions
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
