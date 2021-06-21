@@ -42,11 +42,13 @@ jobs:
       - name: Test Dolphin Headless
         run: |
             mkdir bin 
-            curl -sLO "https://github.com/qurious-pixel/dolphin/releases/download/headless/dolphin-emu-nogui" -o bin/dolphin-emu-nogui
+            curl -sL "https://github.com/qurious-pixel/dolphin/releases/download/headless/dolphin-emu-nogui" -o bin/dolphin-emu-nogui
+            ls -al .
+            ls -al bin
             ldd bin/dolphin-emu-nogui
             sudo apt install libpulse-dev libevdev-dev
             mkdir ISO
-            curl -sL "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz" 
+            curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz" 
             tar -xvf swiss_r1086.tar.xz
             mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' ISO
             ls -al ISO
