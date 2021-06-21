@@ -39,8 +39,12 @@ jobs:
         run:  ls -al
       - name: Test Dolphin Headless
         run: |
-            ls -al build/Binaries/
-            timeout 10s artifacts/dolphin-emu-nogui --platform=headless -e 'build/Binaries/swiss_r1086(ntsc-u).iso' 
+            mkdir ISO
+            curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz"
+            tar -xvf swiss_r1086.tar.xz
+            mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' .
+            ls -al ISO
+            timeout 10s artifacts/dolphin-emu-nogui --platform=headless -e 'ISO/swiss_r1086(ntsc-u).iso' 
       - name: Upload Dolphin
         run: |
             ls -al artifacts/
