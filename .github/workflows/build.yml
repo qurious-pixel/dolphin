@@ -53,7 +53,7 @@ jobs:
             tar -xvf swiss_r1086.tar.xz
             mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' ISO
             ls -al ISO
-            timeout 10s bin/dolphin-emu-nogui --platform=fbdev -e 'ISO/swiss_r1086(ntsc-u).iso' 
+            timeout 10s bin/dolphin-emu-nogui --platform=headless -v "Software Renderer" -e 'ISO/swiss_r1086(ntsc-u).iso' 
       #- name: Upload Dolphin
       #  run: |
       #      ls -al artifacts/
