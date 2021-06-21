@@ -37,6 +37,10 @@ jobs:
               docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/dolphin:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
       - name: Run Dolphin-AppImage
         run:  ls -al
+      - name: Test Dolphin Headless
+        run: |
+            ls -al build/Binaries/
+            timeout 10s artifacts/dolphin-emu-nogui --platform=headless -e 'build/Binaries/swiss_r1086(ntsc-u).iso' 
       - name: Upload Dolphin
         run: |
             ls -al artifacts/
