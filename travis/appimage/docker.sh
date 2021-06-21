@@ -8,10 +8,6 @@ export PATH=$QT_BASE_DIR/bin:$PATH
 export LD_LIBRARY_PATH=$QT_BASE_DIR/lib/x86_64-linux-gnu:$QT_BASE_DIR/lib:$LD_LIBRARY_PATH
 export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
-#Update
-apt-get update
-apt install xdg-utils alsa-utils
-
 ln -s /home/yuzu/.conan /root
 
 cd /dolphin
@@ -25,15 +21,6 @@ cd build
 cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DENABLE_NOGUI=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
 ninja
 #ln -s ../../Data/Sys Binaries/
-
-#Test Headless 
-cd Binaries
-ls -al .
-curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz"
-tar -xvf swiss_r1086.tar.xz
-mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' .
-timeout 10s ./dolphin-emu-nogui --platform=headless -e 'swiss_r1086(ntsc-u).iso' 
-
 
 cd /tmp
 curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/appimage.sh"
