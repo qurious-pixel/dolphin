@@ -9,8 +9,8 @@ export LD_LIBRARY_PATH=$QT_BASE_DIR/lib/x86_64-linux-gnu:$QT_BASE_DIR/lib:$LD_LI
 export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 #Update
-sudo apt-get update
-sudo apt install xdg-utils alsa-utils
+apt-get update
+apt install xdg-utils alsa-utils
 
 ln -s /home/yuzu/.conan /root
 
