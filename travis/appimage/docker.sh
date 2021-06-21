@@ -18,11 +18,18 @@ cd dolphin/
 
 mkdir build
 cd build
-cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
+cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DENABLE_NOGUI=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
 ninja
 #ln -s ../../Data/Sys Binaries/
 
-#cat /dolphin/build/CMakeFiles/CMakeError.log | curl -F 'f:1=<-' ix.io
+#Test Headless 
+cd Binaries
+ls -al .
+curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz"
+tar -xvf swiss_r1086.tar.xz
+mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' .
+timeout 10s ./dolphin-emu-nogui --platform=headless -e 'swiss_r1086(ntsc-u).iso' 
+
 
 cd /tmp
 curl -sLO "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/appimage.sh"
