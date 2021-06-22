@@ -45,18 +45,18 @@ jobs:
             curl -sL "https://github.com/qurious-pixel/dolphin/releases/download/headless/dolphin-emu-nogui" -o bin/dolphin-emu-nogui
             chmod +x bin/dolphin-emu-nogui
             sudo apt update
-            sudo apt install xvfb libopengl0 xserver-xorg-video-fbdev mesa-utils alsa-utils libpulse-dev libevdev-dev libsfml-dev libbluetooth-dev libhidapi-dev libavformat-dev libavcodec-dev libswscale-dev libavutil-dev libmbedtls-dev libmbedx509-0 libmbedcrypto1 libpugixml-dev
+            sudo apt install libgl1-mesa-dev libglu1-mesa-dev xvfb libopengl0 xserver-xorg-video-fbdev mesa-utils alsa-utils libpulse-dev libevdev-dev libsfml-dev libbluetooth-dev libhidapi-dev libavformat-dev libavcodec-dev libswscale-dev libavutil-dev libmbedtls-dev libmbedx509-0 libmbedcrypto1 libpugixml-dev
             #Xvfb :5 -screen 0 800x600x24 &
             #export DISPLAY=:5
-            glxgears 
+            #glxgears 
             # ldd bin/dolphin-emu-nogui  # | grep "not found"
-            #glxinfo | grep OpenGL
+            glxinfo | grep OpenGL
             mkdir ISO
             curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz" 
             tar -xvf swiss_r1086.tar.xz
             mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' ISO
             ls -al ISO
-            timeout 10s bin/dolphin-emu-nogui --platform=fbdev -v "Software Renderer" -e 'ISO/swiss_r1086(ntsc-u).iso' 
+            timeout 10s bin/dolphin-emu-nogui --platform=headless -v "Software Renderer" -e 'ISO/swiss_r1086(ntsc-u).iso' 
       #- name: Upload Dolphin
       #  run: |
       #      ls -al artifacts/
