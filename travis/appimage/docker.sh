@@ -18,7 +18,7 @@ cd dolphin/
 
 mkdir build
 cd build
-cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DENABLE_NOGUI=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
+cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DENABLE_NOGUI=true -DENABLE_QT=OFF -DENABLE_EVDEV=OFF -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
 ninja
 #ln -s ../../Data/Sys Binaries/
 
