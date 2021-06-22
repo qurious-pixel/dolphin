@@ -23,7 +23,7 @@ cd /tmp
 ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
 cd $HOME
 mkdir -p squashfs-root/usr/bin
-cp -P "$BUILDBIN"/dolphin-emu $HOME/squashfs-root/usr/bin/
+cp -P "$BUILDBIN"/dolphin-emu-nogui $HOME/squashfs-root/usr/bin/
 
 curl -sL https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/Data/dolphin-emu.svg -o ./squashfs-root/dolphin-emu.svg
 curl -sL https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/Data/dolphin-emu.desktop -o ./squashfs-root/dolphin-emu.desktop
@@ -55,7 +55,7 @@ unset LD_LIBRARY_PATH
 unset QTDIR
 
 # /tmp/squashfs-root/AppRun $HOME/squashfs-root/usr/bin/dolphin-emu -appimage -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
-/tmp/squashfs-root/AppRun $HOME/squashfs-root/usr/bin/dolphin-emu -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
+/tmp/squashfs-root/AppRun $HOME/squashfs-root/usr/bin/dolphin-emu-nogui -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
 export PATH=$(readlink -f /tmp/squashfs-root/usr/bin/):$PATH
 
 # Add AppImageUpdate as the internal updater
@@ -76,7 +76,7 @@ mkdir $HOME/artifacts/
 mkdir -p /dolphin/artifacts/
 mv Dolphin_Emulator-x86_64.AppImage* $HOME/artifacts
 cp -R $HOME/artifacts/ /dolphin/
-cp $BUILDBIN/{dolphin-emu,dolphin-emu-nogui} /dolphin/artifacts
+cp $BUILDBIN/dolphin-emu-nogui /dolphin/artifacts
 chmod -R 777 /dolphin/artifacts
 cd /dolphin/artifacts
 ls -al /dolphin/artifacts/
