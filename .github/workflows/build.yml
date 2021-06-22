@@ -55,7 +55,7 @@ jobs:
             tar -xvf swiss_r1086.tar.xz
             mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' ISO
             ls -al ISO
-            EGL_PLATFORM=surfaceless timeout 20s xvfb-run bin/dolphin-emu-nogui -e 'ISO/swiss_r1086(ntsc-u).iso' 
+            EGL_PLATFORM=surfaceless timeout 20s bin/dolphin-emu-nogui --platform=headless -e 'ISO/swiss_r1086(ntsc-u).iso' 
       #- name: Upload Dolphin
       #  run: |
       #      ls -al artifacts/
