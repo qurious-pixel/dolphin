@@ -56,9 +56,9 @@ jobs:
             mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' ISO
             ls -al ISO
             ls $HOME
-            ls $HOME/.dolphin-emu
             EGL_PLATFORM=surfaceless timeout 20s bin/dolphin-emu-nogui --platform=headless -e 'ISO/swiss_r1086(ntsc-u).iso'
             #EGL_PLATFORM=surfaceless timeout 20s dolphin/build/Binaries/dolphin-emu-nogui --platform=headless -e 'ISO/swiss_r1086(ntsc-u).iso' 
+            ls $HOME/.dolphin-emu
 
       #- name: Upload Dolphin
       #  run: |
