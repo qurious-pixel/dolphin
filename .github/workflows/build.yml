@@ -30,24 +30,24 @@ jobs:
           key: build-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
           restore-keys: |
             build-ccache-
-      #- name: install Dolphin
-      #  run: |
-      #        mkdir -p "$HOME/.ccache"
-      #        docker pull quriouspixel/dolphin:18.04
-      #        docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/dolphin:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
-      #- name: Run Dolphin-AppImage
-      #  run:  ls -al
+      - name: install Dolphin
+        run: |
+              mkdir -p "$HOME/.ccache"
+              docker pull quriouspixel/dolphin:18.04
+              docker run -u root --env-file travis/common/travis-ci.env -v $(pwd):/dolphin -v "$HOME/.ccache":/root/.ccache quriouspixel/dolphin:18.04 /bin/bash /dolphin/travis/appimage/docker.sh
+      - name: Run Dolphin-AppImage
+        run:  ls -al
       - name: Download dolphin-emu-nogui
         run:  ls -al
       - name: Test Dolphin Headless
         run: |
-            mkdir bin 
-            curl -sL "https://github.com/qurious-pixel/dolphin/releases/download/headless/dolphin-emu-nogui" -o bin/dolphin-emu-nogui
-            chmod +x bin/dolphin-emu-nogui
+            #mkdir bin 
+            #curl -sL "https://github.com/qurious-pixel/dolphin/releases/download/headless/dolphin-emu-nogui" -o bin/dolphin-emu-nogui
+            #chmod +x bin/dolphin-emu-nogui
             sudo apt update
             sudo apt install libgl1-mesa-dev libglu1-mesa-dev xvfb libopengl0 xserver-xorg-video-fbdev mesa-utils alsa-utils libpulse-dev libevdev-dev libsfml-dev libbluetooth-dev libhidapi-dev libavformat-dev libavcodec-dev libswscale-dev libavutil-dev libmbedtls-dev libmbedx509-0 libmbedcrypto1 libpugixml-dev
-            echo "DISPLAY: $DISPLAY"
-            export LIBGL_ALWAYS_SOFTWARE=1
+            #echo "DISPLAY: $DISPLAY"
+            #export LIBGL_ALWAYS_SOFTWARE=1
             # ldd bin/dolphin-emu-nogui  # | grep "not found"
             # xvfb-run glxinfo | grep OpenGL
             mkdir ISO
@@ -55,14 +55,16 @@ jobs:
             tar -xvf swiss_r1086.tar.xz
             mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' ISO
             ls -al ISO
-            EGL_PLATFORM=surfaceless timeout 20s bin/dolphin-emu-nogui --platform=headless -e 'ISO/swiss_r1086(ntsc-u).iso' 
-      #- name: Upload Dolphin
-      #  run: |
-      #      ls -al artifacts/
-      #      wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
-      #      tar xfv ghr_v0.13.0_linux_amd64.tar.gz
-      #      ghr_v0.13.0_linux_amd64/ghr -recreate -n 'Headless build' -b "GitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" headless artifacts/
+            #EGL_PLATFORM=surfaceless timeout 20s bin/dolphin-emu-nogui --platform=headless -e 'ISO/swiss_r1086(ntsc-u).iso'
+            EGL_PLATFORM=surfaceless timeout 20s dolphin/build/Binaries/dolphin-emu-nogui --platform=headless -e 'ISO/swiss_r1086(ntsc-u).iso' 
+
+      - name: Upload Dolphin
+        run: |
+            ls -al artifacts/
+            wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
+            tar xfv ghr_v0.13.0_linux_amd64.tar.gz
+            ghr_v0.13.0_linux_amd64/ghr -recreate -n 'Headless build' -b "GitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" headless artifacts/
     
-      #  env:
-      #    DEFAULT_BRANCH: git-actions
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          DEFAULT_BRANCH: git-actions
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
