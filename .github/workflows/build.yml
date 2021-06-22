@@ -48,12 +48,8 @@ jobs:
             sudo apt install libgl1-mesa-dev libglu1-mesa-dev xvfb libopengl0 xserver-xorg-video-fbdev mesa-utils alsa-utils libpulse-dev libevdev-dev libsfml-dev libbluetooth-dev libhidapi-dev libavformat-dev libavcodec-dev libswscale-dev libavutil-dev libmbedtls-dev libmbedx509-0 libmbedcrypto1 libpugixml-dev
             echo "DISPLAY: $DISPLAY"
             export LIBGL_ALWAYS_SOFTWARE=1
-            LIBGL_ALWAYS_SOFTWARE=1 && xvfb-run glxgears           
-            #Xvfb :5 -screen 0 800x600x24 &
-            #export DISPLAY=:5
-            #glxgears 
             # ldd bin/dolphin-emu-nogui  # | grep "not found"
-            #glxinfo | grep OpenGL
+            glxinfo | grep OpenGL
             mkdir ISO
             curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz" 
             tar -xvf swiss_r1086.tar.xz
