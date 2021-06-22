@@ -49,13 +49,13 @@ jobs:
             echo "DISPLAY: $DISPLAY"
             export LIBGL_ALWAYS_SOFTWARE=1
             # ldd bin/dolphin-emu-nogui  # | grep "not found"
-            xvfb-run glxinfo | grep OpenGL
+            # xvfb-run glxinfo | grep OpenGL
             mkdir ISO
             curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz" 
             tar -xvf swiss_r1086.tar.xz
             mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' ISO
             ls -al ISO
-            LIBGL_ALWAYS_SOFTWARE=1 && timeout 20s xvfb-run bin/dolphin-emu-nogui -e 'ISO/swiss_r1086(ntsc-u).iso' 
+            EGL_PLATFORM=surfaceless timeout 20s xvfb-run bin/dolphin-emu-nogui -e 'ISO/swiss_r1086(ntsc-u).iso' 
       #- name: Upload Dolphin
       #  run: |
       #      ls -al artifacts/
