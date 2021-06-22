@@ -1,4 +1,4 @@
-name: Dolphin-AppImage
+pname: Dolphin-AppImage
 
 on: 
   push:
@@ -47,7 +47,7 @@ jobs:
             sudo apt update
             sudo apt install libgl1-mesa-dev libglu1-mesa-dev xvfb libopengl0 xserver-xorg-video-fbdev mesa-utils alsa-utils libpulse-dev libevdev-dev libsfml-dev libbluetooth-dev libhidapi-dev libavformat-dev libavcodec-dev libswscale-dev libavutil-dev libmbedtls-dev libmbedx509-0 libmbedcrypto1 libpugixml-dev
             echo "DISPLAY: $DISPLAY"
-            LIBGL_ALWAYS_SOFTWARE=1 && xvfb-run glxinfo | grep -i version
+            export LIBGL_ALWAYS_SOFTWARE=1
             LIBGL_ALWAYS_SOFTWARE=1 && xvfb-run glxgears           
             #Xvfb :5 -screen 0 800x600x24 &
             #export DISPLAY=:5
@@ -59,7 +59,7 @@ jobs:
             tar -xvf swiss_r1086.tar.xz
             mv 'swiss_r1086/ISO/swiss_r1086(ntsc-u).iso' ISO
             ls -al ISO
-            timeout 10s bin/dolphin-emu-nogui --platform=headless -v "Software Renderer" -e 'ISO/swiss_r1086(ntsc-u).iso' 
+            timeout 20s xvfb-run bin/dolphin-emu-nogui --platform=headless -e 'ISO/swiss_r1086(ntsc-u).iso' 
       #- name: Upload Dolphin
       #  run: |
       #      ls -al artifacts/
