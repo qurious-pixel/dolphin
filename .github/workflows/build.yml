@@ -50,7 +50,7 @@ jobs:
             #export DISPLAY=:5
             #glxgears 
             # ldd bin/dolphin-emu-nogui  # | grep "not found"
-            glxinfo | grep OpenGL
+            #glxinfo | grep OpenGL
             mkdir ISO
             curl -sLO "https://github.com/emukidid/swiss-gc/releases/download/v0.5r1086/swiss_r1086.tar.xz" 
             tar -xvf swiss_r1086.tar.xz
