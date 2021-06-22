@@ -47,7 +47,8 @@ jobs:
             sudo apt update
             sudo apt install libgl1-mesa-dev libglu1-mesa-dev xvfb libopengl0 xserver-xorg-video-fbdev mesa-utils alsa-utils libpulse-dev libevdev-dev libsfml-dev libbluetooth-dev libhidapi-dev libavformat-dev libavcodec-dev libswscale-dev libavutil-dev libmbedtls-dev libmbedx509-0 libmbedcrypto1 libpugixml-dev
             echo "DISPLAY: $DISPLAY"
-            LIBGL_ALWAYS_SOFTWARE=1 && xvfb-run glxinfo | grep -i version 
+            LIBGL_ALWAYS_SOFTWARE=1 && xvfb-run glxinfo | grep -i version
+            LIBGL_ALWAYS_SOFTWARE=1 && xvfb-run glxgears           
             #Xvfb :5 -screen 0 800x600x24 &
             #export DISPLAY=:5
             #glxgears 
