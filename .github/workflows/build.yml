@@ -55,7 +55,7 @@ jobs:
       - name: Package Dolphin-Binary
         run: |
           mkdir -p $GITHUB_WORKSPACE/artifacts
-          cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
+          # cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
       - name: Package Dolphin-AppImage
         env:
           QT_BASE_DIR: /opt/qt515
@@ -80,7 +80,7 @@ jobs:
           mkdir -p squashfs-root/usr/share/icons/hicolor/scalable/apps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/icons/hicolor/scalable/apps
           mkdir -p squashfs-root/usr/share/pixmaps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/pixmaps
           mkdir -p squashfs-root/usr/share/dolphin-emu
-          cp -R Data/Sys/Themes ./squashfs-root/usr/share/dolphin-emu
+          cp -R /dolphin/dolphin/Data/Sys ./squashfs-root/usr/bin
           chmod a+x ./squashfs-root/AppRun
           chmod a+x ./squashfs-root/runtime
           /tmp/squashfs-root/AppRun $GITHUB_WORKSPACE/squashfs-root/usr/bin/dolphin-emu -appimage -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
