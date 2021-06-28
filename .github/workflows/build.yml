@@ -58,7 +58,7 @@ jobs:
           # cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
       - name: Package Dolphin-AppImage
         env:
-          QT_BASE_DIR: /opt/qt515
+          QT_BASE_DIR: /opt/qt514
           QTDIR: $QT_BASE_DIR
         run: |
           export PATH=$QT_BASE_DIR/bin:$PATH
