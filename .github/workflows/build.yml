@@ -55,6 +55,16 @@ jobs:
           cd build
           cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
           ninja
+      - name: Dolphin Variables
+        run: |
+          echo ${GITHUB_REF##*/}
+          echo ${GITHUB_RUN_ID}
+          #TEST ECHOES
+          echo "DOLPHIN_WC_REVISION ${DOLPHIN_WC_REVISION}"
+          echo "DOLPHIN_WC_DESCRIBE ${DOLPHIN_WC_DESCRIBE}"
+          echo "DOLPHIN_WC_BRANCH ${DOLPHIN_WC_BRANCH}"
+          echo "DOLPHIN_WC_IS_STABLE ${DOLPHIN_WC_IS_STABLE}"
+          echo "DISTRIBUTOR ${DISTRIBUTOR}"     
       - name: Package Dolphin-Binary
         run: |
           mkdir -p $GITHUB_WORKSPACE/artifacts
