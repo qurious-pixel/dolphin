@@ -16,6 +16,12 @@ git clone https://github.com/dolphin-emu/dolphin.git
 git submodule update --init --recursive
 cd dolphin/
 
+### GET BUILD Number
+export LASTCOMMIT=$(git log --pretty=format:%H -1)
+export DOLPHINVER=$(wget -qO- https://dolphin-emu.org/download/dev/${LASTCOMMIT} | grep '<title>' | awk '{print $NF}' | cut -d '<' -f 1)
+echo "DOLPHIN Build $DOLPHINVER"
+###
+
 mkdir build
 cd build
 cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
