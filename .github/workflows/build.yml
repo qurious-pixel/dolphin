@@ -12,9 +12,9 @@ jobs:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
         uses: actions/checkout@v2
-        #with:
-        #  repository: stenzek/dolphin
-        #  ref: wayland
+        with:
+          repository: dolphin-emu/dolphin
+          ref: master
 
       # Runs the Dolphin action
       - name: Prepare ccache timestamp
@@ -51,21 +51,22 @@ jobs:
       - name: Build Dolphin
         run: |
           mkdir -p "$HOME/.ccache"
+          ### GET BUILD Number
+          export LASTCOMMIT=$(git log --pretty=format:%H -1)
+          export DOLPHINVER=$(wget -qO- https://dolphin-emu.org/download/dev/${LASTCOMMIT} | grep '<title>' | awk '{print $NF}' | cut -d '<' -f 1)
+          echo "DOLPHIN Build $DOLPHINVER"
+          ###
           mkdir build
           cd build
           cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
           ninja
           cd $GITHUB_WORKSPACE
-          #cat Data/cpack_package_description.txt
-          #cat Source/Core/Common/scmrev.h.in
-          #cat Source/Core/Common/scmrev.h
       - name: Dolphin Variables
         run: |
           echo ${GITHUB_REF##*/}
           echo ${GITHUB_RUN_ID}
           #TEST ECHOES
-          echo "DOLPHIN Build $DOLPHINVER"HIN_WC_IS_STABLE}"
-          echo "DISTRIBUTOR ${DISTRIBUTOR}"     
+          echo "DOLPHIN Build $DOLPHINVER"    
       - name: Package Dolphin-Binary
         run: |
           mkdir -p $GITHUB_WORKSPACE/artifacts
