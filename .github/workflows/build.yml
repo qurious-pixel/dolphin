@@ -12,9 +12,9 @@ jobs:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          repository: stenzek/dolphin
-          ref: wayland
+        #with:
+        #  repository: stenzek/dolphin
+        #  ref: wayland
 
       # Runs the Dolphin action
       - name: Prepare ccache timestamp
@@ -54,11 +54,11 @@ jobs:
           mkdir build
           cd build
           cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
-          #ninja
+          ninja
           cd $GITHUB_WORKSPACE
           cat Data/cpack_package_description.txt
           cat Source/Core/Common/scmrev.h.in
-          cat Source/Core/Common/scmrev.h.in
+          cat Source/Core/Common/scmrev.h
       - name: Dolphin Variables
         run: |
           echo ${GITHUB_REF##*/}
