@@ -59,16 +59,12 @@ jobs:
           cat Data/cpack_package_description.txt
           cat Source/Core/Common/scmrev.h.in
           cat Source/Core/Common/scmrev.h.in
-          echo "DISTRIBUTOR ${DISTRIBUTOR}"           
       - name: Dolphin Variables
         run: |
           echo ${GITHUB_REF##*/}
           echo ${GITHUB_RUN_ID}
           #TEST ECHOES
-          echo "DOLPHIN_WC_REVISION ${DOLPHIN_WC_REVISION}"
-          echo "DOLPHIN_WC_DESCRIBE ${DOLPHIN_WC_DESCRIBE}"
-          echo "DOLPHIN_WC_BRANCH ${DOLPHIN_WC_BRANCH}"
-          echo "DOLPHIN_WC_IS_STABLE ${DOLPHIN_WC_IS_STABLE}"
+          echo "DOLPHIN Build $DOLPHINVER"HIN_WC_IS_STABLE}"
           echo "DISTRIBUTOR ${DISTRIBUTOR}"     
       - name: Package Dolphin-Binary
         run: |
