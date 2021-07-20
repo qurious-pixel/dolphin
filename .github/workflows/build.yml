@@ -56,9 +56,9 @@ jobs:
           cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
           ninja
           cd $GITHUB_WORKSPACE
-          cat Data/cpack_package_description.txt
-          cat Source/Core/Common/scmrev.h.in
-          cat Source/Core/Common/scmrev.h
+          #cat Data/cpack_package_description.txt
+          #cat Source/Core/Common/scmrev.h.in
+          #cat Source/Core/Common/scmrev.h
       - name: Dolphin Variables
         run: |
           echo ${GITHUB_REF##*/}
