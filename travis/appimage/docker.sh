@@ -9,8 +9,8 @@ export LD_LIBRARY_PATH=$QT_BASE_DIR/lib/x86_64-linux-gnu:$QT_BASE_DIR/lib:$LD_LI
 export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 #ADD MISSING PACKAGES
-sudo apt update
-sudo apt install -y libgtk2.0-dev
+apt update
+apt install -y libgtk2.0-dev
 
 
 ln -s /home/yuzu/.conan /root
