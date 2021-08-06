@@ -24,6 +24,10 @@ git submodule update --init --recursive
 cd dolphin/
 git reset --hard be9416c462b1b5f0074d8a3a2b35171f2a154693
 
+#REPLACE CHAR_ with CHARACTER_ 
+#https://forums.dolphin-emu.org/Thread-error-compiling-dolphin-s-netplay-build-5-0-321-under-pop-os-linux-ubuntu-17-10
+sed -i -e 's|CHAR_|CHARACTER_|g' Source/Core/VideoBackends/OGL/RasterFont.cpp
+
 mkdir build
 cd build
 cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DENABLE_NOGUI=false -DENABLE_QT=ON -DENABLE_EVDEV=OFF -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++ # -DOpenGL_GL_PREFERENCE="LEGACY" -DOPENGL_opengl_LIBRARY=""
