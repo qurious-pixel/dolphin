@@ -8,6 +8,11 @@ export PATH=$QT_BASE_DIR/bin:$PATH
 export LD_LIBRARY_PATH=$QT_BASE_DIR/lib/x86_64-linux-gnu:$QT_BASE_DIR/lib:$LD_LIBRARY_PATH
 export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
+#ADD MISSING PACKAGES
+sudo apt update
+sudo apt install -y libgtk2.0-dev
+
+
 ln -s /home/yuzu/.conan /root
 
 cd /dolphin
