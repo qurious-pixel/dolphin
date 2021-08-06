@@ -10,7 +10,7 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 #ADD MISSING PACKAGES
 apt update
-apt install -y libgtk2.0-dev
+apt install -y libgtk2.0-dev wx3.0-headers libmbedtls-dev
 ln -s /usr/include/locale.h /usr/include/xlocale.h
 
 ln -s /home/yuzu/.conan /root
@@ -24,7 +24,7 @@ git reset --hard be9416c462b1b5f0074d8a3a2b35171f2a154693
 
 mkdir build
 cd build
-cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DENABLE_NOGUI=false -DENABLE_QT=ON -DENABLE_EVDEV=OFF -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++ -DOpenGL_GL_PREFERENCE="LEGACY" -DOPENGL_opengl_LIBRARY=""
+cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DENABLE_NOGUI=false -DENABLE_QT=ON -DENABLE_EVDEV=OFF -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++ # -DOpenGL_GL_PREFERENCE="LEGACY" -DOPENGL_opengl_LIBRARY=""
 ninja
 #ln -s ../../Data/Sys Binaries/
 
