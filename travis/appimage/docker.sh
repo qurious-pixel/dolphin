@@ -15,6 +15,7 @@ cd /dolphin
 git clone https://github.com/dolphin-emu/dolphin.git
 git submodule update --init --recursive
 cd dolphin/
+git reset --hard be9416c462b1b5f0074d8a3a2b35171f2a154693
 
 mkdir build
 cd build
