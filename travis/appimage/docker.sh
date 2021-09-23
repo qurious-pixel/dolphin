@@ -19,14 +19,14 @@ ln -s /home/yuzu/.conan /root
 
 cd /dolphin
 
-git clone https://github.com/dolphin-emu/dolphin.git
+git clone https://github.com/BlueSwordM/dolphin.git
 git submodule update --init --recursive
 cd dolphin/
-git reset --hard be9416c462b1b5f0074d8a3a2b35171f2a154693
+git reset --hard 74a22c1e62d6747bfb8eafd3352d718a2cd6700e
 
 #REPLACE CHAR_ with CHARACTER_ 
 #https://forums.dolphin-emu.org/Thread-error-compiling-dolphin-s-netplay-build-5-0-321-under-pop-os-linux-ubuntu-17-10
-sed -i -e 's|CHAR_|CHARACTER_|g' Source/Core/VideoBackends/OGL/RasterFont.cpp
+#sed -i -e 's|CHAR_|CHARACTER_|g' Source/Core/VideoBackends/OGL/RasterFont.cpp
 
 mkdir build
 cd build
