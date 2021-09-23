@@ -19,9 +19,10 @@ ln -s /home/yuzu/.conan /root
 
 cd /dolphin
 
-git clone https://github.com/BlueSwordM/dolphin.git
-git submodule update --init --recursive
+git clone --recursive https://github.com/BlueSwordM/dolphin.git
+#git submodule update --init --recursive
 cd dolphin/
+#git submodule update --init Externals/mGBA
 git reset --hard 74a22c1e62d6747bfb8eafd3352d718a2cd6700e
 
 #REPLACE CHAR_ with CHARACTER_ 
