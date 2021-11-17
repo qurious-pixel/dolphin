@@ -23,7 +23,7 @@ git clone --recursive https://github.com/BlueSwordM/dolphin.git
 #git submodule update --init --recursive
 cd dolphin/
 #git submodule update --init Externals/mGBA
-git reset --hard 74a22c1e62d6747bfb8eafd3352d718a2cd6700e
+git reset --hard bafaab533f6e7980d63e9f222d6f4d4288d185ea
 
 #REPLACE CHAR_ with CHARACTER_ 
 #https://forums.dolphin-emu.org/Thread-error-compiling-dolphin-s-netplay-build-5-0-321-under-pop-os-linux-ubuntu-17-10
