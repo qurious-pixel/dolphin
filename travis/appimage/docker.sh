@@ -10,7 +10,7 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 #ADD MISSING PACKAGES
 apt update
-apt install -y libgtk2.0-dev wx3.0-headers libmbedtls-dev gcc-7 g++-7
+apt install -y libgtk2.0-dev wx3.0-headers libmbedtls-dev gcc-7 g++-7 libfmt-dev
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 20 && \
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 20 && \
 ln -s /usr/include/locale.h /usr/include/xlocale.h
