@@ -65,7 +65,7 @@ jobs:
             ls -al artifacts/
             wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
             tar xfv ghr_v0.13.0_linux_amd64.tar.gz
-            ghr_v0.13.0_linux_amd64/ghr -recreate -n '5.0-321 build' -b "GitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" BlueSword artifacts/
+            ghr_v0.13.0_linux_amd64/ghr -recreate -n 'PrimeHack 1.0.5 build' -b "GitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" PrimeHack artifacts/
     
         env:
           DEFAULT_BRANCH: git-actions
