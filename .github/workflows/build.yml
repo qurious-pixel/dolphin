@@ -55,6 +55,15 @@ jobs:
         libzip-dev libzstd-dev zlib1g-dev libasound2-dev libpulse-dev pulseaudio p7zip p7zip-full libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev \
         libbz2-dev liblzo2-dev libxi-dev libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libc6-dev libhidapi-dev libavformat-dev libavdevice-dev \
         libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget curl git gettext ccache make cmake ninja-build \
+
+    - name: Update Patchelf
+      run: |
+        PATCHELFVER=0.14.5
+        curl -sL https://github.com/NixOS/patchelf/releases/download/${PATCHELFVER}/patchelf-${PATCHELFVER}-x86_64.tar.gz -o /tmp/patchelf.tar.gz
+        tar -xvf /tmp/patchelf.tar.gz --directory /tmp/ ./bin/patchelf --strip-components=2 
+        sudo mv /tmp/patchelf /usr/bin
+        patchelf --version
+
     - name: Build Dolphin
       run: |
         export Qt_DIR="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
@@ -81,6 +90,8 @@ jobs:
         curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
         chmod a+x linuxdeployqt*.AppImage
         ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
+        mv /tmp/squashfs-root/usr/bin/patchelf /tmp/squashfs-root/usr/bin/patchelf.old
+        cp /usr/bin/patchelf /tmp/squashfs-root/usr/bin/patchelf
         cd $GITHUB_WORKSPACE
         mkdir -p squashfs-root/usr/bin
         cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
