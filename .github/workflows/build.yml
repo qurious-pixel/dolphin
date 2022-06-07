@@ -66,12 +66,13 @@ jobs:
     - name: Package Dolphin-Binary
       run: |
         mkdir -p $GITHUB_WORKSPACE/artifacts
-        # cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
+        cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
     - name: Package Dolphin-AppImage
       env:
         QT_BASE_DIR: /qt/${{ env.yaqti }}/gcc_64
         QTDIR: $QT_BASE_DIR
       run: |
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${GITHUB_WORKSPACE}/qt/${{ env.yaqti }}/gcc_64/lib/
         export PATH=$QT_BASE_DIR/bin:$PATH
         echo "PATH $PATH"
         sudo ln -s ${GITHUB_WORKSPACE}/$(find qt/ -name qmake) /usr/bin
