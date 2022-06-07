@@ -57,7 +57,7 @@ jobs:
         libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget curl git gettext ccache make cmake ninja-build \
     - name: Build Dolphin
       run: |
-        export Qt6_DIR="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
+        export Qt_DIR="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
         mkdir -p "$HOME/.ccache"
         mkdir build
         cd build
