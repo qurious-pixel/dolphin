@@ -87,11 +87,13 @@ jobs:
         sudo ln -s ${GITHUB_WORKSPACE}/$(find qt/ -name qmake) /usr/bin
         qmake -v
         cd /tmp 
-        curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-        chmod a+x linuxdeployqt*.AppImage
-        ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
-        mv /tmp/squashfs-root/usr/bin/patchelf /tmp/squashfs-root/usr/bin/patchelf.old
-        cp /usr/bin/patchelf /tmp/squashfs-root/usr/bin/patchelf
+        curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+        chmod a+x linuxdeploy*.AppImage
+        ./linuxdeploy-x86_64.AppImage --appimage-extract
+        curl -sSfL "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage" -o /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
+        chmod a+x /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
+        mv /tmp/squashfs-root/usr/bin/patchelf /tmp/squashfs-root/usr/bin/patchelf.orig
+        sudo cp /usr/bin/patchelf /tmp/squashfs-root/usr/bin/patchelf
         cd $GITHUB_WORKSPACE
         mkdir -p squashfs-root/usr/bin
         cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
@@ -107,7 +109,7 @@ jobs:
         cp -R Data/Sys ./squashfs-root/usr/bin
         chmod a+x ./squashfs-root/AppRun
         chmod a+x ./squashfs-root/runtime
-        /tmp/squashfs-root/AppRun $GITHUB_WORKSPACE/squashfs-root/usr/bin/dolphin-emu -appimage -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs
+        /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg --output appimage
         ls . | grep *.AppImage
         mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
         ls -al $GITHUB_WORKSPACE/artifacts
