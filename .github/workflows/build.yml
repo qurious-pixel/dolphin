@@ -6,8 +6,7 @@ on:
 jobs:
   dolphin-appimage:
     name: dolphin bundled as appimage
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-18.04
     steps:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
@@ -34,7 +33,7 @@ jobs:
         continue-on-error: true
         id: packages
         run: |
-          sudo add-apt-repository -y ppa:beineri/opt-qt-5.15.2-focal
+          sudo add-apt-repository -y ppa:beineri/opt-qt-5.15.2-bionic
           sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev extra-cmake-modules liblzo2-dev libxi-dev libavcodec-dev libudev-dev \
           libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
           qt515base qt5-qmake qt515wayland qtwayland5 wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev libqt5waylandclient5-dev qtbase5-private-dev \
@@ -43,7 +42,7 @@ jobs:
         id: packages2
         if: steps.packages.outcome=='failure'
         run: |
-          sudo add-apt-repository -y ppa:beineri/opt-qt-5.15.2-focal
+          sudo add-apt-repository -y ppa:beineri/opt-qt-5.15.2-bionic
           sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev extra-cmake-modules liblzo2-dev libxi-dev libavcodec-dev libudev-dev \
           libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
           qt515base qt5-qmake qt515wayland qtwayland5 wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev libqt5waylandclient5-dev qtbase5-private-dev \
@@ -58,7 +57,7 @@ jobs:
           ###
           mkdir build
           cd build
-          cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++
+          cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10
           ninja
           cd $GITHUB_WORKSPACE
       - name: Dolphin Variables
