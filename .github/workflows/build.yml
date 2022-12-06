@@ -34,10 +34,10 @@ jobs:
         continue-on-error: true
         id: packages
         run: |
-          sudo add-apt-repository -y ppa:beineri/opt-qt-5.15.2-bionic
+          sudo add-apt-repository -y ppa:savoury1/qt-6-2
           sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev extra-cmake-modules liblzo2-dev libxi-dev libavcodec-dev libudev-dev \
           libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
-          qt515base qt5-qmake qt515wayland qtwayland5 wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev libqt5waylandclient5-dev qtbase5-private-dev \
+          qt6-base qt6-tools qt6-wayland wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev qt6-webengine \
           libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev adwaita-qt \
       - name: Install Packages if failed
         id: packages2
@@ -73,8 +73,8 @@ jobs:
           cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
       - name: Package Dolphin-AppImage
         env:
-          QT_BASE_DIR: /opt/qt515
-          QTDIR: $QT_BASE_DIR
+          #QT_BASE_DIR: /opt/qt515
+          #QTDIR: $QT_BASE_DIR
         run: |
           export PATH=$QT_BASE_DIR/bin:$PATH
           echo "PATH $PATH"
