@@ -109,7 +109,7 @@ jobs:
           cp -R Data/Sys ./squashfs-root/usr/bin
           chmod a+x ./squashfs-root/AppRun
           chmod a+x ./squashfs-root/runtime
-		      /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg --exclude-library=libglib* --output appimage
+          /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg --exclude-library=libglib* --output appimage
           ls . | grep *.AppImage
           mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
           ls -al $GITHUB_WORKSPACE/artifacts
