@@ -82,7 +82,9 @@ jobs:
         run: |
           export PATH=$QT_BASE_DIR/bin:$PATH
           echo "PATH $PATH"
-          #qmake -v
+          if [[ -e /usr/bin/qmake ]]; then sudo mv /usr/bin/qmake /usr/bin/qmake5; fi
+          sudo mv /usr/bin/qmake6 /usr/bin/qmake
+          qmake -v
           cd /tmp
           curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
           chmod a+x linuxdeployqt*.AppImage
