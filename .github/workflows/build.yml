@@ -86,10 +86,14 @@ jobs:
           if [[ -e /usr/bin/qmake ]]; then sudo mv /usr/bin/qmake /usr/bin/qmake5; fi
           sudo mv /usr/bin/qmake6 /usr/bin/qmake
           qmake -v
-          cd /tmp
-          curl -sLO "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-          chmod a+x linuxdeployqt*.AppImage
-          ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
+          cd /tmp 
+          curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+          curl -sSfLO "https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage"
+          chmod a+x linuxdeploy*.AppImage
+          chmod a+x AppImageUpdate-x86_64.AppImage
+          ./linuxdeploy-x86_64.AppImage --appimage-extract
+          curl -sSfL "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage" -o /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
+          chmod a+x /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
           cd $GITHUB_WORKSPACE
           mkdir -p squashfs-root/usr/bin
           cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
@@ -105,7 +109,7 @@ jobs:
           cp -R Data/Sys ./squashfs-root/usr/bin
           chmod a+x ./squashfs-root/AppRun
           chmod a+x ./squashfs-root/runtime
-          /tmp/squashfs-root/AppRun $GITHUB_WORKSPACE/squashfs-root/usr/bin/dolphin-emu -appimage -unsupported-allow-new-glibc -no-copy-copyright-files -no-translations -bundle-non-qt-libs -extra-plugins=platformthemes,styles
+		      /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg --exclude-library=libglib* --output appimage
           ls . | grep *.AppImage
           mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
           ls -al $GITHUB_WORKSPACE/artifacts
