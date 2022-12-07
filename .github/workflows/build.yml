@@ -80,7 +80,8 @@ jobs:
           QT_BASE_DIR: /usr/lib/x86_64-linux-gnu/qt6
           QTDIR: $QT_BASE_DIR
         run: |
-          export PATH=$QT_BASE_DIR/bin:$PATH
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/qt6/
+          export PATH=/usr/lib/qt6/bin:$PATH
           echo "PATH $PATH"
           if [[ -e /usr/bin/qmake ]]; then sudo mv /usr/bin/qmake /usr/bin/qmake5; fi
           sudo mv /usr/bin/qmake6 /usr/bin/qmake
