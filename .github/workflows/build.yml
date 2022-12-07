@@ -43,7 +43,8 @@ jobs:
           python3 -m pip install yaqti-2021.7.29-py3-none-any.whl
           pyver=$(python3 --version | awk '{print $2}')
           curl -sL https://raw.githubusercontent.com/qurious-pixel/yaqti/fetch/yaqti/fetchers.py -o /opt/hostedtoolcache/Python/${pyver}/x64/lib/python${pyver%.*}/site-packages/yaqti/fetchers.py
-          python -m yaqti install --os linux --platform desktop --version ${{ env.yaqti }} --modules gcc_64 --set-envs --install-deps      
+          python -m yaqti install --os linux --platform desktop --version ${{ env.yaqti }} --modules gcc_64 --set-envs --install-deps
+          find -name Qt6
       - name: Install Packages
         continue-on-error: true
         id: packages
@@ -69,7 +70,7 @@ jobs:
           export DOLPHINVER=$(wget -qO- https://dolphin-emu.org/download/dev/${LASTCOMMIT} | grep '<title>' | awk '{print $NF}' | cut -d '<' -f 1)
           echo "DOLPHIN Build $DOLPHINVER"
           ###
-          export Qt_DIR="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
+          export Qt_DIR="/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
           mkdir build
           cd build
           cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10
