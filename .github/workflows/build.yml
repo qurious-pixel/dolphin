@@ -7,6 +7,8 @@ jobs:
   dolphin-appimage:
     name: dolphin bundled as appimage
     runs-on: ubuntu-18.04
+    env:
+      yaqti: 6.4.0
     steps:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
@@ -30,14 +32,20 @@ jobs:
           key: build-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
           restore-keys: |
             build-ccache-
+      - name: Install Qt
+        run: |
+          curl -sLO https://files.pythonhosted.org/packages/47/42/351389ca36c7adfc5f4e92d086cdb2bdbde13f1b89ee882f4a1cab2183ac/yaqti-2021.7.29-py3-none-any.whl
+          python3 -m pip install yaqti-2021.7.29-py3-none-any.whl
+          pyver=$(python3 --version | awk '{print $2}')
+          curl -sL https://raw.githubusercontent.com/qurious-pixel/yaqti/fetch/yaqti/fetchers.py -o $HOME/.local/lib/python${pyver%.*}/site-packages/yaqti/fetchers.py
+          python -m yaqti install --os linux --platform desktop --version ${{ env.yaqti }} --modules gcc_64 --set-envs --install-deps      
       - name: Install Packages
         continue-on-error: true
         id: packages
         run: |
-          sudo add-apt-repository -y ppa:savoury1/qt-6-2
           sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev extra-cmake-modules liblzo2-dev libxi-dev libavcodec-dev libudev-dev \
           libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
-          qt6-base qt6-tools qt6-wayland wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev qt6-webengine \
+          wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev \
           libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev adwaita-qt \
       - name: Install Packages if failed
         id: packages2
@@ -56,6 +64,7 @@ jobs:
           export DOLPHINVER=$(wget -qO- https://dolphin-emu.org/download/dev/${LASTCOMMIT} | grep '<title>' | awk '{print $NF}' | cut -d '<' -f 1)
           echo "DOLPHIN Build $DOLPHINVER"
           ###
+          export Qt_DIR="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
           mkdir build
           cd build
           cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10
@@ -72,9 +81,9 @@ jobs:
           mkdir -p $GITHUB_WORKSPACE/artifacts
           cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
       - name: Package Dolphin-AppImage
-        #env:
-          #QT_BASE_DIR: /opt/qt515
-          #QTDIR: $QT_BASE_DIR
+        env:
+          QT_BASE_DIR: /qt/${{ env.yaqti }}/gcc_64
+          QTDIR: $QT_BASE_DIR
         run: |
           export PATH=$QT_BASE_DIR/bin:$PATH
           echo "PATH $PATH"
