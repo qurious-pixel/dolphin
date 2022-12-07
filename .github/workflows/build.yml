@@ -8,7 +8,7 @@ jobs:
     name: dolphin bundled as appimage
     runs-on: ubuntu-18.04
     env:
-      yaqti: 6.3.3
+      yaqti: 6.3.2
     steps:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
