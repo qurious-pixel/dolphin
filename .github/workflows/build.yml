@@ -71,10 +71,10 @@ jobs:
           echo "DOLPHIN Build $DOLPHINVER"
           ###
           export Qt_DIR="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
-          export Qt6_DIR=$Qt_DIR
+          export QT_DIR=$Qt_DIR
           mkdir build
           cd build
-          cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10
+          cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10 -DCMAKE_PREFIX_PATH=$Qt_DIR
           ninja
           cd $GITHUB_WORKSPACE
       - name: Dolphin Variables
