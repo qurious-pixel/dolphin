@@ -38,7 +38,7 @@ jobs:
           sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev extra-cmake-modules liblzo2-dev libxi-dev libavcodec-dev libudev-dev \
           libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
           wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev qt6-tools qt6-base qt6-declarative qt6-svg \
-          libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev adwaita-qt \
+          libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev adwaita-qt
           find -name Qt6
       - name: Install Packages if failed
         id: packages2
