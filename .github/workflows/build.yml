@@ -40,7 +40,7 @@ jobs:
           libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
           wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev qt6-base-private-dev \
           libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev adwaita-qt
-          find -name Qt6
+          find -name qt6
       - name: Install Packages if failed
         id: packages2
         if: steps.packages.outcome=='failure'
