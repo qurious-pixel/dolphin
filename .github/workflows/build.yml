@@ -60,7 +60,7 @@ jobs:
           ###
           export Qt_DIR="/usr/lib/x86_64-linux-gnu/cmake/Qt6"
           export QT_DIR=$Qt_DIR
-          sed -i '216 a set(DOLPHIN_WC_DESCRIBE "${DOLPHINVER}") CMakeLists.txt
+          sed -i '216 a set(DOLPHIN_WC_DESCRIBE "${DOLPHINVER}")' CMakeLists.txt
           sed -i '217 a message(STATUS "Dolphin Revision: ${DOLPHIN_WC_REVISION}")' CMakeLists.txt
           mkdir build
           cd build
