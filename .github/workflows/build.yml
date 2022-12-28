@@ -60,8 +60,7 @@ jobs:
           ###
           export Qt_DIR="/usr/lib/x86_64-linux-gnu/cmake/Qt6"
           export QT_DIR=$Qt_DIR
-          #sed -i '216 a set(DOLPHIN_WC_DESCRIBE "${DOLPHINVER}")' CMakeLists.txt
-          sed -i '217 a message(STATUS "Dolphin Version: ${DOLPHIN_WC_DESCRIBE}")' CMakeLists.txt
+          sed -i 's|_WC_DESCRIBE|VER|g' Source/Core/Common/scmrev.h.in
           mkdir build
           cd build
           cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10 -DCMAKE_PREFIX_PATH="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/" -DDOLPHIN_WC_DESCRIBE=${DOLPHINVER}
@@ -77,45 +76,45 @@ jobs:
         run: |
           mkdir -p $GITHUB_WORKSPACE/artifacts
           cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
-      #- name: Package Dolphin-AppImage
-      #  env:
-      #    QT_BASE_DIR: /usr/lib/x86_64-linux-gnu/qt6
-      #    QTDIR: $QT_BASE_DIR
-      #  run: |
-      #    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/qt6/
-      #    export PATH=/usr/lib/qt6/bin:$PATH
-      #    echo "PATH $PATH"
-      #    if [[ -e /usr/bin/qmake ]]; then sudo mv /usr/bin/qmake /usr/bin/qmake5; fi
-      #    sudo mv /usr/bin/qmake6 /usr/bin/qmake
-      #    qmake -v
-      #    cd /tmp 
-      #    curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
-      #    curl -sSfLO "https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage"
-      #    chmod a+x linuxdeploy*.AppImage
-      #    chmod a+x AppImageUpdate-x86_64.AppImage
-      #    ./linuxdeploy-x86_64.AppImage --appimage-extract
-      #    curl -sSfL "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage" -o /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
-      #    chmod a+x /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
-      #    cd $GITHUB_WORKSPACE
-      #    mkdir -p squashfs-root/usr/bin
-      #    cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
-      #    cp Data/dolphin-emu.svg ./squashfs-root/dolphin-emu.svg
-      #    cp Data/dolphin-emu.desktop ./squashfs-root/dolphin-emu.desktop
-      #    curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
-      #    curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-x86_64 -o ./squashfs-root/AppRun
-      #    mkdir -p squashfs-root/usr/share/applications && cp ./squashfs-root/dolphin-emu.desktop ./squashfs-root/usr/share/applications
-      #    mkdir -p squashfs-root/usr/share/icons && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/icons
-      #    mkdir -p squashfs-root/usr/share/icons/hicolor/scalable/apps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/icons/hicolor/scalable/apps
-      #    mkdir -p squashfs-root/usr/share/pixmaps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/pixmaps
-      #    mkdir -p squashfs-root/usr/share/dolphin-emu
-      #    cp -R Data/Sys ./squashfs-root/usr/bin
-      #    chmod a+x ./squashfs-root/AppRun
-      #    chmod a+x ./squashfs-root/runtime
-      #    /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg --exclude-library=libglib* --output appimage
-      #    ls . | grep *.AppImage
-      #    mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
-      #    ls -al $GITHUB_WORKSPACE/artifacts
-      #  continue-on-error: true  
+      - name: Package Dolphin-AppImage
+        env:
+          QT_BASE_DIR: /usr/lib/x86_64-linux-gnu/qt6
+          QTDIR: $QT_BASE_DIR
+        run: |
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/qt6/
+          export PATH=/usr/lib/qt6/bin:$PATH
+          echo "PATH $PATH"
+          if [[ -e /usr/bin/qmake ]]; then sudo mv /usr/bin/qmake /usr/bin/qmake5; fi
+          sudo mv /usr/bin/qmake6 /usr/bin/qmake
+          qmake -v
+          cd /tmp 
+          curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+          curl -sSfLO "https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage"
+          chmod a+x linuxdeploy*.AppImage
+          chmod a+x AppImageUpdate-x86_64.AppImage
+          ./linuxdeploy-x86_64.AppImage --appimage-extract
+          curl -sSfL "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage" -o /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
+          chmod a+x /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
+          cd $GITHUB_WORKSPACE
+          mkdir -p squashfs-root/usr/bin
+          cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
+          cp Data/dolphin-emu.svg ./squashfs-root/dolphin-emu.svg
+          cp Data/dolphin-emu.desktop ./squashfs-root/dolphin-emu.desktop
+          curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
+          curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-x86_64 -o ./squashfs-root/AppRun
+          mkdir -p squashfs-root/usr/share/applications && cp ./squashfs-root/dolphin-emu.desktop ./squashfs-root/usr/share/applications
+          mkdir -p squashfs-root/usr/share/icons && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/icons
+          mkdir -p squashfs-root/usr/share/icons/hicolor/scalable/apps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/icons/hicolor/scalable/apps
+          mkdir -p squashfs-root/usr/share/pixmaps && cp ./squashfs-root/dolphin-emu.svg ./squashfs-root/usr/share/pixmaps
+          mkdir -p squashfs-root/usr/share/dolphin-emu
+          cp -R Data/Sys ./squashfs-root/usr/bin
+          chmod a+x ./squashfs-root/AppRun
+          chmod a+x ./squashfs-root/runtime
+          /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg --exclude-library=libglib* --output appimage
+          ls . | grep *.AppImage
+          mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
+          ls -al $GITHUB_WORKSPACE/artifacts
+        continue-on-error: true  
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
