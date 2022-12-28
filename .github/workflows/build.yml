@@ -50,18 +50,19 @@ jobs:
           libzip-dev libzstd-dev libasound2-dev libpulse-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev libxkbcommon-dev libevdev-dev \
           qt515base qt5-qmake qt515wayland qtwayland5 wayland-protocols xwayland libwayland-dev libusb-1.0-0-dev libhidapi-dev libqt5waylandclient5-dev qtbase5-private-dev \
           libfmt-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev zenity gettext ccache cmake ninja-build libavformat-dev libavdevice-dev adwaita-qt \
-      - name: Build Dolphin
+      - name: Dolphin-Build Number
         run: |
-          mkdir -p "$HOME/.ccache"
-          ### GET BUILD Number
           export LASTCOMMIT=$(git log --pretty=format:%H -1)
           export DOLPHINVER=$(wget -qO- https://dolphin-emu.org/download/dev/${LASTCOMMIT} | grep '<title>' | awk '{print $NF}' | cut -d '<' -f 1)
           echo "DOLPHIN Build $DOLPHINVER"
-          ###
-          export Qt_DIR="/usr/lib/x86_64-linux-gnu/cmake/Qt6"
-          export QT_DIR=$Qt_DIR
+          echo "DOLPHINVER=$DOLPHINVER" >> $GITHUB_ENV
           sed -i "s|\${DOLPHIN_WC_DESCRIBE}|$DOLPHINVER|g" Source/Core/Common/scmrev.h.in
           cat Source/Core/Common/scmrev.h.in
+      - name: Build Dolphin
+        run: |
+          mkdir -p "$HOME/.ccache"
+          export Qt_DIR="/usr/lib/x86_64-linux-gnu/cmake/Qt6"
+          export QT_DIR=$Qt_DIR
           mkdir build
           cd build
           cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10 -DCMAKE_PREFIX_PATH="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/" -DDOLPHIN_WC_DESCRIBE=${DOLPHINVER}
