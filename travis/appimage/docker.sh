@@ -19,11 +19,11 @@ ln -s /home/yuzu/.conan /root
 
 cd /dolphin
 
-git clone --recursive https://github.com/shiiion/dolphin.git
+git clone --recursive https://crediar.dev/crediar/dolphin.git
 #git submodule update --init --recursive
 cd dolphin/
 #git submodule update --init Externals/mGBA
-git reset --hard a31962eeccd11e2bbfe57800330126612713b097
+git reset --hard e3134bd93ddfa2d1a96e2aec5773d66badef2abe
 
 #REPLACE CHAR_ with CHARACTER_ 
 #https://forums.dolphin-emu.org/Thread-error-compiling-dolphin-s-netplay-build-5-0-321-under-pop-os-linux-ubuntu-17-10
