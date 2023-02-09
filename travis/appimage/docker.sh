@@ -31,7 +31,9 @@ git reset --hard e3134bd93ddfa2d1a96e2aec5773d66badef2abe
 
 #TRIFORCE FIX
 ls /dolphin
-cp travis/common/CMakeLists_Core.txt Source/Core/Core/CMakeLists.txt
+pwd
+ls -al
+cp /dolphin/travis/common/CMakeLists_Core.txt Source/Core/Core/CMakeLists.txt
 sed -i '/#include <winsock2.h>/i #ifdef _WIN32' Source/Core/Core/HW/DVD/AMBaseboard.cpp
 sed -i '/#include <winsock2.h>/a #endif' Source/Core/Core/HW/DVD/AMBaseboard.cpp
 
