@@ -29,6 +29,12 @@ git reset --hard e3134bd93ddfa2d1a96e2aec5773d66badef2abe
 #https://forums.dolphin-emu.org/Thread-error-compiling-dolphin-s-netplay-build-5-0-321-under-pop-os-linux-ubuntu-17-10
 #sed -i -e 's|CHAR_|CHARACTER_|g' Source/Core/VideoBackends/OGL/RasterFont.cpp
 
+#TRIFORCE FIX
+ls /dolphin
+cp travis/common/CMakeLists_Core.txt Source/Core/Core/CMakeLists.txt
+sed -i '/#include <winsock2.h>/i #ifdef _WIN32' Source/Core/Core/HW/DVD/AMBaseboard.cpp
+sed -i '/#include <winsock2.h>/a #endif' Source/Core/Core/HW/DVD/AMBaseboard.cpp
+
 mkdir build
 cd build
 cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DENABLE_NOGUI=false -DENABLE_QT=ON -DENABLE_EVDEV=OFF -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++ # -DOpenGL_GL_PREFERENCE="LEGACY" -DOPENGL_opengl_LIBRARY=""
