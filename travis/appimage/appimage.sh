@@ -2,7 +2,7 @@
 
 branch=`echo ${GITHUB_REF##*/}`
 
-BUILDBIN=/dolphin/build/Binaries
+BUILDBIN=/dolphin/dolphin/build/Binaries
 BINFILE=dolphin-emu-x86_64.AppImage
 LOG_FILE=$HOME/curl.log
 CXX=g++-9
@@ -35,7 +35,7 @@ mkdir -p squashfs-root/usr/share/pixmaps && cp ./squashfs-root/dolphin-emu.svg .
 #mkdir -p squashfs-root/usr/optional/ ; mkdir -p squashfs-root/usr/optional/libstdc++/
 
 mkdir -p squashfs-root/usr/share/dolphin-emu
-cp -R /dolphin/Data/Sys ./squashfs-root/usr/bin
+cp -R /dolphin/dolphin/Data/Sys ./squashfs-root/usr/bin
 curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/update.sh" -o $HOME/squashfs-root/update.sh
 curl -sL "https://raw.githubusercontent.com/qurious-pixel/dolphin/$branch/travis/appimage/AppRun" -o $HOME/squashfs-root/AppRun
 curl -sL "https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/AppRun-patched-x86_64" -o $HOME/squashfs-root/AppRun-patched
