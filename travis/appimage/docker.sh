@@ -19,6 +19,7 @@ ln -s /home/yuzu/.conan /root
 
 cd /dolphin
 
+export GIT_SSL_NO_VERIFY=1
 git clone --recursive https://crediar.dev/crediar/dolphin.git
 #git submodule update --init --recursive
 cd dolphin/
