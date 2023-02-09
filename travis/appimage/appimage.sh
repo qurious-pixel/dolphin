@@ -2,7 +2,7 @@
 
 branch=`echo ${GITHUB_REF##*/}`
 
-BUILDBIN=/dolphin/dolphin/build/Binaries
+BUILDBIN=/dolphin/build/Binaries
 BINFILE=dolphin-emu-x86_64.AppImage
 LOG_FILE=$HOME/curl.log
 CXX=g++-9
