@@ -25,6 +25,7 @@ git clone --recursive https://github.com/shiiion/dolphin.git
 cd dolphin/
 #git submodule update --init Externals/mGBA
 git submodule update --init Externals/zstd
+git pull --recurse-submodules
 git reset --hard a31962eeccd11e2bbfe57800330126612713b097
 
 #REPLACE CHAR_ with CHARACTER_ 
