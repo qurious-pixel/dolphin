@@ -30,9 +30,9 @@ git clone https://github.com/facebook/zstd.git --single-branch -b dev
 cd zstd/build/cmake
 mkdir builddir
 cd builddir
-cmake ..
-make
-make install
+cmake .. -GNinja --prefix /usr
+ninja
+ninja install
 cd /dolphin/dolphin
 
 #REPLACE CHAR_ with CHARACTER_ 
