@@ -24,9 +24,16 @@ git clone --recursive https://github.com/shiiion/dolphin.git
 #git submodule update --init --recursive
 cd dolphin/
 #git submodule update --init Externals/mGBA
-git submodule update --init Externals/zstd
-git pull --recurse-submodules
 git reset --hard a31962eeccd11e2bbfe57800330126612713b097
+
+git clone https://github.com/facebook/zstd.git --single-branch -b dev
+cd build/cmake
+mkdir builddir
+cd builddir
+cmake ..
+make
+make install
+cd /dolphin/dolphin
 
 #REPLACE CHAR_ with CHARACTER_ 
 #https://forums.dolphin-emu.org/Thread-error-compiling-dolphin-s-netplay-build-5-0-321-under-pop-os-linux-ubuntu-17-10
