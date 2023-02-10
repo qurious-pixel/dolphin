@@ -38,7 +38,7 @@ git reset --hard a31962eeccd11e2bbfe57800330126612713b097
 
 mkdir build
 cd build
-cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DENABLE_NOGUI=false -DENABLE_QT=ON -DENABLE_EVDEV=OFF -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++ # -DOpenGL_GL_PREFERENCE="LEGACY" -DOPENGL_opengl_LIBRARY=""
+cmake .. -G Ninja -DLINUX_LOCAL_DEV=true -DENABLE_CLI_TOOL=OFF -DENABLE_NOGUI=false -DENABLE_QT=ON -DENABLE_EVDEV=OFF -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++ # -DOpenGL_GL_PREFERENCE="LEGACY" -DOPENGL_opengl_LIBRARY=""
 ninja
 #ln -s ../../Data/Sys Binaries/
 
