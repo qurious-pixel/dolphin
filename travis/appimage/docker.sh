@@ -20,23 +20,20 @@ ln -s /home/yuzu/.conan /root
 cd /dolphin
 
 export GIT_SSL_NO_VERIFY=1
-git clone --recursive https://crediar.dev/crediar/dolphin.git
+git clone --recursive https://github.com/shiiion/dolphin.git
 #git submodule update --init --recursive
 cd dolphin/
 #git submodule update --init Externals/mGBA
-git reset --hard e3134bd93ddfa2d1a96e2aec5773d66badef2abe
+git reset --hard a31962eeccd11e2bbfe57800330126612713b097
 
 #REPLACE CHAR_ with CHARACTER_ 
 #https://forums.dolphin-emu.org/Thread-error-compiling-dolphin-s-netplay-build-5-0-321-under-pop-os-linux-ubuntu-17-10
 #sed -i -e 's|CHAR_|CHARACTER_|g' Source/Core/VideoBackends/OGL/RasterFont.cpp
 
-#TRIFORCE FIX
-ls /dolphin
-pwd
-ls -al
-cp /dolphin/travis/common/CMakeLists_Core.txt Source/Core/Core/CMakeLists.txt
-sed -i '/#include <winsock2.h>/i #ifdef _WIN32' Source/Core/Core/HW/DVD/AMBaseboard.cpp
-sed -i '/#include <winsock2.h>/a #endif' Source/Core/Core/HW/DVD/AMBaseboard.cpp
+##TRIFORCE FIX
+#cp /dolphin/travis/common/CMakeLists_Core.txt Source/Core/Core/CMakeLists.txt
+#sed -i '/#include <winsock2.h>/i #ifdef _WIN32' Source/Core/Core/HW/DVD/AMBaseboard.cpp
+#sed -i '/#include <winsock2.h>/a #endif' Source/Core/Core/HW/DVD/AMBaseboard.cpp
 
 mkdir build
 cd build
