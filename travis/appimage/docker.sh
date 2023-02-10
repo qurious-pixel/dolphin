@@ -10,7 +10,7 @@ export PKG_CONFIG_PATH=$QT_BASE_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
 
 #ADD MISSING PACKAGES
 apt update
-apt install -y libgtk2.0-dev wx3.0-headers libmbedtls-dev gcc-9 g++-9 libzstd-dev
+apt install -y libgtk2.0-dev wx3.0-headers libmbedtls-dev gcc-9 g++-9
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 20 && \
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 20 && \
 ln -s /usr/include/locale.h /usr/include/xlocale.h
@@ -24,6 +24,7 @@ git clone --recursive https://github.com/shiiion/dolphin.git
 #git submodule update --init --recursive
 cd dolphin/
 #git submodule update --init Externals/mGBA
+git submodule update --init Externals/zstd
 git reset --hard a31962eeccd11e2bbfe57800330126612713b097
 
 #REPLACE CHAR_ with CHARACTER_ 
