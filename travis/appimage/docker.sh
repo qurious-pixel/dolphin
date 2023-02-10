@@ -20,11 +20,11 @@ ln -s /home/yuzu/.conan /root
 cd /dolphin
 
 export GIT_SSL_NO_VERIFY=1
-git clone --recursive https://github.com/shiiion/dolphin.git
+git clone --recursive https://crediar.dev/crediar/dolphin.git
 #git submodule update --init --recursive
 cd dolphin/
 #git submodule update --init Externals/mGBA
-git reset --hard a31962eeccd11e2bbfe57800330126612713b097
+git reset --hard e3134bd93ddfa2d1a96e2aec5773d66badef2abe
 
 git clone https://github.com/facebook/zstd.git --single-branch -b dev
 cd zstd/build/cmake
@@ -40,9 +40,10 @@ cd /dolphin/dolphin
 #sed -i -e 's|CHAR_|CHARACTER_|g' Source/Core/VideoBackends/OGL/RasterFont.cpp
 
 ##TRIFORCE FIX
-#cp /dolphin/travis/common/CMakeLists_Core.txt Source/Core/Core/CMakeLists.txt
-#sed -i '/#include <winsock2.h>/i #ifdef _WIN32' Source/Core/Core/HW/DVD/AMBaseboard.cpp
-#sed -i '/#include <winsock2.h>/a #endif' Source/Core/Core/HW/DVD/AMBaseboard.cpp
+cp /dolphin/travis/common/CMakeLists_Core.txt Source/Core/Core/CMakeLists.txt
+sed -i '/#include <winsock2.h>/i #ifdef _WIN32' Source/Core/Core/HW/DVD/AMBaseboard.cpp
+sed -i '/#include <winsock2.h>/a #endif' Source/Core/Core/HW/DVD/AMBaseboard.cpp
+sed -i 's/-Wshadow/-Wno-shadow/g' Source/CMakeLists.txt
 
 mkdir build
 cd build
