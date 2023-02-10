@@ -27,7 +27,7 @@ cd dolphin/
 git reset --hard a31962eeccd11e2bbfe57800330126612713b097
 
 git clone https://github.com/facebook/zstd.git --single-branch -b dev
-cd build/cmake
+cd zstd/build/cmake
 mkdir builddir
 cd builddir
 cmake ..
