@@ -52,11 +52,11 @@ jobs:
 
     - name: Install Packages
       run: |
-        sudo apt-get install -y build-essential dialog dpkg libbluetooth-dev liblz4-dev liblzma-dev libssl-dev libopus-dev libpng-dev libsystemd-dev \
-        libzip-dev libzstd-dev zlib1g-dev libasound2-dev libpulse-dev pulseaudio p7zip p7zip-full libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev \
-        libbz2-dev liblzo2-dev libxi-dev libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libc6-dev libhidapi-dev libavformat-dev libavdevice-dev \
-        libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget curl git gettext ccache make cmake ninja-build \
-        libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-icccm4 libxcb-image0-dev cmake-extras extra-cmake-modules wayland-protocols
+        sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev cmake-extras extra-cmake-modules \
+        libzip-dev libzstd-dev zlib1g-dev libasound2-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev \
+        liblzo2-dev libxi-dev libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libhidapi-dev libavformat-dev libavdevice-dev \
+        libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget git gettext ccache cmake ninja-build \
+        libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-icccm4 libxcb-image0-dev wayland-protocols libxkbcommon-dev libxkbcommon-x11-dev
     - name: Update Patchelf
       run: |
         PATCHELFVER=0.14.5
