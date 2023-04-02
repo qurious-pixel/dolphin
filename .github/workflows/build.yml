@@ -111,7 +111,7 @@ jobs:
         cp -R Data/Sys ./squashfs-root/usr/bin
         cp -rv ${GITHUB_WORKSPACE}/qt/${yaqti}/gcc_64/plugins/platforms/ "$GITHUB_WORKSPACE"/squashfs-root/usr/plugins/
         cp -rv ${GITHUB_WORKSPACE}/qt/${yaqti}/gcc_64/plugins/wayland-* "$GITHUB_WORKSPACE"/squashfs-root/usr/plugins/
-        cp -v ${GITHUB_WORKSPACE}/qt/${yaqti}/gcc_64/lib/libQt6WaylandClient.so.6 "$GITHUB_WORKSPACE"/squashfs-root/usr/lib/
+        cp -v ${GITHUB_WORKSPACE}/qt/${yaqti}/gcc_64/lib/libQt6Wayland* "$GITHUB_WORKSPACE"/squashfs-root/usr/lib/
         chmod a+x ./squashfs-root/AppRun
         chmod a+x ./squashfs-root/runtime
         /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg \
