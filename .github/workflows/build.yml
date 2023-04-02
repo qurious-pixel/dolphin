@@ -85,7 +85,7 @@ jobs:
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${GITHUB_WORKSPACE}/qt/${{ env.yaqti }}/gcc_64/lib/
         export PATH=$QT_BASE_DIR/bin:$PATH
         echo "PATH $PATH"
-        sudo ln -s ${GITHUB_WORKSPACE}/$(find qt/ -name qmake) /usr/bin
+        sudo ln -sf ${GITHUB_WORKSPACE}/$(find qt/ -name qmake) /usr/bin
         qmake -v
         cd /tmp 
         curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
