@@ -118,6 +118,7 @@ jobs:
         mkdir -p squashfs-root/usr/plugins/platforms/
         cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/squashfs-root/usr/bin/
         cp Data/dolphin-emu.svg ./squashfs-root/dolphin-emu.svg
+        sed -i 's/Exec=env QT_QPA_PLATFORM=xcb dolphin-emu/Exec=dolphin-emu/g' Data/dolphin-emu.desktop
         cp Data/dolphin-emu.desktop ./squashfs-root/dolphin-emu.desktop
         curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
         curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-x86_64 -o ./squashfs-root/AppRun
@@ -130,7 +131,6 @@ jobs:
         cp -rv ${GITHUB_WORKSPACE}/qt/${yaqti}/gcc_64/plugins/platforms/ "$GITHUB_WORKSPACE"/squashfs-root/usr/plugins/
         cp -rv ${GITHUB_WORKSPACE}/qt/${yaqti}/gcc_64/plugins/wayland-* "$GITHUB_WORKSPACE"/squashfs-root/usr/plugins/
         cp -v ${GITHUB_WORKSPACE}/qt/${yaqti}/gcc_64/lib/libQt6Wayland* "$GITHUB_WORKSPACE"/squashfs-root/usr/lib/
-        sed -i 's/Exec=env QT_QPA_PLATFORM=xcb dolphin-emu/Exec=dolphin-emu/g' squashfs-root/dolphin-emu.desktop
         chmod a+x ./squashfs-root/AppRun
         chmod a+x ./squashfs-root/runtime
         /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg \
