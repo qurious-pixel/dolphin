@@ -50,6 +50,23 @@ jobs:
         curl -sL https://raw.githubusercontent.com/qurious-pixel/yaqti/fetch/yaqti/fetchers.py -o $HOME/.local/lib/python${pyver%.*}/site-packages/yaqti/fetchers.py
         python -m yaqti install --os linux --platform desktop --version ${{ env.yaqti }} --modules gcc_64 --set-envs --install-deps
 
+    - name: Install SDL2
+      run: |
+        SDLVER=2.26.4
+        if [[ ! -e ~/.ccache ]]; then
+            mkdir ~/.ccache
+        fi
+        cd ~/.ccache 
+        if [[ ! -e SDL2-${SDLVER} ]]; then
+          curl -sSLO https://libsdl.org/release/SDL2-${SDLVER}.tar.gz
+          tar -xzf SDL2-${SDLVER}.tar.gz
+          cd SDL2-${SDLVER}
+            ./configure --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu
+            make && cd ../
+            rm SDL2-${SDLVER}.tar.gz
+        fi
+        sudo make -C SDL2-${SDLVER} install
+        sdl2-config --version
     - name: Install Packages
       run: |
         sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev cmake-extras extra-cmake-modules \
@@ -64,7 +81,7 @@ jobs:
         tar -xvf /tmp/patchelf.tar.gz --directory /tmp/ ./bin/patchelf --strip-components=2 
         sudo mv /tmp/patchelf /usr/bin
         patchelf --version
-
+        sdl2-config --version
     - name: Build Dolphin
       run: |
         export Qt_DIR="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
