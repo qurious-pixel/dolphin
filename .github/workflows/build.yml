@@ -13,8 +13,8 @@ jobs:
     - name: Checkout Upstream Repo
       uses: actions/checkout@v3
       with:
-        repository: dolphin-emu/dolphin
-        ref: master
+        repository: LaserEyess/dolphin
+        ref: wayland
 
     - name: Checkout Submodules
       if: steps.cache-submodules.outputs.cache-hit != 'true'
@@ -27,19 +27,20 @@ jobs:
           path: appimage
 
     # Runs the Dolphin action
-    - name: Prepare ccache timestamp
-      id: ccache_cache_timestamp
-      shell: cmake -P {0}
+    - name: Get Date
+      id: get-date
       run: |
-        string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
-        message("::set-output name=timestamp::${current_date}")
+        echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
+      shell: bash
     - name: cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.ccache
-        key: build-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+        key: build-ccache-${{ steps.get-date.outputs.date }}
         restore-keys: |
           build-ccache-
+      env:
+        CCACHE_MAXSIZE: 200M
 
     - name: Install Qt
       run: |
@@ -70,7 +71,7 @@ jobs:
         mkdir -p "$HOME/.ccache"
         mkdir build
         cd build
-        cmake .. -GNinja -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10 -DCMAKE_PREFIX_PATH="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/"
+        cmake .. -GNinja -DENABLE_WAYLAND=ON -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10 -DCMAKE_PREFIX_PATH="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/"
         ninja
     - name: Package Dolphin-Binary
       run: |
@@ -112,6 +113,7 @@ jobs:
         cp -rv ${GITHUB_WORKSPACE}/qt/${yaqti}/gcc_64/plugins/platforms/ "$GITHUB_WORKSPACE"/squashfs-root/usr/plugins/
         cp -rv ${GITHUB_WORKSPACE}/qt/${yaqti}/gcc_64/plugins/wayland-* "$GITHUB_WORKSPACE"/squashfs-root/usr/plugins/
         cp -v ${GITHUB_WORKSPACE}/qt/${yaqti}/gcc_64/lib/libQt6Wayland* "$GITHUB_WORKSPACE"/squashfs-root/usr/lib/
+        sed -i 's/Exec=env QT_QPA_PLATFORM=xcb dolphin-emu/Exec=dolphin-emu/g' squashfs-root/dolphin-emu.desktop
         chmod a+x ./squashfs-root/AppRun
         chmod a+x ./squashfs-root/runtime
         /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg \
@@ -121,7 +123,7 @@ jobs:
         ls -al $GITHUB_WORKSPACE/artifacts
       continue-on-error: true  
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: Dolphin_Emulator-x86_64-Linux
         path: artifacts/
