@@ -10,7 +10,7 @@ jobs:
     steps:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: dolphin-emu/dolphin
           ref: master
@@ -24,7 +24,7 @@ jobs:
           string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
           message("::set-output name=timestamp::${current_date}")
       - name: cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.ccache
           key: build-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
@@ -118,7 +118,7 @@ jobs:
           ls -al $GITHUB_WORKSPACE/artifacts
         continue-on-error: true  
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Dolphin_Emulator-x86_64-Linux
           path: artifacts/
