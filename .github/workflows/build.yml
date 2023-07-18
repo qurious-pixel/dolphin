@@ -65,7 +65,7 @@ jobs:
           export QT_DIR=$Qt_DIR
           mkdir build
           cd build
-          cmake .. -GNinja -DUSE_SYSTEM_MBEDTLS=OFF -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10 -DCMAKE_PREFIX_PATH="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/" -DDOLPHIN_WC_DESCRIBE=${DOLPHINVER}
+          cmake .. -GNinja -DUSE_SYSTEM_MBEDTLS=ON -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10 -DCMAKE_PREFIX_PATH="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/" -DDOLPHIN_WC_DESCRIBE=${DOLPHINVER}
           ninja
           cd $GITHUB_WORKSPACE
       - name: Dolphin Variables
