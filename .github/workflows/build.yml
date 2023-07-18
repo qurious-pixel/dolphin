@@ -61,6 +61,7 @@ jobs:
       - name: Build Dolphin
         run: |
           mkdir -p "$HOME/.ccache"
+          echo "Externals" && ls Externals
           export Qt_DIR="/usr/lib/x86_64-linux-gnu/cmake/Qt6"
           export QT_DIR=$Qt_DIR
           mkdir build
