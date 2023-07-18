@@ -60,8 +60,14 @@ jobs:
           cat Source/Core/Common/scmrev.h.in
       - name: Dolphin Fixes
         run: |
-          sed -i 's/"USE_MBEDTLS=1" //g' Externals/curl/CMakeLists.txt
-          #sed -i '/set(CURL/ i set(USE_SYSTEM_MBEDTLS OFF)' Externals/curl/CMakeLists.txt
+          cat << 'EOF' | sed -i '/^include_directories(${CMAKE_CURRENT_SOURCE_DIR}\/curl\/lib)$/ r /dev/stdin' Externals/curl/CMakeLists.txt
+          find_library(MBEDTLS_LIBRARY mbedtls)
+          find_library(MBEDX509_LIBRARY mbedx509)
+          find_library(MBEDCRYPTO_LIBRARY mbedcrypto)
+
+          set(MBEDTLS_LIBRARIES ${MBEDTLS_LIBRARY} ${MBEDX509_LIBRARY} ${MBEDCRYPTO_LIBRARY})
+          message(STATUS "Found MBEDTLS LIBRARIES: ${MBEDTLS_LIBRARIES}")
+          EOF
       - name: Build Dolphin
         run: |
           mkdir -p "$HOME/.ccache"
