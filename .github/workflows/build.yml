@@ -60,7 +60,8 @@ jobs:
           cat Source/Core/Common/scmrev.h.in
       - name: Dolphin Fixes
         run: |
-          sed -i '/set(CURL/ i set(USE_SYSTEM_MBEDTLS OFF)' Externals/curl/CMakeLists.txt
+          rm -rv Externals/mbedtls 
+          #sed -i '/set(CURL/ i set(USE_SYSTEM_MBEDTLS OFF)' Externals/curl/CMakeLists.txt
       - name: Build Dolphin
         run: |
           mkdir -p "$HOME/.ccache"
