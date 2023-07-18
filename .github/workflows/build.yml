@@ -67,6 +67,7 @@ jobs:
           mkdir build
           cd build
           cmake .. -GNinja -DENABLE_WAYLAND=1 -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc-10 -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++-10 -DCMAKE_PREFIX_PATH="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/" -DDOLPHIN_WC_DESCRIBE=${DOLPHINVER}
+          echo "Externals" && ls Externals
           ninja
           cd $GITHUB_WORKSPACE
       - name: Dolphin Variables
