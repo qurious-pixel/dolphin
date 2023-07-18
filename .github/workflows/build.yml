@@ -60,7 +60,8 @@ jobs:
           cat Source/Core/Common/scmrev.h.in
       - name: Dolphin Fixes
         run: |
-          rm -rv Externals/mbedtls 
+          rm -rv Externals/mbedtls
+          sed -i /MBEDTLS/d CMakeLists.txt
           #sed -i '/set(CURL/ i set(USE_SYSTEM_MBEDTLS OFF)' Externals/curl/CMakeLists.txt
       - name: Build Dolphin
         run: |
