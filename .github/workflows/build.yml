@@ -67,7 +67,7 @@ jobs:
     - name: Dolphin-Build Number
       run: |
         export LASTCOMMIT=$(git log --pretty=format:%H -1)
-        export DOLPHINVER=$BETAHASH
+        export DOLPHINVER=$(curl -L https://dolphin-emu.org/update/latest/beta/ | jq .shortrev | tr -d '"')
         echo "DOLPHIN Build $DOLPHINVER"
         echo "DOLPHINVER=$DOLPHINVER" >> $GITHUB_ENV
         sed -i "s|\${DOLPHIN_WC_DESCRIBE}|$DOLPHINVER|g" Source/Core/Common/scmrev.h.in
