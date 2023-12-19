@@ -3,13 +3,5 @@
 mkdir -p $HOME/.local/share/icons/hicolor/scalable/apps && cp $APPDIR/dolphin-emu.svg $HOME/.local/share/icons/hicolor/scalable/apps
 mkdir -p $HOME/.local/share/dolphin-emu && cp -R $APPDIR/usr/share/dolphin-emu $HOME/.local/share/
 
-GITVER=$(wget -qO- https://www.github.com/qurious-pixel/dolphin/releases/tag/continuous | grep '<p>DOLPHIN' | awk '{print $NF}' | cut -d '<' -f 1)
-APPVER=$(cat $APPDIR/version.txt)
+$APPDIR/AppRun-patched "$@"
 
-if [[ -z "$GITVER" ]]; then
-	$APPDIR/AppRun-patched "$@"
-elif [ "$GITVER" = "$APPVER" ]; then
-	$APPDIR/AppRun-patched "$@"
-else
-	$APPDIR/update.sh "$@"
-fi
