@@ -16,7 +16,7 @@ jobs:
 
     - name: Get Beta Hash
       run: |
-        export BETAHASH=$(curl -L https://dolphin-emu.org/update/latest/beta/ | jq .hash)
+        export BETAHASH=$(curl -L https://dolphin-emu.org/update/latest/beta/ | jq .hash | tr -d '"')
         echo "BETAHASH=$BETAHASH" >> $GITHUB_ENV
         echo "$BETAHASH"
     - name: Checkout Upstream Repo
