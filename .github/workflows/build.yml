@@ -8,16 +8,27 @@ on:
 
 jobs:
   dolphin-appimage:
-    name: dolphin bundled as appimage
+    name: dolphin beta bundled as appimage
     runs-on: ubuntu-20.04
     env:
       yaqti: 6.6.1
     steps:
+    - name: Install Packages
+      run: |
+        sudo apt-get install -y build-essential dialog dpkg libbluetooth-dev liblz4-dev liblzma-dev libssl-dev libopus-dev libpng-dev libsystemd-dev \
+        libzip-dev libzstd-dev zlib1g-dev libasound2-dev libpulse-dev pulseaudio p7zip p7zip-full libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev \
+        libbz2-dev liblzo2-dev libxi-dev libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libc6-dev libhidapi-dev libavformat-dev libavdevice-dev \
+        libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget curl git gettext ccache make cmake ninja-build \
+        libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-icccm4 libxcb-image0-dev libxcb-cursor-dev jq    
+    - name: Get Beta Hash
+      run: 
+        export BETAHASH=$(curl -L https://dolphin-emu.org/update/latest/beta/ | jq .hash)
+        echo $BETAHASH >> $GITHUB_OUTPUT
     - name: Checkout Upstream Repo
       uses: actions/checkout@v3
       with:
         repository: dolphin-emu/dolphin
-        ref: master
+        ref: ${{ env.BETAHASH }}
 
     - name: Checkout Submodules
       if: steps.cache-submodules.outputs.cache-hit != 'true'
@@ -51,17 +62,11 @@ jobs:
         pyver=$(python3 --version | awk '{print $2}')
         curl -sL https://raw.githubusercontent.com/qurious-pixel/yaqti/fetch/yaqti/fetchers.py -o $HOME/.local/lib/python${pyver%.*}/site-packages/yaqti/fetchers.py
         python -m yaqti install --os linux --platform desktop --version ${{ env.yaqti }} --modules gcc_64 --set-envs --install-deps
-    - name: Install Packages
-      run: |
-        sudo apt-get install -y build-essential dialog dpkg libbluetooth-dev liblz4-dev liblzma-dev libssl-dev libopus-dev libpng-dev libsystemd-dev \
-        libzip-dev libzstd-dev zlib1g-dev libasound2-dev libpulse-dev pulseaudio p7zip p7zip-full libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev \
-        libbz2-dev liblzo2-dev libxi-dev libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libc6-dev libhidapi-dev libavformat-dev libavdevice-dev \
-        libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget curl git gettext ccache make cmake ninja-build \
-        libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-icccm4 libxcb-image0-dev libxcb-cursor-dev
+
     - name: Dolphin-Build Number
       run: |
         export LASTCOMMIT=$(git log --pretty=format:%H -1)
-        export DOLPHINVER=$(wget -qO- https://dolphin-emu.org/download/dev/${LASTCOMMIT} | grep '<title>' | awk '{print $NF}' | cut -d '<' -f 1)
+        export DOLPHINVER=$BETAHASH
         echo "DOLPHIN Build $DOLPHINVER"
         echo "DOLPHINVER=$DOLPHINVER" >> $GITHUB_ENV
         sed -i "s|\${DOLPHIN_WC_DESCRIBE}|$DOLPHINVER|g" Source/Core/Common/scmrev.h.in
@@ -100,7 +105,6 @@ jobs:
         qmake -v
         cd /tmp 
         curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
-        curl -sSfLO "https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage"
         chmod a+x linuxdeploy*.AppImage
         chmod a+x AppImageUpdate-x86_64.AppImage
         ./linuxdeploy-x86_64.AppImage --appimage-extract
@@ -115,37 +119,29 @@ jobs:
         cp Data/dolphin-emu.desktop ./squashfs-root/dolphin-emu.desktop
         curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
         curl -sSfL "https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/AppRun-patched-x86_64" -o ./squashfs-root/AppRun-patched
-        cp ci/travis/appimage/{AppRun,update.sh} ./squashfs-root/
-        mv /tmp/AppImageUpdate-x86_64.AppImage ./squashfs-root/usr/bin/AppImageUpdate
+        cp ci/travis/appimage/AppRun ./squashfs-root/
         echo ${{ env.DOLPHINVER }} > ./squashfs-root/version.txt
         chmod a+x ./squashfs-root/AppRun
         chmod a+x ./squashfs-root/runtime
         chmod a+x ./squashfs-root/AppRun-patched
-        chmod a+x ./squashfs-root/update.sh
-        export UPD_INFO="gh-releases-zsync|qurious-pixel|dolphin|continuous|Dolphin_Emulator-x86_64.AppImage.zsync"
+        export UPD_INFO="gh-releases-zsync|qurious-pixel|dolphin|beta|Dolphin_Emulator-x86_64.AppImage.zsync"
         /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg \
         --exclude-library=libglib* --output appimage
         ls . | grep *.AppImage
         mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
         ls -al $GITHUB_WORKSPACE/artifacts
-        sed -i 's/AppRun.wrapped/AppRun-patched/g' "$GITHUB_WORKSPACE"/squashfs-root/AppRun
-        cat "$GITHUB_WORKSPACE"/squashfs-root/AppRun
-        /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-appimage --appdir="$GITHUB_WORKSPACE"/squashfs-root/
-        ls . | grep *.AppImage
-        mv Dolphin_Emulator-x86_64.AppImage $GITHUB_WORKSPACE/uploads/Dolphin_${DOLPHINVER}.AppImage
-        ls -al $GITHUB_WORKSPACE/uploads
       continue-on-error: true
     - name: Upload Static Build
       uses: actions/upload-artifact@v3
       with:
         name: Dolphin_${{ env.DOLPHINVER }}
-        path: uploads/
+        path: artifacts/
     - name: Upload Dolphin
       run: |
           ls -al artifacts/
           wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
           tar xfv ghr_v0.13.0_linux_amd64.tar.gz
-          ghr_v0.13.0_linux_amd64/ghr -u qurious-pixel -r dolphin -recreate -n 'Continuous build' -b "$(printf "DOLPHIN Build ${{ env.DOLPHINVER }}\nGitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID")" continuous artifacts/
+          ghr_v0.13.0_linux_amd64/ghr -u qurious-pixel -r dolphin -recreate -n 'Dolphin-Emu Beta build' -b "$(printf "DOLPHIN Beta Build ${{ env.DOLPHINVER }}\nGitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID")" beta artifacts/
       env:
         DEFAULT_BRANCH: git-actions
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
