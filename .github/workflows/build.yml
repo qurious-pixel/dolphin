@@ -141,7 +141,7 @@ jobs:
           ls -al artifacts/
           wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
           tar xfv ghr_v0.13.0_linux_amd64.tar.gz
-          ghr_v0.13.0_linux_amd64/ghr -u qurious-pixel -r dolphin -recreate -n 'Dolphin-Emu Beta build' -b "$(printf "DOLPHIN Beta Build ${{ env.DOLPHINVER }}\nGitHub https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID")" beta artifacts/
+          ghr_v0.13.0_linux_amd64/ghr -u qurious-pixel -r dolphin -recreate -n 'Dolphin-Emu Beta build' -b "$(printf "DOLPHIN Beta Build ${{ env.DOLPHINVER }}\nCommit ${{ env.BETAHASH }}")" beta artifacts/
       env:
         DEFAULT_BRANCH: git-actions
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
