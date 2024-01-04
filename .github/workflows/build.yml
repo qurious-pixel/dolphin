@@ -18,14 +18,14 @@ jobs:
         echo "RUNHASH is $RUNHASH"
         echo "BETAHASH is $BETAHASH"
         if [[ $RUNHASH == $BETAHASH ]]; then 
-        	echo "BETAUPDATE=false" >> $GITHUB_ENV
+        	echo "false"
         else 
         	echo "Updating..."
-        	echo "BETAUPDATE=true" >> $GITHUB_ENV
+        	#echo "BETAUPDATE=true" >> $GITHUB_ENV
         fi
         
   dolphin-appimage:
-    if: $BETAUPDATE == true
+    if: needs.beta-run-check.result != true
     name: dolphin beta bundled as appimage
     runs-on: ubuntu-20.04
     needs: beta-run-check
