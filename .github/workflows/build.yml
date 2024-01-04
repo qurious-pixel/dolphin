@@ -32,7 +32,7 @@ jobs:
           echo "BETAUPDATE=true" >> $GITHUB_OUTPUT
         fi
     - name: Checkout Upstream Repo - beta
-      if: ${{ matrix.RELEASE == 'beta' }} && ${{ env.BETAUPDATE == 'true' }}
+      if: ${{ matrix.RELEASE == 'beta' && env.BETAUPDATE == 'true' }}
       uses: actions/checkout@v4
       with:
         repository: dolphin-emu/dolphin
@@ -92,7 +92,7 @@ jobs:
         sudo mv /tmp/patchelf /usr/bin
         patchelf --version
     - name: Dolphin-Build Number - beta
-      if: ${{ matrix.RELEASE == 'beta' }} && ${{ env.BETAUPDATE == 'true' }}
+      if: ${{ matrix.RELEASE == 'beta' && env.BETAUPDATE == 'true' }}
       run: |
         export DOLPHINVER=$(curl -L https://dolphin-emu.org/update/latest/beta/ | jq .shortrev | tr -d '"')
         echo "DOLPHIN Build $DOLPHINVER"
@@ -176,7 +176,7 @@ jobs:
         name: Dolphin_${{ env.DOLPHINVER }}-${{ matrix.RELEASE }}
         path: artifacts/
     - name: Upload Dolphin
-      if: ${{ matrix.RELEASE == 'beta' }} && ${{ env.BETAUPDATE == 'true' }}
+      if: ${{ matrix.RELEASE == 'beta' && env.BETAUPDATE == 'true' }}
       run: |
           ls -al artifacts/
           wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
