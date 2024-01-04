@@ -23,8 +23,8 @@ jobs:
         if [[ $RUNHASH != $BETAHASH ]]; then 
         	echo "BETAUPDATE=false" >> $GITHUB_OUTPUT
         else 
-        	#echo "Updating..."
-         echo "BETAUPDATE=true" >> $GITHUB_OUTPUT
+        	echo "Updating..."
+          echo "BETAUPDATE=true" >> $GITHUB_OUTPUT
         fi
         
   dolphin-appimage:
