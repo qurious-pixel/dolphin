@@ -8,7 +8,7 @@ on:
     - cron: "1 22 * * 2"
 
 jobs:
-  beta-run-check:
+  dolphin-appimage:
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -35,7 +35,7 @@ jobs:
       run: |
         echo "Release is ${{ matrix.RELEASE }}"
     - name: Checkout Upstream Repo
-      if: ${{ matrix.RELEASE == beta}}"
+      if: ${{ matrix.RELEASE == 'beta' }}
       uses: actions/checkout@v4
       with:
         repository: dolphin-emu/dolphin
