@@ -10,6 +10,10 @@ on:
 jobs:
   beta-run-check:
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        RELEASE: [continuous, beta]
     outputs:
         BETAUPDATE: ${{ steps.check.outputs.BETAUPDATE }}
     steps:
@@ -27,8 +31,8 @@ jobs:
           echo "BETAUPDATE=false" >> $GITHUB_OUTPUT
         fi
         
-  dolphin-appimage:
-    if: needs.beta-run-check.outputs.BETAUPDATE == 'false'
+  dolphin-appimage-beta:
+    if: matrix.RELEASE == 'beta' && needs.beta-run-check.outputs.BETAUPDATE == 'false'
     name: dolphin beta bundled as appimage
     runs-on: ubuntu-20.04
     needs: beta-run-check
@@ -41,16 +45,19 @@ jobs:
         export BETAHASH=$(curl -sSfL https://dolphin-emu.org/update/latest/beta/ | jq .hash | tr -d '"')
         echo "BETAHASH=$BETAHASH" >> $GITHUB_ENV
         echo "$BETAHASH"
+        echo "Release is ${{ matrix.RELEASE }}"
     - name: Checkout Upstream Repo
       uses: actions/checkout@v4
       with:
         repository: dolphin-emu/dolphin
         ref: ${{ env.BETAHASH }}
         
-  dolphin-appimage-2:
+  dolphin-appimage-continuous:
     name: dolphin release bundled as appimage
+    if: matrix.RELEASE == 'continuous'
     runs-on: ubuntu-20.04
     steps:
     - name: Get Release Run
       run: |
         echo "Running Well"
+        echo "Release is ${{ matrix.RELEASE }}"
