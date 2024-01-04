@@ -20,15 +20,15 @@ jobs:
         export BETAHASH=$(curl -sSfL https://dolphin-emu.org/update/latest/beta/ | jq .hash | tr -d '"')
         echo "RUNHASH is $RUNHASH"
         echo "BETAHASH is $BETAHASH"
-        if [[ $RUNHASH != $BETAHASH ]]; then 
-        	echo "BETAUPDATE=false" >> $GITHUB_OUTPUT
+        if [[ $RUNHASH == $BETAHASH ]]; then 
+        	echo "BETAUPDATE=true" >> $GITHUB_OUTPUT
         else 
         	echo "Updating..."
-          echo "BETAUPDATE=true" >> $GITHUB_OUTPUT
+          echo "BETAUPDATE=false" >> $GITHUB_OUTPUT
         fi
         
   dolphin-appimage:
-    if: needs.beta-run-check.outputs.BETAUPDATE == 'true'
+    if: needs.beta-run-check.outputs.BETAUPDATE == 'false'
     name: dolphin beta bundled as appimage
     runs-on: ubuntu-20.04
     needs: beta-run-check
