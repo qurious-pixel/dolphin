@@ -26,10 +26,10 @@ jobs:
         echo "RUNHASH is $RUNHASH"
         echo "BETAHASH is $BETAHASH"
         if [[ $RUNHASH != $BETAHASH ]]; then 
-        	echo "BETAUPDATE=false" >> $GITHUB_OUTPUT
+        	echo "BETAUPDATE=false" >> $GITHUB_ENV
         else 
         	echo "Updating..."
-          echo "BETAUPDATE=true" >> $GITHUB_OUTPUT
+          echo "BETAUPDATE=true" >> $GITHUB_ENV
         fi
     - name: Checkout Upstream Repo - beta
       if: ${{ matrix.RELEASE == 'beta' && env.BETAUPDATE == 'true' }}
