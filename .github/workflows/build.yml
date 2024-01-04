@@ -27,7 +27,7 @@ jobs:
         fi
         
   dolphin-appimage:
-    if: needs.beta-run-check.outputs.BETAUPDATE == 'true'
+    if: always() && needs.beta-run-check.outputs.BETAUPDATE == 'true'
     name: dolphin beta bundled as appimage
     runs-on: ubuntu-20.04
     needs: beta-run-check
