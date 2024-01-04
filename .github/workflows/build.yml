@@ -26,16 +26,13 @@ jobs:
         echo "RUNHASH is $RUNHASH"
         echo "BETAHASH is $BETAHASH"
         if [[ $RUNHASH == $BETAHASH ]]; then 
-        	echo "BETAUPDATE=true" >> $GITHUB_OUTPUT
+        	echo "BETAUPDATE=false" >> $GITHUB_OUTPUT
         else 
         	echo "Updating..."
-          echo "BETAUPDATE=false" >> $GITHUB_OUTPUT
+          echo "BETAUPDATE=true" >> $GITHUB_OUTPUT
         fi
-    - name: Get Beta Hash
-      run: |
-        echo "Release is ${{ matrix.RELEASE }}"
     - name: Checkout Upstream Repo - beta
-      if: ${{ matrix.RELEASE == 'beta' }}
+      if: ${{ matrix.RELEASE == 'beta' }} && ${{ env.BETAUPDATE == 'true' }}
       uses: actions/checkout@v4
       with:
         repository: dolphin-emu/dolphin
@@ -95,9 +92,8 @@ jobs:
         sudo mv /tmp/patchelf /usr/bin
         patchelf --version
     - name: Dolphin-Build Number - beta
-      if: ${{ matrix.RELEASE == 'beta' }}
+      if: ${{ matrix.RELEASE == 'beta' }} && ${{ env.BETAUPDATE == 'true' }}
       run: |
-        export LASTCOMMIT=$(git log --pretty=format:%H -1)
         export DOLPHINVER=$(curl -L https://dolphin-emu.org/update/latest/beta/ | jq .shortrev | tr -d '"')
         echo "DOLPHIN Build $DOLPHINVER"
         echo "DOLPHINVER=$DOLPHINVER" >> $GITHUB_ENV
@@ -161,7 +157,7 @@ jobs:
         chmod a+x ./squashfs-root/runtime
         chmod a+x ./squashfs-root/AppRun-patched
         chmod a+x ./squashfs-root/update.sh
-        export UPD_INFO="gh-releases-zsync|qurious-pixel|dolphin|${{ matrix.RELEASE }}|Dolphin_Emulator-x86_64.AppImage.zsync"
+        export UPD_INFO="gh-releases-zsync|qurious-pixel|dolphin|${RELEASE}|Dolphin_Emulator-x86_64.AppImage.zsync"
         /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg \
         --exclude-library=libglib* --output appimage
         ls . | grep *.AppImage
@@ -180,6 +176,7 @@ jobs:
         name: Dolphin_${{ env.DOLPHINVER }}-${{ matrix.RELEASE }}
         path: artifacts/
     - name: Upload Dolphin
+      if: ${{ matrix.RELEASE == 'beta' }} && ${{ env.BETAUPDATE == 'true' }}
       run: |
           ls -al artifacts/
           wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
