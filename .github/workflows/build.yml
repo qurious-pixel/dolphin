@@ -10,8 +10,8 @@ on:
 jobs:
   beta-run-check:
     runs-on: ubuntu-22.04
-    #outputs:
-    #    BETAUPDATE: ${{ steps.check.outputs.BETAUPDATE }}
+    outputs:
+        BETAUPDATE: ${{ steps.check.outputs.BETAUPDATE }}
     steps:
     - name: Beta Run Check
       id: check
