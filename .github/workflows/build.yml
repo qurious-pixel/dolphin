@@ -139,7 +139,9 @@ jobs:
         qmake -v
         cd /tmp 
         curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+        curl -sSfLO "https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage"
         chmod a+x linuxdeploy*.AppImage
+        chmod a+x AppImageUpdate-x86_64.AppImage
         ./linuxdeploy-x86_64.AppImage --appimage-extract
         curl -sSfL "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage" -o /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
         chmod a+x /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
@@ -152,18 +154,25 @@ jobs:
         cp Data/dolphin-emu.desktop ./squashfs-root/dolphin-emu.desktop
         curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
         curl -sSfL "https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/AppRun-patched-x86_64" -o ./squashfs-root/AppRun-patched
-        cp ci/travis/appimage/AppRun ./squashfs-root/
+        cp ci/travis/appimage/{AppRun,update.sh} ./squashfs-root/
+        mv /tmp/AppImageUpdate-x86_64.AppImage ./squashfs-root/usr/bin/AppImageUpdate
         echo ${{ env.DOLPHINVER }} > ./squashfs-root/version.txt
         chmod a+x ./squashfs-root/AppRun
         chmod a+x ./squashfs-root/runtime
         chmod a+x ./squashfs-root/AppRun-patched
-        if [ -e ./squashfs-root/update.sh ]; then chmod a+x ./squashfs-root/update.sh; fi
+        chmod a+x ./squashfs-root/update.sh
         export UPD_INFO="gh-releases-zsync|qurious-pixel|dolphin|${{ matrix.RELEASE }}|Dolphin_Emulator-x86_64.AppImage.zsync"
         /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg \
         --exclude-library=libglib* --output appimage
         ls . | grep *.AppImage
         mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
         ls -al $GITHUB_WORKSPACE/artifacts
+        sed -i 's/AppRun.wrapped/AppRun-patched/g' "$GITHUB_WORKSPACE"/squashfs-root/AppRun
+        cat "$GITHUB_WORKSPACE"/squashfs-root/AppRun
+        /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-appimage --appdir="$GITHUB_WORKSPACE"/squashfs-root/
+        ls . | grep *.AppImage
+        mv Dolphin_Emulator-x86_64.AppImage $GITHUB_WORKSPACE/uploads/Dolphin_${DOLPHINVER}.AppImage
+        ls -al $GITHUB_WORKSPACE/uploads
       continue-on-error: true
     - name: Upload Static Build
       uses: actions/upload-artifact@v4
