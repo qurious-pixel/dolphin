@@ -32,7 +32,7 @@ jobs:
         fi
         
   dolphin-appimage-beta:
-    if: matrix.RELEASE == 'beta' && needs.beta-run-check.outputs.BETAUPDATE == 'false'
+    if: ${{ matrix.RELEASE == 'beta' }} && ${{ needs.beta-run-check.outputs.BETAUPDATE == 'false' }}
     name: dolphin beta bundled as appimage
     runs-on: ubuntu-20.04
     needs: beta-run-check
