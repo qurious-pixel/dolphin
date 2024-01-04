@@ -44,11 +44,10 @@ jobs:
         repository: dolphin-emu/dolphin
         ref: ${{ env.BETAHASH }}
         
-	dolphin-appimage-2:
-    name: dolphin beta bundled as appimage
+  dolphin-appimage-2:
+    name: dolphin release bundled as appimage
     runs-on: ubuntu-20.04
     steps:
-
     - name: Get Release Run
       run: |
-      	echo "Running Well"
+        echo "Running Well"
