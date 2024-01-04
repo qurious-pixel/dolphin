@@ -134,7 +134,8 @@ jobs:
         sudo ln -s ${GITHUB_WORKSPACE}/$(find qt/ -name qmake) /usr/bin
         qmake -v
         cd /tmp 
-        curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+        #curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+        curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20231206-1/linuxdeploy-x86_64.AppImage"
         curl -sSfLO "https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage"
         chmod a+x linuxdeploy*.AppImage
         chmod a+x AppImageUpdate-x86_64.AppImage
