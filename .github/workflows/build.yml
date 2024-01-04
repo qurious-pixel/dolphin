@@ -10,6 +10,8 @@ on:
 jobs:
   beta-run-check:
     runs-on: ubuntu-22.04
+    #outputs:
+    #    BETAUPDATE: ${{ steps.hasNextVersionOutput.outputs.hasNextVersion }}
     steps:
     - name: Beta Run Check
       run: |
@@ -18,14 +20,14 @@ jobs:
         echo "RUNHASH is $RUNHASH"
         echo "BETAHASH is $BETAHASH"
         if [[ $RUNHASH != $BETAHASH ]]; then 
-        	echo "false"
+        	echo "BETAUPDATE=false" >> $GITHUB_OUTPUT
         else 
         	#echo "Updating..."
-         echo "true"
+         echo "BETAUPDATE=true" >> $GITHUB_OUTPUT
         fi
         
   dolphin-appimage:
-    if: needs.beta-run-check.result == true
+    if: needs.beta-run-check.outputs.BETAUPDATE == 'true'
     name: dolphin beta bundled as appimage
     runs-on: ubuntu-20.04
     needs: beta-run-check
