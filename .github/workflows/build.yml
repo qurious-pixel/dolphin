@@ -34,14 +34,14 @@ jobs:
     - name: Get Beta Hash
       run: |
         echo "Release is ${{ matrix.RELEASE }}"
-    - name: Checkout Upstream Repo
+    - name: Checkout Upstream Repo - beta
       if: ${{ matrix.RELEASE == 'beta' }}
       uses: actions/checkout@v4
       with:
         repository: dolphin-emu/dolphin
         ref: ${{ env.BETAHASH }}
 
-    - name: Checkout Upstream Repo
+    - name: Checkout Upstream Repo - continuous
       if: ${{ matrix.RELEASE == 'continuous' }}
       uses: actions/checkout@v4
       with:
@@ -100,7 +100,7 @@ jobs:
         tar -xvf /tmp/patchelf.tar.gz --directory /tmp/ ./bin/patchelf --strip-components=2 
         sudo mv /tmp/patchelf /usr/bin
         patchelf --version
-    - name: Dolphin-Build Number beta
+    - name: Dolphin-Build Number - beta
       if: ${{ matrix.RELEASE == 'beta' }}
       run: |
         export LASTCOMMIT=$(git log --pretty=format:%H -1)
@@ -108,7 +108,7 @@ jobs:
         echo "DOLPHIN Build $DOLPHINVER"
         echo "DOLPHINVER=$DOLPHINVER" >> $GITHUB_ENV
         sed -i "s|\${DOLPHIN_WC_DESCRIBE}|$DOLPHINVER|g" Source/Core/Common/scmrev.h.in
-    - name: Dolphin-Build Number
+    - name: Dolphin-Build Number - continuous
       if: ${{ matrix.RELEASE == 'continuous' }} 
       run: |
         export LASTCOMMIT=$(git log --pretty=format:%H -1)
@@ -133,3 +133,52 @@ jobs:
         mkdir -p $GITHUB_WORKSPACE/{artifacts,uploads}
         cp -P build/install/usr/bin/dolphin-emu $GITHUB_WORKSPACE/artifacts
         
+    - name: Package Dolphin-AppImage
+      env:
+        QT_BASE_DIR: /qt/${{ env.yaqti }}/gcc_64
+        QTDIR: $QT_BASE_DIR
+      run: |
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${GITHUB_WORKSPACE}/qt/${{ env.yaqti }}/gcc_64/lib/
+        export PATH=$QT_BASE_DIR/bin:$PATH
+        echo "PATH $PATH"
+        sudo ln -s ${GITHUB_WORKSPACE}/$(find qt/ -name qmake) /usr/bin
+        qmake -v
+        cd /tmp 
+        curl -sSfLO "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+        chmod a+x linuxdeploy*.AppImage
+        ./linuxdeploy-x86_64.AppImage --appimage-extract
+        curl -sSfL "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage" -o /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
+        chmod a+x /tmp/squashfs-root/usr/bin/linuxdeploy-plugin-qt.AppImage
+        mv /tmp/squashfs-root/usr/bin/patchelf /tmp/squashfs-root/usr/bin/patchelf.orig
+        sudo cp /usr/bin/patchelf /tmp/squashfs-root/usr/bin/patchelf
+        cd $GITHUB_WORKSPACE
+        mkdir -p squashfs-root
+        cp -a build/install/usr $GITHUB_WORKSPACE/squashfs-root/
+        cp Data/dolphin-emu.svg ./squashfs-root/dolphin-emu.svg
+        cp Data/dolphin-emu.desktop ./squashfs-root/dolphin-emu.desktop
+        curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
+        curl -sSfL "https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/AppRun-patched-x86_64" -o ./squashfs-root/AppRun-patched
+        cp ci/travis/appimage/AppRun ./squashfs-root/
+        echo ${{ env.DOLPHINVER }} > ./squashfs-root/version.txt
+        chmod a+x ./squashfs-root/AppRun
+        chmod a+x ./squashfs-root/runtime
+        chmod a+x ./squashfs-root/AppRun-patched
+        if [ -e ./squashfs-root/update.sh ]; then chmod a+x ./squashfs-root/update.sh; fi
+        export UPD_INFO="gh-releases-zsync|qurious-pixel|dolphin|${{ matrix.RELEASE }}|Dolphin_Emulator-x86_64.AppImage.zsync"
+        /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg \
+        --exclude-library=libglib* --output appimage
+        ls . | grep *.AppImage
+        mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
+        ls -al $GITHUB_WORKSPACE/artifacts
+      continue-on-error: true
+    - name: Upload Static Build
+      uses: actions/upload-artifact@v4
+      with:
+        name: Dolphin_${{ env.DOLPHINVER }}-${{ matrix.RELEASE }}
+        path: artifacts/
+    - name: Upload Dolphin
+      run: |
+          ls -al artifacts/
+          wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
+          tar xfv ghr_v0.13.0_linux_amd64.tar.gz
+          ghr_v0.13.0_linux_amd64/ghr -u qurious-pixel -r dolphin -recreate -n 'Dolphin-Emu ${{ matrix.RELEASE }} build' -b "$(printf "DOLPHIN ${{ matrix.RELEASE }} Build ${{ env.DOLPHINVER }}\nCommit ${{ env.BETAHASH }}")" test-${{ matrix.RELEASE }} artifacts/
