@@ -14,14 +14,15 @@ jobs:
       fail-fast: false
       matrix:
         RELEASE: [continuous, beta]
-    outputs:
-        BETAUPDATE: ${{ steps.check.outputs.BETAUPDATE }}
+    env:
+      yaqti: 6.6.1
     steps:
     - name: Beta Run Check
       id: check
       run: |
         export RUNHASH=$(curl -sSfL https://github.com/qurious-pixel/dolphin/releases/tag/beta | grep '<tt>' | awk '{print $NF}' | grep -E -o 'commit.{41}' | sed 's/commit\///g')
         export BETAHASH=$(curl -sSfL https://dolphin-emu.org/update/latest/beta/ | jq .hash | tr -d '"')
+        echo "BETAHASH=$BETAHASH" >> $GITHUB_ENV
         echo "RUNHASH is $RUNHASH"
         echo "BETAHASH is $BETAHASH"
         if [[ $RUNHASH == $BETAHASH ]]; then 
@@ -30,34 +31,18 @@ jobs:
         	echo "Updating..."
           echo "BETAUPDATE=false" >> $GITHUB_OUTPUT
         fi
-        
-  dolphin-appimage-beta:
-    if: ${{ matrix.RELEASE == 'beta' }} && ${{ needs.beta-run-check.outputs.BETAUPDATE == 'false' }}
-    name: dolphin beta bundled as appimage
-    runs-on: ubuntu-20.04
-    needs: beta-run-check
-    env:
-      yaqti: 6.6.1
-    steps:
-
     - name: Get Beta Hash
       run: |
-        export BETAHASH=$(curl -sSfL https://dolphin-emu.org/update/latest/beta/ | jq .hash | tr -d '"')
-        echo "BETAHASH=$BETAHASH" >> $GITHUB_ENV
-        echo "$BETAHASH"
         echo "Release is ${{ matrix.RELEASE }}"
     - name: Checkout Upstream Repo
+      if: ${{ matrix.RELEASE == beta}}"
       uses: actions/checkout@v4
       with:
         repository: dolphin-emu/dolphin
         ref: ${{ env.BETAHASH }}
-        
-  dolphin-appimage-continuous:
-    name: dolphin release bundled as appimage
-    if: matrix.RELEASE == 'continuous'
-    runs-on: ubuntu-20.04
-    steps:
+
     - name: Get Release Run
+      if: matrix.RELEASE == 'continuous'
       run: |
         echo "Running Well"
         echo "Release is ${{ matrix.RELEASE }}"
