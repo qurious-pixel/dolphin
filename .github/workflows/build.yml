@@ -48,12 +48,6 @@ jobs:
         repository: dolphin-emu/dolphin
         ref: master
         
-    - name: Get Release Run
-      if: matrix.RELEASE == 'continuous'
-      run: |
-        echo "Running Well"
-        echo "Release is ${{ matrix.RELEASE }}"
-
     - name: Checkout Submodules
       if: steps.cache-submodules.outputs.cache-hit != 'true'
       run: git submodule update --init --recursive -j $(getconf _NPROCESSORS_ONLN)
@@ -182,3 +176,5 @@ jobs:
           wget -c https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
           tar xfv ghr_v0.13.0_linux_amd64.tar.gz
           ghr_v0.13.0_linux_amd64/ghr -u qurious-pixel -r dolphin -recreate -n 'Dolphin-Emu ${{ matrix.RELEASE }} build' -b "$(printf "DOLPHIN ${{ matrix.RELEASE }} Build ${{ env.DOLPHINVER }}\nCommit ${{ env.BETAHASH }}")" test-${{ matrix.RELEASE }} artifacts/
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
