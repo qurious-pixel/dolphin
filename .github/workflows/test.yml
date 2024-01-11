@@ -1,0 +1,12 @@
+name: Dolphin_Test
+
+on: 
+  push:
+  workflow_dispatch:
+  
+jobs:
+  dolphin-appimage-test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: 'Checkout'
+        run: echo "test complete"
