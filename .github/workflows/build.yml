@@ -1,11 +1,15 @@
 name: Dolphin-AppImage
 
-on: 
-  push:
-  workflow_dispatch:
-  schedule:
+on:
+  workflow_run:
+    workflows: ["Dolphin_Test"]
+
+#on: 
+#  push:
+#  workflow_dispatch:
+#  schedule:
     #- cron: "0 0 * * 1" 
-    - cron: "1 22 * * 2"
+ #   - cron: "1 22 * * 2"
 
 jobs:
   dolphin-appimage:
