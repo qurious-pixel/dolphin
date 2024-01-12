@@ -3,6 +3,7 @@ name: Dolphin-AppImage
 on:
   workflow_run:
     workflows: ["Dolphin_Test"]
+  workflow_dispatch:
 
 #on: 
 #  push:
