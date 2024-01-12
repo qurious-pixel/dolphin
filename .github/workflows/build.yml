@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RELEASE: [continuous, beta]
+        RELEASE: [beta] # [continuous, beta]
     env:
       yaqti: 6.6.1
     steps:
@@ -165,7 +165,7 @@ jobs:
         chmod a+x ./squashfs-root/update.sh
         ##export UPD_INFO="gh-releases-zsync|qurious-pixel|dolphin|${RELEASE}|Dolphin_Emulator-x86_64.AppImage.zsync"
         /tmp/squashfs-root/AppRun --appdir="$GITHUB_WORKSPACE"/squashfs-root/ --plugin qt -d "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.desktop -i "$GITHUB_WORKSPACE"/squashfs-root/dolphin-emu.svg \
-        --exclude-library=libglib* --output appimage --plugin-api-version 0
+        --exclude-library=libglib* --output appimage --list-plugins
         ls . | grep *.AppImage
         mv $(ls . | grep *.AppImage) $GITHUB_WORKSPACE/artifacts
         ls -al $GITHUB_WORKSPACE/artifacts
