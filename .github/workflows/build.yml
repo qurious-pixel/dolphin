@@ -1,4 +1,4 @@
-name: Dolphin-AppImage
+name: Dolphin-AppImage-Beta
 
 on:
   push:
