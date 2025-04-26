@@ -74,7 +74,7 @@ jobs:
         patchelf --version
     - name: Build Dolphin
       run: |
-        export Qt_DIR="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
+        export Qt_DIR="${{github.workspace}}/qt/lib/cmake/Qt6"
         mkdir -p "$HOME/.ccache"
         mkdir build
         cd build
@@ -90,10 +90,10 @@ jobs:
         cp -P build/install/usr/bin/dolphin-emu $GITHUB_WORKSPACE/artifacts
     - name: Package Dolphin-AppImage
       env:
-        QT_BASE_DIR: /qt/${{ env.yaqti }}/gcc_64
+        QT_BASE_DIR: /qt
         QTDIR: $QT_BASE_DIR
       run: |
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${GITHUB_WORKSPACE}/qt/${{ env.yaqti }}/gcc_64/lib/
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${GITHUB_WORKSPACE}/qt/lib/
         export PATH=$QT_BASE_DIR/bin:$PATH
         echo "PATH $PATH"
         sudo ln -s ${GITHUB_WORKSPACE}/$(find qt/ -name qmake) /usr/bin
