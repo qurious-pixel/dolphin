@@ -61,8 +61,8 @@ jobs:
     - name: libicu-dev fix for Qt ${{ env.yaqti }}
       run: |
         cd /usr/lib/x86_64-linux-gnu/
-        for i in $(ls libicu*.so.74);
-        do; sudo ln -s /usr/lib/x86_64-linux-gnu/$i /usr/local/lib/${i%.*}.73; done
+        for i in $(ls libicu*.so.74)
+        do sudo ln -s /usr/lib/x86_64-linux-gnu/$i /usr/local/lib/${i%.*}.73; done
     - name: Dolphin-Build Number
       run: |
         export LASTCOMMIT=$(git log --pretty=format:%H -1)
