@@ -11,7 +11,7 @@ jobs:
     name: dolphin bundled as appimage
     runs-on: ubuntu-22.04
     env:
-      yaqti: 6.7.2
+      yaqti: 6.9.0
     steps:
     - name: Checkout Upstream Repo
       uses: actions/checkout@v4
