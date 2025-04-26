@@ -11,7 +11,7 @@ jobs:
     name: dolphin bundled as appimage
     runs-on: ubuntu-24.04
     env:
-      yaqti: 6.7.3
+      yaqti: 6.9.0
     steps:
     - name: Checkout Upstream Repo
       uses: actions/checkout@v4
@@ -58,6 +58,11 @@ jobs:
         libbz2-dev liblzo2-dev libxi-dev libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libc6-dev libhidapi-dev libavformat-dev libavdevice-dev \
         libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget curl git gettext ccache make cmake ninja-build \
         libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-icccm4 libxcb-image0-dev libxcb-cursor-dev libicu-dev
+    - name: libicu-dev fix for Qt ${{ env.yaqti }}
+      run: |
+        cd /usr/lib/x86_64-linux-gnu/
+        for i in $(ls libicu*.so.74)
+        do; sudo ln -s /usr/lib/x86_64-linux-gnu/$i /usr/local/lib/${i%.*}.73; done
     - name: Dolphin-Build Number
       run: |
         export LASTCOMMIT=$(git log --pretty=format:%H -1)
