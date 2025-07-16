@@ -74,7 +74,7 @@ jobs:
         libzip-dev libzstd-dev zlib1g-dev libasound2-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev \
         liblzo2-dev libxi-dev libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libhidapi-dev libavformat-dev libavdevice-dev \
         libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget git gettext ccache cmake ninja-build \
-        libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-icccm4 libxcb-image0-dev wayland-protocols libxkbcommon-dev libxkbcommon-x11-dev
+        libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-icccm4 libxcb-image0-dev wayland-protocols libxkbcommon-dev libxkbcommon-x11-dev libxcb-cursor
     - name: Update Patchelf
       run: |
         PATCHELFVER=0.14.5
