@@ -82,7 +82,6 @@ jobs:
         tar -xvf /tmp/patchelf.tar.gz --directory /tmp/ ./bin/patchelf --strip-components=2 
         sudo mv /tmp/patchelf /usr/bin
         patchelf --version
-        sdl2-config --version
     - name: Build Dolphin
       run: |
         export Qt_DIR="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
