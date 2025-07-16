@@ -6,7 +6,7 @@ on:
 jobs:
   dolphin-appimage:
     name: dolphin bundled as appimage
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       yaqti: 6.7.3
     steps:
@@ -21,7 +21,7 @@ jobs:
       run: git submodule update --init --recursive -j $(getconf _NPROCESSORS_ONLN)
 
     - name: Checkout AppImage Repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
           clean: false
           path: appimage
