@@ -8,13 +8,13 @@ jobs:
     name: dolphin bundled as appimage
     runs-on: ubuntu-20.04
     env:
-      yaqti: 6.4.3
+      yaqti: 6.7.3
     steps:
     - name: Checkout Upstream Repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
-        repository: LaserEyess/dolphin
-        ref: wayland
+        repository: fuckgithub43/dolphin
+        ref: master
 
     - name: Checkout Submodules
       if: steps.cache-submodules.outputs.cache-hit != 'true'
@@ -33,7 +33,7 @@ jobs:
         echo "date=$(/bin/date -u "+%Y-%m-%d-%H;%M;%S")" >> $GITHUB_OUTPUT
       shell: bash
     - name: cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.ccache
         key: build-ccache-${{ steps.get-date.outputs.date }}
@@ -52,7 +52,7 @@ jobs:
 
     - name: Install SDL2
       run: |
-        SDLVER=2.26.4
+        SDLVER=3.2.0
         if [[ ! -e ~/.ccache ]]; then
             mkdir ~/.ccache
         fi
@@ -140,7 +140,7 @@ jobs:
         ls -al $GITHUB_WORKSPACE/artifacts
       continue-on-error: true  
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Dolphin_Emulator-x86_64-Linux
         path: artifacts/
