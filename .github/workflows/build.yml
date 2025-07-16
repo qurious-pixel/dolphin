@@ -50,23 +50,23 @@ jobs:
         curl -sL https://raw.githubusercontent.com/qurious-pixel/yaqti/fetch/yaqti/fetchers.py -o $HOME/.local/lib/python${pyver%.*}/site-packages/yaqti/fetchers.py
         python -m yaqti install --os linux --platform desktop --version ${{ env.yaqti }} --modules linux_gcc_64 --set-envs --install-deps
 
-    - name: Install SDL2
+    - name: Install SDL3
       run: |
         SDLVER=3.2.0
         if [[ ! -e ~/.ccache ]]; then
             mkdir ~/.ccache
         fi
         cd ~/.ccache 
-        if [[ ! -e SDL2-${SDLVER} ]]; then
-          curl -sSLO https://libsdl.org/release/SDL2-${SDLVER}.tar.gz
-          tar -xzf SDL2-${SDLVER}.tar.gz
-          cd SDL2-${SDLVER}
+        if [[ ! -e SDL3-${SDLVER} ]]; then
+          curl -sSLO https://libsdl.org/release/SDL3-${SDLVER}.tar.gz
+          tar -xzf SDL3-${SDLVER}.tar.gz
+          cd SDL3-${SDLVER}
             ./configure --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu
             make && cd ../
-            rm SDL2-${SDLVER}.tar.gz
+            rm SDL3-${SDLVER}.tar.gz
         fi
-        sudo make -C SDL2-${SDLVER} install
-        sdl2-config --version
+        sudo make -C SDL3-${SDLVER} install
+        sdl3-config --version
     - name: Install Packages
       run: |
         sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev cmake-extras extra-cmake-modules \
