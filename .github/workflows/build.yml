@@ -12,8 +12,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          repository: noahpistilli/dolphin # dolphin-emu/dolphin
-          ref: update-curl # master
+          repository: fuckgithub43/dolphin # dolphin-emu/dolphin
+          ref: master
           submodules: recursive
 
       # Runs the Dolphin action
