@@ -61,12 +61,13 @@ jobs:
           curl -sSLO https://libsdl.org/release/SDL3-${SDLVER}.tar.gz
           tar -xzf SDL3-${SDLVER}.tar.gz
           cd SDL3-${SDLVER}
-            ./configure --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu
-            make && cd ../
+            cmake -Bbuild
+            cmake --build build --parallel
+            cd ..
             rm SDL3-${SDLVER}.tar.gz
         fi
-        sudo make -C SDL3-${SDLVER} install
-        sdl3-config --version
+        sudo make -C SDL3-${SDLVER}/build install
+        pkgconf --libs sdl3
     - name: Install Packages
       run: |
         sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev cmake-extras extra-cmake-modules \
