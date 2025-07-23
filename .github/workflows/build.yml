@@ -113,13 +113,11 @@ jobs:
         cp -a build/install/usr $GITHUB_WORKSPACE/squashfs-root/
         cp Data/dolphin-emu.svg ./squashfs-root/dolphin-emu.svg
         cp Data/dolphin-emu.desktop ./squashfs-root/dolphin-emu.desktop
-        curl -sSfL https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-x86_64 -o ./squashfs-root/runtime
         curl -sSfL "https://github.com/RPCS3/AppImageKit-checkrt/releases/download/continuous2/AppRun-patched-x86_64" -o ./squashfs-root/AppRun-patched
         cp ci/travis/appimage/{AppRun,update.sh} ./squashfs-root/
         mv /tmp/AppImageUpdate-x86_64.AppImage ./squashfs-root/usr/bin/AppImageUpdate
         echo ${{ env.DOLPHINVER }} > ./squashfs-root/version.txt
         chmod a+x ./squashfs-root/AppRun
-        chmod a+x ./squashfs-root/runtime
         chmod a+x ./squashfs-root/AppRun-patched
         chmod a+x ./squashfs-root/update.sh
         export UPD_INFO="gh-releases-zsync|qurious-pixel|dolphin|continuous|Dolphin_Emulator-x86_64.AppImage.zsync"
