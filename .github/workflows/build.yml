@@ -13,18 +13,12 @@ jobs:
     - name: Checkout Upstream Repo
       uses: actions/checkout@v4
       with:
-        repository: fuckgithub43/dolphin #
+        repository: dolphin-emu/dolphin #
         ref: master
 
     - name: Checkout Submodules
       if: steps.cache-submodules.outputs.cache-hit != 'true'
       run: git submodule update --init --recursive -j $(getconf _NPROCESSORS_ONLN)
-
-    - name: Checkout AppImage Repo
-      uses: actions/checkout@v4
-      with:
-          clean: false
-          path: appimage
 
     # Runs the Dolphin action
     - name: Get Date
