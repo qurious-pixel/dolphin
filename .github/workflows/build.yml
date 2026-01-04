@@ -13,9 +13,9 @@ jobs:
     - name: Checkout Upstream Repo
       uses: actions/checkout@v4
       with:
-        repository: dolphin-emu/dolphin #
-        ref: master
-
+        repository: JosJuice/dolphin # dolphin-emu/dolphin #
+        ref: page-table-fastmem-2 # master
+    ## https://github.com/JosJuice/dolphin/tree/page-table-fastmem-2 ##
     - name: Checkout Submodules
       if: steps.cache-submodules.outputs.cache-hit != 'true'
       run: git submodule update --init --recursive -j $(getconf _NPROCESSORS_ONLN)
