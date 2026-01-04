@@ -1,0 +1,104 @@
+name: Dolphin-AppImage
+
+on: 
+  push:
+
+jobs:
+  dolphin-appimage:
+    name: dolphin bundled as appimage
+    runs-on: ubuntu-22.04
+    env:
+      yaqti: 6.7.3
+    steps:
+    - name: Checkout Upstream Repo
+      uses: actions/checkout@v4
+      with:
+        repository: fuckgithub43/dolphin #
+        ref: master
+
+    - name: Checkout Submodules
+      if: steps.cache-submodules.outputs.cache-hit != 'true'
+      run: git submodule update --init --recursive -j $(getconf _NPROCESSORS_ONLN)
+
+    - name: Checkout AppImage Repo
+      uses: actions/checkout@v4
+      with:
+          clean: false
+          path: appimage
+
+    # Runs the Dolphin action
+    - name: Get Date
+      id: get-date
+      run: |
+        echo "date=$(/bin/date -u "+%Y-%m-%d-%H;%M;%S")" >> $GITHUB_OUTPUT
+      shell: bash
+    - name: cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.ccache
+        key: build-ccache-${{ steps.get-date.outputs.date }}
+        restore-keys: |
+          build-ccache-
+      env:
+        CCACHE_MAXSIZE: 200M
+
+    - name: Install Qt
+      run: |
+        curl -sLO https://files.pythonhosted.org/packages/47/42/351389ca36c7adfc5f4e92d086cdb2bdbde13f1b89ee882f4a1cab2183ac/yaqti-2021.7.29-py3-none-any.whl
+        python3 -m pip install yaqti-2021.7.29-py3-none-any.whl
+        pyver=$(python3 --version | awk '{print $2}')
+        curl -sL https://raw.githubusercontent.com/qurious-pixel/yaqti/fetch/yaqti/fetchers.py -o $HOME/.local/lib/python${pyver%.*}/site-packages/yaqti/fetchers.py
+        python -m yaqti install --os linux --platform desktop --version ${{ env.yaqti }} --modules linux_gcc_64 --set-envs --install-deps
+
+    - name: Install SDL3
+      run: |
+        SDLVER=3.2.0
+        if [[ ! -e ~/.ccache ]]; then
+            mkdir ~/.ccache
+        fi
+        cd ~/.ccache 
+        if [[ ! -e SDL3-${SDLVER} ]]; then
+          curl -sSLO https://libsdl.org/release/SDL3-${SDLVER}.tar.gz
+          tar -xzf SDL3-${SDLVER}.tar.gz
+          cd SDL3-${SDLVER}
+            cmake -Bbuild
+            cmake --build build --parallel
+            cd ..
+            rm SDL3-${SDLVER}.tar.gz
+        fi
+        sudo make -C SDL3-${SDLVER}/build install
+        pkgconf --libs sdl3
+    - name: Install Packages
+      run: |
+        sudo apt-get install -y dialog libbluetooth-dev liblz4-dev libopus-dev libsystemd-dev cmake-extras extra-cmake-modules \
+        libzip-dev libzstd-dev zlib1g-dev libasound2-dev pulseaudio libsfml-dev libminiupnpc-dev libmbedtls-dev libpugixml-dev \
+        liblzo2-dev libxi-dev libavcodec-dev libudev-dev libusb-1.0-0-dev libevdev-dev libhidapi-dev libavformat-dev libavdevice-dev \
+        libfmt-dev libwayland-dev libxrandr-dev libglu1-mesa-dev libcurl4-openssl-dev x11-utils zenity wget git gettext ccache cmake ninja-build \
+        libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-icccm4 libxcb-image0-dev wayland-protocols libxkbcommon-dev libxkbcommon-x11-dev libxcb-cursor-dev
+    - name: Update Patchelf
+      run: |
+        PATCHELFVER=0.14.5
+        curl -sL https://github.com/NixOS/patchelf/releases/download/${PATCHELFVER}/patchelf-${PATCHELFVER}-x86_64.tar.gz -o /tmp/patchelf.tar.gz
+        tar -xvf /tmp/patchelf.tar.gz --directory /tmp/ ./bin/patchelf --strip-components=2 
+        sudo mv /tmp/patchelf /usr/bin
+        patchelf --version
+    - name: Build Dolphin
+      run: |
+        export Qt_DIR="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/lib/cmake/Qt6"
+        mkdir -p "$HOME/.ccache"
+        mkdir build
+        cd build
+        cmake .. -GNinja -DENABLE_WAYLAND=ON -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++ -DCMAKE_PREFIX_PATH="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/"
+        ninja
+    - name: Package Dolphin-Binary
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/artifacts
+        cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
+        cp -Pr build/Tests $GITHUB_WORKSPACE/artifacts
+        ls -al $GITHUB_WORKSPACE/artifacts
+      continue-on-error: true  
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Dolphin_Emulator-x86_64-Linux
+        path: artifacts/
