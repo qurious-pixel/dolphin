@@ -87,7 +87,10 @@ jobs:
     - name: Package Dolphin-Binary
       run: |
         mkdir -p $GITHUB_WORKSPACE/artifacts
-        cp -P build/Binaries/dolphin-emu $GITHUB_WORKSPACE/artifacts
+        ls -al build
+        ls -al build/Binaries/
+        cp -Pr build/Binaries/ $GITHUB_WORKSPACE/artifacts
+        ls -al build/Tests
         cp -Pr build/Tests $GITHUB_WORKSPACE/artifacts
         ls -al $GITHUB_WORKSPACE/artifacts
       continue-on-error: true  
