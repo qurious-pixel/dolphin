@@ -84,6 +84,7 @@ jobs:
         cd build
         cmake .. -GNinja -DENABLE_TESTS=ON -DENABLE_WAYLAND=ON -DLINUX_LOCAL_DEV=true -DCMAKE_C_COMPILER=/usr/lib/ccache/gcc -DCMAKE_CXX_COMPILER=/usr/lib/ccache/g++ -DCMAKE_PREFIX_PATH="${{github.workspace}}/qt/${{ env.yaqti }}/gcc_64/"
         ninja
+        ninja unittests
     - name: Package Dolphin-Binary
       run: |
         mkdir -p $GITHUB_WORKSPACE/artifacts
