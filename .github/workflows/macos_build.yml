@@ -63,6 +63,7 @@ jobs:
           export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
           meson setup build --prefix=/opt/homebrew --buildtype=release -Dplatforms=macos -Dvulkan-drivers=kosmickrisp -Dgallium-drivers= -Dopengl=false -Dzstd=disabled
           ninja -C build
+          ninja install -C build 
           chmod 755 build/src/kosmickrisp/vulkan/libvulkan_kosmickrisp.dylib
           mkdir -p "$HOME/kosmickrisp/lib/"
           mv build/src/kosmickrisp/vulkan/libvulkan_kosmickrisp.dylib "$HOME/kosmickrisp/lib/"
