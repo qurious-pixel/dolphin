@@ -115,7 +115,7 @@ jobs:
                 "${COMMON_ARGS[@]}" \
                 -B build-arm .
       - name: Build Dolphin (x86_64)
-        #if: false
+        if: false
         working-directory: build
         run: |
           ccache -p
