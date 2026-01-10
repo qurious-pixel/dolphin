@@ -2,6 +2,10 @@ name: MacOS Build Steps
 
 on: [push, pull_request]
 
+concurrency:
+  group: ${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+  
 jobs:
   build_macos:
     name: macOS Build
