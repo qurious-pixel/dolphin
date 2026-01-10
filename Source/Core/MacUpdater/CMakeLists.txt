@@ -32,24 +32,7 @@ target_link_libraries(MacUpdater PRIVATE
     updatercommon
 )
 
-# Compile storyboards (Adapted from https://gitlab.kitware.com/cmake/community/wikis/doc/tutorials/OSX-InterfaceBuilderFiles)
-
-# Make sure we can find the 'ibtool' program. If we can NOT find it we
-# skip generation of this project
-find_program(IBTOOL ibtool HINTS "/usr/bin" "${OSX_DEVELOPER_ROOT}/usr/bin")
-if (${IBTOOL} STREQUAL "IBTOOL-NOTFOUND")
-  message(SEND_ERROR "ibtool can not be found and is needed to compile the .storyboard files. It should have been installed with
-                    the Apple developer tools. The default system paths were searched in addition to ${OSX_DEVELOPER_ROOT}/usr/bin")
-endif()
-
-foreach(sb ${STORYBOARDS})
-  set(output $<TARGET_BUNDLE_DIR:MacUpdater>/Contents/Resources/${sb}c)
-  set(input  ${CMAKE_CURRENT_SOURCE_DIR}/${sb})
-  add_custom_command(TARGET MacUpdater POST_BUILD
-    COMMAND ${IBTOOL} --errors --warnings --notices --output-format human-readable-text --compile ${output} ${input}
-    # DEPENDS ${input}
-    COMMENT "Compiling Storyboard ${sb}...")
-endforeach()
+set_source_files_properties(${STORYBOARDS} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 
 include(DolphinInjectVersionInfo)
 dolphin_inject_version_info(MacUpdater)
