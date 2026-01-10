@@ -80,7 +80,7 @@ jobs:
           restore-keys: macOS ccache
 
       - name: Generate CMake Files
-        if: false
+        #if: false
         run: |
           COMMON_ARGS=(
             -DCMAKE_PREFIX_PATH="$HOME/deps;$HOME/moltenvk"
