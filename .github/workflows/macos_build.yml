@@ -150,7 +150,7 @@ jobs:
           ninja dolphin-emu
           ccache -s
       - name: Build Dolphin (arm64)
-        if: false
+        #if: false
         working-directory: build-arm
         run: |
           ccache -p
@@ -184,7 +184,7 @@ jobs:
           tar --options xz:compression-level=9 -cvJf "$APPNAME.tar.xz" "$APPNAME.app"
           echo "name=$APPNAME" >> "$GITHUB_OUTPUT"
       - name: Prepare Build Artifacts
-        if: false
+        #if: false
         id: create-artifact
         run: |
           APPNAME="Dolphin-KK"
@@ -192,7 +192,7 @@ jobs:
           tar --options xz:compression-level=9 -cvJf "$APPNAME.tar.xz" "$APPNAME.app"
           echo "name=$APPNAME" >> "$GITHUB_OUTPUT"
       - name: Upload Artifact
-        if: false
+        #if: false
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.create-artifact.outputs.name }}
