@@ -112,7 +112,7 @@ jobs:
         #if: false
         run: |
           COMMON_ARGS=(
-            -DCMAKE_PREFIX_PATH="$HOME/deps;$HOME/moltenvk"
+            -DCMAKE_PREFIX_PATH="$HOME/deps;$HOME/moltenvk;$HOME/kosmickrisp"
             -DCMAKE_BUILD_TYPE=Release
             -DUSE_BUNDLED_MOLTENVK=OFF
             -DUSE_KOSMICKRISP=ON            
