@@ -157,8 +157,15 @@ jobs:
           mv build/Binaries/DolphinQt.app "$APPNAME.app"
           tar --options xz:compression-level=9 -cvJf "$APPNAME.tar.xz" "$APPNAME.app"
           echo "name=$APPNAME" >> "$GITHUB_OUTPUT"
+      - name: Prepare Build Artifacts
+        #if: false
+        id: create-artifact
+          APPNAME="Dolphin-KK"
+          mv build-arm/Binaries/DolphinQt.app "$APPNAME.app"
+          tar --options xz:compression-level=9 -cvJf "$APPNAME.tar.xz" "$APPNAME.app"
+          echo "name=$APPNAME" >> "$GITHUB_OUTPUT"
       - name: Upload Artifact
-        if: false
+        #if: false
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.create-artifact.outputs.name }}
