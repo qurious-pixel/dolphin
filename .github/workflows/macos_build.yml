@@ -134,7 +134,7 @@ jobs:
           ccache -s
       - name: Prepare Build Artifacts
         if: false
-        id: create-artifact
+        #id: create-artifact
         env:
           EVENT_NAME: ${{ github.event_name }}
           PR_TITLE: ${{ github.event.pull_request.title }}
@@ -160,6 +160,7 @@ jobs:
       - name: Prepare Build Artifacts
         #if: false
         id: create-artifact
+        run: |
           APPNAME="Dolphin-KK"
           mv build-arm/Binaries/DolphinQt.app "$APPNAME.app"
           tar --options xz:compression-level=9 -cvJf "$APPNAME.tar.xz" "$APPNAME.app"
