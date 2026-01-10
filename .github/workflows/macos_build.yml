@@ -60,6 +60,7 @@ jobs:
           pushd kosmickrisp
           brew install meson libclc spirv-llvm-translator spirv-tools
           pip3 install mako packaging pyyaml --break-system-packages
+          export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
           meson setup build --prefix=/opt/homebrew --buildtype=release -Dplatforms=macos -Dvulkan-drivers=kosmickrisp -Dgallium-drivers= -Dopengl=false -Dzstd=disabled
           ninja -C build
           chmod 755 build/src/kosmickrisp/vulkan/libvulkan_kosmickrisp.dylib
