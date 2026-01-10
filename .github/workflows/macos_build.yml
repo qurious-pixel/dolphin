@@ -114,7 +114,7 @@ jobs:
             -DCMAKE_PREFIX_PATH="$HOME/deps;$HOME/moltenvk"
             -DCMAKE_BUILD_TYPE=Release
             -DUSE_BUNDLED_MOLTENVK=OFF
-            -DUSE_BUNDLED_KOSMICKRISP=ON            
+            -DUSE_KOSMICKRISP=ON            
             -DMACOS_CODE_SIGNING=OFF
             -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
