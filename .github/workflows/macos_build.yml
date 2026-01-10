@@ -16,6 +16,7 @@ jobs:
       CCACHE_COMPRESS: true
       CCACHE_COMPRESSLEVEL: 9
       CCACHE_MAXSIZE: 200M
+      VULKAN: KOSMICKRISP
 
     steps:
       - name: Checkout Repository
@@ -45,6 +46,28 @@ jobs:
           chmod +x .github/workflows/scripts/macos/build-dependencies.sh
           .github/workflows/scripts/macos/build-dependencies.sh
 
+      - name: Cache KosmicKrisp
+        id: cache-kosmickrisp
+        uses: actions/cache@v4
+        with:
+          path: ~/kosmickrisp
+          key: macOS KosmicKrisp ${{ hashFiles('Externals/KosmicKrisp') }}
+
+      - name: Build KosmicKrisp
+        if: steps.cache-kosmickrisp.outputs.cache-hit != 'true'
+        run: |
+          git clone https://gitlab.freedesktop.org/mesa/mesa.git kosmickrisp
+          pushd kosmickrisp
+          brew install meson libclc spirv-llvm-translator spirv-tools
+          pip3 install mako packaging pyyaml --break-system-packages
+          meson setup build --prefix=/opt/homebrew --buildtype=release -Dplatforms=macos -Dvulkan-drivers=kosmickrisp -Dgallium-drivers= -Dopengl=false -Dzstd=disabled
+          ninja -C build
+          chmod 755 build/src/kosmickrisp/vulkan/libvulkan_kosmickrisp.dylib
+          mkdir -p "$HOME/kosmickrisp/lib/"
+          mv build/src/kosmickrisp/vulkan/libvulkan_kosmickrisp.dylib "$HOME/kosmickrisp/lib/"
+          popd
+          rm -rf kosmickrisp
+        
       - name: Cache MoltenVK
         id: cache-moltenvk
         uses: actions/cache@v4
@@ -90,6 +113,7 @@ jobs:
             -DCMAKE_PREFIX_PATH="$HOME/deps;$HOME/moltenvk"
             -DCMAKE_BUILD_TYPE=Release
             -DUSE_BUNDLED_MOLTENVK=OFF
+            -DUSE_BUNDLED_KOSMICKRISP=ON            
             -DMACOS_CODE_SIGNING=OFF
             -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
@@ -124,7 +148,7 @@ jobs:
           ninja dolphin-emu
           ccache -s
       - name: Build Dolphin (arm64)
-        #if: false
+        if: false
         working-directory: build-arm
         run: |
           ccache -p
@@ -158,7 +182,7 @@ jobs:
           tar --options xz:compression-level=9 -cvJf "$APPNAME.tar.xz" "$APPNAME.app"
           echo "name=$APPNAME" >> "$GITHUB_OUTPUT"
       - name: Prepare Build Artifacts
-        #if: false
+        if: false
         id: create-artifact
         run: |
           APPNAME="Dolphin-KK"
@@ -166,7 +190,7 @@ jobs:
           tar --options xz:compression-level=9 -cvJf "$APPNAME.tar.xz" "$APPNAME.app"
           echo "name=$APPNAME" >> "$GITHUB_OUTPUT"
       - name: Upload Artifact
-        #if: false
+        if: false
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.create-artifact.outputs.name }}
