@@ -649,6 +649,7 @@ if(APPLE)
 
 # Copy MoltenVK or KosmicKrisp into the bundle
   if(ENABLE_VULKAN)
+	include(ExternalProject)
     # Check if we are using KosmicKrisp; otherwise default to MoltenVK logic
     if(USE_KOSMICKRISP)
       if(USE_BUNDLED_KOSMICKRISP)
