@@ -105,7 +105,7 @@ jobs:
           cmake -DCMAKE_OSX_ARCHITECTURES=x86_64 \
                 -DCMAKE_SYSTEM_PROCESSOR=x86_64 \
                 -DCMAKE_SYSTEM_NAME=Darwin \
-                -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
+                -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
                 "${COMMON_ARGS[@]}" \
                 -B build .
           cmake -DCMAKE_OSX_ARCHITECTURES=arm64 \
