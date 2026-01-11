@@ -54,16 +54,19 @@ static bool OpenVulkanLibrary(bool force_system_library)
     return true;
   }
   
-  std::string frameworks_path = File::GetBundleDirectory() + "/Contents/Frameworks/";
+  const std::string frameworks_path = File::GetBundleDirectory() + "/Contents/Frameworks/";
+  
   std::string kosmic_path = frameworks_path + "libvulkan_kosmickrisp.dylib";
-  if (s_vulkan_module.Open(kosmic_path.c_str())) {
+  if (s_vulkan_module.Open(kosmic_path.c_str())) 
+  {
     s_active_library_path = kosmic_path;
     INFO_LOG_FMT(VIDEO, "Vulkan: Loaded KosmicKrisp");
     return true;
   }
 
   std::string moltenvk_path = frameworks_path + "libMoltenVK.dylib";
-  if (s_vulkan_module.Open(moltenvk_path.c_str())) {
+  if (s_vulkan_module.Open(moltenvk_path.c_str())) 
+  {
     s_active_library_path = moltenvk_path;
     return true;
   }
@@ -99,27 +102,34 @@ static bool OpenVulkanLibrary(bool force_system_library)
   WARN_LOG_FMT(HOST_GPU, "Loading system driver");
   std::string filename = Common::DynamicLibrary::GetVersionedFilename("vulkan", 1);
   if (s_vulkan_module.Open(filename.c_str()))
+  {
+    s_active_library_path = filename;
     return true;
+  }
 
   // Android devices may not have libvulkan.so.1, only libvulkan.so.
   filename = Common::DynamicLibrary::GetVersionedFilename("vulkan");
-  return s_vulkan_module.Open(filename.c_str());
+  if (s_vulkan_module.Open(filename.c_str()))
+  {
+    s_active_library_path = filename;
+    return true;
+  }
 #endif
+
+  return false;
 }
 
 const char* GetActiveDriverName()
 {
-    if (!s_vulkan_module.IsOpen())
-        return "None";
+  if (!s_vulkan_module.IsOpen())
+    return "None";
 
-    // You can check the internal path of the loaded module
-    std::string path = s_vulkan_module.GetPath();
-    if (path.find("kosmickrisp") != std::string::npos)
-        return "KosmicKrisp (Mesa)";
-    if (path.find("MoltenVK") != std::string::npos)
-        return "MoltenVK";
-    
-    return "System Default";
+  if (s_active_library_path.find("kosmickrisp") != std::string::npos)
+    return "KosmicKrisp (Mesa)";
+  if (s_active_library_path.find("MoltenVK") != std::string::npos)
+    return "MoltenVK";
+
+  return "System Default";
 }
 
 bool LoadVulkanLibrary(bool force_system_library)
