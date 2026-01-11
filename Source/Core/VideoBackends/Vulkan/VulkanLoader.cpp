@@ -51,9 +51,16 @@ static bool OpenVulkanLibrary(bool force_system_library)
   if (libvulkan_env && s_vulkan_module.Open(libvulkan_env))
     return true;
 
-  // Use the libMoltenVK.dylib from the application bundle.
-  std::string filename = File::GetBundleDirectory() + "/Contents/Frameworks/libMoltenVK.dylib";
-  return s_vulkan_module.Open(filename.c_str());
+  std::string frameworks_path = File::GetBundleDirectory() + "/Contents/Frameworks/";
+  std::string kosmic_path = frameworks_path + "libvulkan_kosmickrisp.dylib";
+  
+  if (s_vulkan_module.Open(kosmic_path.c_str()))
+  {
+    INFO_LOG_FMT(VIDEO, "Vulkan: Loaded custom library: libvulkan_kosmickrisp.dylib");
+    return true;
+  }
+  std::string moltenvk_path = frameworks_path + "libMoltenVK.dylib";
+  return s_vulkan_module.Open(moltenvk_path.c_str());
 #else
 
 #if defined(ANDROID) && _M_ARM_64
