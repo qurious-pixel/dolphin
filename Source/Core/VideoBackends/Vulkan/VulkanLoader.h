@@ -89,6 +89,7 @@ bool LoadVulkanLibrary(bool force_system_library = false);
 bool LoadVulkanInstanceFunctions(VkInstance instance);
 bool LoadVulkanDeviceFunctions(VkDevice device);
 void UnloadVulkanLibrary();
+const char* GetActiveDriverName();
 
 #ifdef ANDROID
 bool SupportsCustomDriver();
