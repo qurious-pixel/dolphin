@@ -15,7 +15,7 @@ public:
   void Shutdown() override;
 
   std::string GetConfigName() const override { return CONFIG_NAME; }
-  std::string GetDisplayName() const override { return _trans("Vulkan"); }
+  std::string GetDisplayName() const override;
   void InitBackendInfo(const WindowSystemInfo& wsi) override;
   void PrepareWindow(WindowSystemInfo& wsi) override;
 
