@@ -101,6 +101,21 @@ static bool OpenVulkanLibrary(bool force_system_library)
 #endif
 }
 
+const char* GetActiveDriverName()
+{
+    if (!s_vulkan_module.IsOpen())
+        return "None";
+
+    // You can check the internal path of the loaded module
+    std::string path = s_vulkan_module.GetPath();
+    if (path.find("kosmickrisp") != std::string::npos)
+        return "KosmicKrisp (Mesa)";
+    if (path.find("MoltenVK") != std::string::npos)
+        return "MoltenVK";
+    
+    return "System Default";
+}
+
 bool LoadVulkanLibrary(bool force_system_library)
 {
   if (!s_vulkan_module.IsOpen() && !OpenVulkanLibrary(force_system_library))
