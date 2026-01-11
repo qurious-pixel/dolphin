@@ -42,25 +42,31 @@ static void ResetVulkanLibraryFunctionPointers()
 }
 
 static Common::DynamicLibrary s_vulkan_module;
+static std::string s_active_library_path;
 
 static bool OpenVulkanLibrary(bool force_system_library)
 {
 #if defined(__APPLE__)
   // Check if a path to a specific Vulkan library has been specified.
   char* libvulkan_env = getenv("LIBVULKAN_PATH");
-  if (libvulkan_env && s_vulkan_module.Open(libvulkan_env))
-    return true;
-
-  std::string frameworks_path = File::GetBundleDirectory() + "/Contents/Frameworks/";
-  std::string kosmic_path = frameworks_path + "libvulkan_kosmickrisp.dylib";
-  
-  if (s_vulkan_module.Open(kosmic_path.c_str()))
-  {
-    INFO_LOG_FMT(VIDEO, "Vulkan: Loaded custom library: libvulkan_kosmickrisp.dylib");
+  if (libvulkan_env && s_vulkan_module.Open(libvulkan_env)) {
+    s_active_library_path = libvulkan_env;
     return true;
   }
+  
+  std::string frameworks_path = File::GetBundleDirectory() + "/Contents/Frameworks/";
+  std::string kosmic_path = frameworks_path + "libvulkan_kosmickrisp.dylib";
+  if (s_vulkan_module.Open(kosmic_path.c_str())) {
+    s_active_library_path = kosmic_path;
+    INFO_LOG_FMT(VIDEO, "Vulkan: Loaded KosmicKrisp");
+    return true;
+  }
+
   std::string moltenvk_path = frameworks_path + "libMoltenVK.dylib";
-  return s_vulkan_module.Open(moltenvk_path.c_str());
+  if (s_vulkan_module.Open(moltenvk_path.c_str())) {
+    s_active_library_path = moltenvk_path;
+    return true;
+  }
 #else
 
 #if defined(ANDROID) && _M_ARM_64
@@ -138,6 +144,7 @@ bool LoadVulkanLibrary(bool force_system_library)
 void UnloadVulkanLibrary()
 {
   s_vulkan_module.Close();
+  s_active_library_path.clear();
   if (!s_vulkan_module.IsOpen())
     ResetVulkanLibraryFunctionPointers();
 }
