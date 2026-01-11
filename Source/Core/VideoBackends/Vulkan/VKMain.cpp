@@ -236,6 +236,15 @@ bool VideoBackend::Initialize(const WindowSystemInfo& wsi)
                           std::move(bounding_box));
 }
 
+std::string VideoBackend::GetDisplayName() const
+{
+#if defined(__APPLE__)
+    return std::string("Vulkan (") + Vulkan::GetActiveDriverName() + ")";
+#else
+    return _trans("Vulkan");
+#endif
+}
+
 void VideoBackend::Shutdown()
 {
   if (g_vulkan_context)
