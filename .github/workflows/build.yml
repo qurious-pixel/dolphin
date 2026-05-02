@@ -14,7 +14,7 @@ jobs:
       yaqti: 6.7.3
     steps:
     - name: Checkout Upstream Repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         repository: dolphin-emu/dolphin
         ref: master
@@ -24,7 +24,7 @@ jobs:
       run: git submodule update --init --recursive -j $(getconf _NPROCESSORS_ONLN)
 
     - name: Checkout AppImage Repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
           clean: false
           path: ci
@@ -36,7 +36,7 @@ jobs:
         echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
       shell: bash
     - name: cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.ccache
         key: build-ccache-${{ steps.get-date.outputs.date }}
@@ -134,7 +134,7 @@ jobs:
         ls -al $GITHUB_WORKSPACE/uploads
       continue-on-error: true
     - name: Upload Static Build
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: Dolphin_${{ env.DOLPHINVER }}
         path: uploads/
